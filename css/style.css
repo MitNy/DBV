@@ -541,6 +541,9 @@ textarea.input {
   background-color: #D10024;
 }
 
+.menu-toggle {
+    float:right;
+}
 .header-ctn .menu-toggle {
   display: none;
 }
@@ -668,7 +671,7 @@ textarea.input {
 	responsive nav
 \*----------------------------*/
 
-@media only screen and (max-width: 991px) {
+@media only screen {
   .header-ctn .menu-toggle {
     display: inline-block;
   }
@@ -2223,4 +2226,27 @@ textarea.input {
 #reservation-list > tr,th,td {
     text-align: center;
     border: 1px solid #E4E7ED;
+}
+.user-dropdown > li > a {
+    color:black;
+    font-size: 15px;
+}
+
+#user-toggle {
+    margin-right: 15px;
+    float:right;
+}
+
+.login-box {
+    width:40%;
+    margin: 100px auto auto auto;
+    text-align: center;
+}
+
+.login-box > #login {
+    background-color: black;
+    color: white;
+    width:100%;
+    padding:5px;
+    border:0px;
 }

@@ -22,7 +22,7 @@
 		<link type="text/css" rel="stylesheet" href="css/nouislider.min.css"/>
 
 		<!-- Font Awesome Icon -->
-		<link rel="stylesheet" href="css/font-awesome.min.css">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 
 		<!-- Custom stlylesheet -->
 		<link type="text/css" rel="stylesheet" href="css/style.css"/>
@@ -34,7 +34,15 @@
 			<div id="top-header">
 				<div class="container">
 					<ul class="header-links pull-right">
-						<li><a href="#"><i class="fa fa-user-o"></i> User</a></li>
+				<li class="menu-toggle"><a href="#"><i class="fa fa-bars"></i><span>Menu</span></a></li>
+                        <li class="dropdown" id="user-toggle">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+        <i class="fa fa-user"></i>User</a>
+        <ul class="dropdown-menu user-dropdown">
+          <li><a href="userInfo.html"><i class="fas fa-user-circle"></i>&nbsp;&nbsp;개인정보</a></li>
+          <li><a href="login.html"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;로그인</a></li>
+        </ul>
+      </li>
 					</ul>
 				</div>
 			</div>
