@@ -493,6 +493,56 @@ textarea.input {
   border-radius: 0px 40px 40px 0px;
 }
 
+.vip-search {
+    padding: 15px 0px;
+}
+
+.vip-search form{
+    position: relative;
+}
+
+.vip-search form .input-select {
+  margin-right: -4px;
+  border-radius: 40px 0px 0px 40px;
+}
+
+.vip-search form .input {
+  width: calc(50% - 260px);
+  margin-right: -4px;
+}
+
+.vip-search form .search-btn {
+  height: 40px;
+  width: 100px;
+  background: black;
+  color: white;
+  font-weight: 700;
+  border: none;
+}
+
+.user-input{
+    position: relative;
+}
+
+.user-input .input-select {
+  margin-right: -4px;
+  border-radius: 40px 0px 0px 40px;
+}
+
+.user-input .input {
+  width: calc(100% - 100px);
+  margin-right: -4px;
+}
+
+.user-input .search-btn {
+  height: 40px;
+  width: 100px;
+  background: black;
+  color: white;
+  font-weight: 700;
+  border: none;
+}
+
 /*----------------------------*\
 	Cart
 \*----------------------------*/
@@ -671,9 +721,10 @@ textarea.input {
 	responsive nav
 \*----------------------------*/
 
-@media only screen {
+@media only screen and (max-width: 1200px){
   .header-ctn .menu-toggle {
-    display: inline-block;
+      visibility: visibility: hidden;
+      display: inline-block;
   }
   #responsive-nav {
     position: fixed;
@@ -1074,12 +1125,6 @@ textarea.input {
   background-color: #FFF;
   color: #D10024;
   border-color: #D10024;
-  padding: 0px 30px 0px 50px;
-}
-
-.product .add-to-cart .add-to-cart-btn:hover>i {
-  opacity: 1;
-  visibility: visible;
 }
 
 /*----------------------------*\
@@ -1517,7 +1562,7 @@ textarea.input {
   color: #D10024;
 }
 
-.product-details .product-options {
+.product--s .product-options {
   margin-top: 30px;
   margin-bottom: 30px;
 }
@@ -1916,6 +1961,7 @@ textarea.input {
 }
 
 .order-details .order-submit {
+    width:100%;
   display: block;
   margin-top: 30px;
 }
@@ -2249,4 +2295,48 @@ textarea.input {
     width:100%;
     padding:5px;
     border:0px;
+}
+
+.join-box {
+    width:40%;
+    margin: 0px auto auto auto;
+    text-align: center;
+}
+
+.join-box > #join {
+    background-color: black;
+    color: white;
+    width:100%;
+    padding:5px;
+    border:0px;
+}
+
+.theater-selector > li {
+    padding:10px;
+    width:40%;
+}
+
+.theater-selector > li.active {
+    padding:10px;
+    width:40%;
+    border-bottom: 2px solid;
+    border-bottom-color:#D10024;
+}
+
+#addMovie {
+    max-width: 300px;
+}
+
+#addButton {
+    float:right;
+    margin:10px;
+    background-color: black;
+    color: white;
+    padding:5px;
+    border:0px;
+    
+}
+
+#movie-detail {
+    margin-top:10px;
 }

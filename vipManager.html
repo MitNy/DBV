@@ -87,6 +87,7 @@
 					<!-- row -->
 				</div>
 				<!-- container -->
+                
 			</div>
 			<!-- /MAIN HEADER -->
 		</header>
@@ -101,8 +102,10 @@
 					<!-- NAV -->
 					<ul class="main-nav nav navbar-nav">
 						<li><a href="index.html">홈</a></li>
-						<li><a href="theater.html">영화관</a></li>
-						<li><a href="reservation.html">예매</a></li>
+						<li><a href="movieManager.html">영화 관리</a></li>
+                        <li><a href="theaterManager.html">영화관 관리</a></li>
+						<li><a href="ticket.html">티켓 발권</a></li>
+                        <li class="active"><a href="vipManager.html">VIP 회원 관리</a></li>
 					</ul>
 					<!-- /NAV -->
 				</div>
@@ -118,7 +121,11 @@
 				<!-- row -->
 				<div class="row">
 					<div class="col-md-12">
-						<h3 class="breadcrumb-header">개인정보</h3>
+						<h3 class="breadcrumb-header">VIP 회원 관리</h3>
+						<ul class="breadcrumb-tree">
+							<li><a href="#">관리자 페이지</a></li>
+							<li class="active">VIP 회원 관리</li>
+						</ul>
 					</div>
 				</div>
 				<!-- /row -->
@@ -133,81 +140,49 @@
 			<div class="container">
 				<!-- row -->
 				<div class="row">
-
-					<div class="col-md-7">
-                        <form action="">
-							<div class="form-group">
-								<input class="input" type="text" id="user-name" name="user-name" placeholder="이름">
-							</div>
-                        <div class="form-group">
-								<input class="input" type="text" id="user-birth" name="user-birth" placeholder="생년월일">
-							</div>
-							<div class="form-group">
-								<input class="input" type="text" id="user-address" name="user-address" placeholder="주소">
-							</div>
-							<div class="form-group">
-								<input class="input" type="tel" id="user-tel" name="user-tel" placeholder="연락처">
-							</div>
-                        
-                            <div>
-                        </div>
-                        <input type="submit" id="save" value="저장">
-                            </form>
-					</div>
-                   <div class="col-sm-3">
-						<div class="product">
-							<div class="product-body">
-								<h4>보유 포인트</h4>
-                                <div class="product-rating">
-								</div>
-								<h4 class="product-price">980 점</h4>
-								
-							</div>
-						</div>
-					</div>
-					<!-- /product -->
-<!-- product -->
-					<div class="col-sm-3">
-						<div class="product">
-							<div class="product-body">
-								<h4>회원 등급</h4>
-                                <div class="product-rating">
-								</div>
-								<h4 class="product-price">VIP</h4>
-								
-							</div>
-						</div>
-					</div>
-				</div>
-                 <br><br>
-				<!-- /row -->
+					<!-- /Product main img -->
                 <div class="billing-details">
-							<div class="section-title">
-								<h3 class="title">최근 예매 내역</h3>
-							</div>
-							<table id="reservation-list">
+                    <!-- SEARCH BAR -->
+				    <div class="vip-search">
+								<form>
+									<input class="input" placeholder="">
+									<button class="search-btn">검색</button>
+								</form>
+				    </div>
+						<!-- /SEARCH BAR -->
+				<table id="reservation-list">
                             <thead>
                                 <tr>
-                                    <th>영화</th>
-                                    <th>영화관</th>
-                                    <th>날짜</th>
-                                    <th>시간</th>
-                                    <th>좌석</th>
-                                    <th>결제 여부</th>
+                                    <th>순위</th>
+                                    <th>고객 아이디</th>
+                                    <th>구매 실적</th>
+                                    <th>포인트</th>
+                                    <th>등급</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>보헤미안랩소디</td>
-                                        <td>대전유성</td>
-                                        <td>2018. 11. 22.</td>
-                                        <td>09:40</td>
-                                        <td>H1,H2</td>
-                                        <td>Y</td>
+                                        <td>1</td>
+                                        <td>mmjlee314</td>
+                                        <td>100</td>
+                                        <td>10000</td>
+                                        <td>VIP</td>
                                     </tr>
                                 </tbody>
                     </table>
                 </div>
+                    
+                    
+                </div>
+<!-- row -->
+				<div class="row">
+					<!-- Product main img -->
+
+				</div>
+				<!-- /row -->
+				<!-- /row -->
+            
+                
 			</div>
 			<!-- /container -->
             
@@ -244,6 +219,81 @@
 			<!-- /bottom footer -->
 		</footer>
 		<!-- /FOOTER -->
+        <!--modal-->
+        <div id="addModal" class="modal fade" role="dialog">
+<div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">현장 예매</h4>
+      </div>
+      <div class="modal-body">
+          <h5>고객 아이디</h5>
+          <input class="input" type="text" name="userID">
+          <br><br>
+            <h5>영화 선택</h5>
+                            <select class="input-select" style="width:100%;">
+								<option value="0">보헤미안랩소디</option>
+                                <option value="0">신비한동물들과그린델왈드의범죄</option>
+                                <option value="0">성난황소</option>
+                                <option value="0">완벽한타인</option>
+                                <option value="0">툴리</option>
+                                <option value="0">영주</option>
+                                <option value="0">라라랜드</option>
+                                <option value="0">올드보이</option>
+				            </select>
+                        <br><br>
+          <h5>영화관 선택</h5>
+                            <select class="input-select" style="width:100%;">
+                                <option value="0">대전유성</option>
+                                <option value="0">대전노은</option>
+                                <option value="0">대전둔산</option>
+                                <option value="0">대전탄방</option>
+                                <option value="0">대전갤러리아</option>
+				            </select>
+                            <br><br>
+          <h5>날짜 선택</h5>
+          <input class="input" type="date" name="date">
+          <br><br>
+          <h5>시간 선택</h5>
+                            <select class="input-select" style="width:100%;">
+                                <option value="0">09:40 (150석)</option>
+                                <option value="0">12:40 (111석)</option>
+                                <option value="0">15:40 (124석)</option>
+                                <option value="0">18:40 (10석)</option>
+                                <option value="0">20:40 (17석)</option>
+				            </select>
+          <br><br>
+          <h5>좌석</h5>
+          <input class="input" type="text" name="seat">
+          <br><br>
+          <ul>
+                                        <li>보유 포인트가 1,000점 이상일 경우만 사용 가능합니다.</li>
+                                        <li>티켓 매수당 100포인트가 적립됩니다.</li>
+                                    </ul>
+                                    <br>
+                                    <strong>보유 포인트</strong> : 900
+                        <br><br>
+						<div class="input-checkbox">
+							<input type="checkbox" id="terms">
+							<label for="terms">
+								<span></span>
+								포인트 사용
+							</label>
+						</div>
+          
+      </div>
+      <div class="modal-footer">
+          <p style="float:left; font-size: 20px; margin:0;"><strong>Total</strong>&nbsp;&nbsp;&nbsp;12,000
+        &nbsp;&nbsp;</p><button type="button" class="btn btn-default" data-dismiss="modal">결제</button>
+      </div>
+    </div>
+            </div>
+        </div>
+        <!-- /modal -->
+        
 
 		<!-- jQuery Plugins -->
 		<script src="js/jquery.min.js"></script>
@@ -252,5 +302,15 @@
 		<script src="js/nouislider.min.js"></script>
 		<script src="js/jquery.zoom.min.js"></script>
 		<script src="js/main.js"></script>
+        <script>
+            $(".theater-selector li").click(function() {
+                if( $(this).hasClass("active")) {
+                    $(this).removeClass("active");
+                }
+                else {
+                    $(this).addClass("active");
+                }
+            })
+        </script>
 	</body>
 </html>
