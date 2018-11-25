@@ -1,8 +1,28 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
-    
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<% request.setCharacterEncoding("UTF-8"); %>
+ <%@ page import="Service.infoService" %>
+
+<%
+	String sessionID="";
+	if( session.getAttribute("user-session") == null && session.getAttribute("admin-session")== null) {
+		%>
+			<script>alert("ë¡œê·¸ì¸ì´ í•„ìš”í•©ë‹ˆë‹¤."); history.go(-1);</script>
+		<%
+	}
+	else {
+		if( session.getAttribute("user-session") != null && session.getAttribute("admin-session")== null) {
+			sessionID = session.getAttribute("user-session").toString();
+		}
+		else {
+			sessionID = session.getAttribute("admin-session").toString();
+		}
+		
+	}
+	infoService is = new infoService();
+	is.getUserInfo(sessionID);
+%>   
 <!DOCTYPE html>
-<html lang="en">
+<html lang="kr">
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,7 +30,6 @@
 		 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
 		<title>2018 DB Term Project</title>
-
 		<!-- Google font -->
 		<link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
 
@@ -20,7 +39,7 @@
 		<!-- Slick -->
 		<link type="text/css" rel="stylesheet" href="css/slick.css"/>
 		<link type="text/css" rel="stylesheet" href="css/slick-theme.css"/>
-
+		
 		<!-- nouislider -->
 		<link type="text/css" rel="stylesheet" href="css/nouislider.min.css"/>
 
@@ -41,7 +60,7 @@
                         <li class="dropdown" id="user-toggle">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
         <i class="fa fa-user"></i><% 
-        	// ÀÏ¹Ý »ç¿ëÀÚ ·Î±×ÀÎ
+        	// ì¼ë°˜ ì‚¬ìš©ìž ë¡œê·¸ì¸
         	if( session.getAttribute("user-session") != null && session.getAttribute("admin-session") == null ){
         	Object user = session.getAttribute("user-session");
         	out.print(user);
@@ -55,12 +74,12 @@
         	}
         %></a>
         <ul class="dropdown-menu user-dropdown">
-          <li><a href="userInfo.jsp"><i class="fas fa-user-circle"></i>&nbsp;&nbsp;°³ÀÎÁ¤º¸</a></li>
+          <li><a href="userInfo.jsp"><i class="fas fa-user-circle"></i>&nbsp;&nbsp;ê°œì¸ì •ë³´</a></li>
           <%
           	if( session.getAttribute("user-session") != null || session.getAttribute("admin-session") != null) {        	  %>
-				<li><a href="logout.jsp"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;·Î±×¾Æ¿ô</a></li>
+				<li><a href="logout.jsp"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;ë¡œê·¸ì•„ì›ƒ</a></li>
           <% } else { %>
-          <li><a href="login.jsp"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;·Î±×ÀÎ</a></li>
+          <li><a href="login.jsp"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;ë¡œê·¸ì¸</a></li>
           <% } %>
         </ul>
       </li>
@@ -90,12 +109,12 @@
 							<div class="header-search">
 								<form>
 									<select class="input-select">
-										<option value="0">ÀüÃ¼</option>
-										<option value="1">¿µÈ­</option>
+										<option value="0">ì „ì²´</option>
+										<option value="1">ì˜í™”</option>
 										<option value="1"></option>
 									</select>
 									<input class="input" placeholder="">
-									<button class="search-btn">°Ë»ö</button>
+									<button class="search-btn">ê²€ìƒ‰</button>
 								</form>
 							</div>
 						</div>
@@ -121,9 +140,9 @@
 				<div id="responsive-nav">
 					<!-- NAV -->
 					<ul class="main-nav nav navbar-nav">
-						<li><a href="index.jsp">È¨</a></li>
-						<li><a href="theater.jsp">¿µÈ­°ü</a></li>
-						<li class="active"><a href="reservation.jsp">¿¹¸Å</a></li>
+						<li><a href="index.jsp">í™ˆ</a></li>
+						<li><a href="theater.jsp">ì˜í™”ê´€</a></li>
+						<li class="active"><a href="reservation.jsp">ì˜ˆë§¤</a></li>
 					</ul>
 					<!-- /NAV -->
 				</div>
@@ -139,10 +158,10 @@
 				<!-- row -->
 				<div class="row">
 					<div class="col-md-12">
-						<h3 class="breadcrumb-header">¿¹¸Å</h3>
+						<h3 class="breadcrumb-header">ì˜ˆë§¤</h3>
 						<ul class="breadcrumb-tree">
-							<li><a href="#">È¨</a></li>
-							<li class="active">¿¹¸Å</li>
+							<li><a href="#">í™ˆ</a></li>
+							<li class="active">ì˜ˆë§¤</li>
 						</ul>
 					</div>
 				</div>
@@ -163,17 +182,17 @@
 						<!-- Billing Details -->
 						<div class="select-movie">
 							<div class="section-title">
-								<h3 class="title">¿µÈ­ ¼±ÅÃ</h3>
+								<h3 class="title">ì˜í™” ì„ íƒ</h3>
 							</div>
                             <select class="input-select" name="selected-movie" style="width:100%;">
-								<option value="0">º¸Çì¹Ì¾È·¦¼Òµð</option>
-                                <option value="0">½ÅºñÇÑµ¿¹°µé°ú±×¸°µ¨¿ÐµåÀÇ¹üÁË</option>
-                                <option value="0">¼º³­È²¼Ò</option>
-                                <option value="0">¿Ïº®ÇÑÅ¸ÀÎ</option>
-                                <option value="0">Åø¸®</option>
-                                <option value="0">¿µÁÖ</option>
-                                <option value="0">¶ó¶ó·£µå</option>
-                                <option value="0">¿Ãµåº¸ÀÌ</option>
+								<option value="0">ë³´í—¤ë¯¸ì•ˆëž©ì†Œë””</option>
+                                <option value="0">ì‹ ë¹„í•œë™ë¬¼ë“¤ê³¼ê·¸ë¦°ë¸ì™ˆë“œì˜ë²”ì£„</option>
+                                <option value="0">ì„±ë‚œí™©ì†Œ</option>
+                                <option value="0">ì™„ë²½í•œíƒ€ì¸</option>
+                                <option value="0">íˆ´ë¦¬</option>
+                                <option value="0">ì˜ì£¼</option>
+                                <option value="0">ë¼ë¼ëžœë“œ</option>
+                                <option value="0">ì˜¬ë“œë³´ì´</option>
 				            </select>
                             
                             
@@ -182,14 +201,14 @@
 						<!-- /Billing Details -->
                         <div class="select-the">
 							<div class="section-title">
-								<h3 class="title">¿µÈ­°ü ¼±ÅÃ</h3>
+								<h3 class="title">ì˜í™”ê´€ ì„ íƒ</h3>
 							</div>
                             <select class="input-select" name="selected-sang" style="width:100%;">
-                                <option value="0">´ëÀüÀ¯¼º</option>
-                                <option value="0">´ëÀü³ëÀº</option>
-                                <option value="0">´ëÀüµÐ»ê</option>
-                                <option value="0">´ëÀüÅº¹æ</option>
-                                <option value="0">´ëÀü°¶·¯¸®¾Æ</option>
+                                <option value="0">ëŒ€ì „ìœ ì„±</option>
+                                <option value="0">ëŒ€ì „ë…¸ì€</option>
+                                <option value="0">ëŒ€ì „ë‘”ì‚°</option>
+                                <option value="0">ëŒ€ì „íƒ„ë°©</option>
+                                <option value="0">ëŒ€ì „ê°¤ëŸ¬ë¦¬ì•„</option>
 				            </select>
                             
                             
@@ -198,7 +217,7 @@
 						<!-- /Billing Details -->
                         <div class="select-date">
 							<div class="section-title">
-								<h3 class="title">³¯Â¥ ¼±ÅÃ</h3>
+								<h3 class="title">ë‚ ì§œ ì„ íƒ</h3>
 							</div>
                             <input class="input" type="date" name="date">
 						</div>
@@ -206,26 +225,26 @@
 						<!-- /Billing Details -->
                         <div class="select-time">
 							<div class="section-title">
-								<h3 class="title">½Ã°£ ¼±ÅÃ</h3>
+								<h3 class="title">ì‹œê°„ ì„ íƒ</h3>
 							</div>
                             <select class="input-select" name="selected-time" style="width:100%;">
-                                <option value="0">09:40 (150¼®)</option>
-                                <option value="0">12:40 (111¼®)</option>
-                                <option value="0">15:40 (124¼®)</option>
-                                <option value="0">18:40 (10¼®)</option>
-                                <option value="0">20:40 (17¼®)</option>
+                                <option value="0">09:40 (150ì„)</option>
+                                <option value="0">12:40 (111ì„)</option>
+                                <option value="0">15:40 (124ì„)</option>
+                                <option value="0">18:40 (10ì„)</option>
+                                <option value="0">20:40 (17ì„)</option>
 				            </select>
 						</div><br>
                         <div class="select-seats">
 							<div class="section-title">
-								<h3 class="title">ÁÂ¼® ¼±ÅÃ</h3>
+								<h3 class="title">ì¢Œì„ ì„ íƒ</h3>
 							</div>
                             <select class="input-select" name="seleted-seats" style="width:100%;">
-                                <option value="0">09:40 (150¼®)</option>
-                                <option value="0">12:40 (111¼®)</option>
-                                <option value="0">15:40 (124¼®)</option>
-                                <option value="0">18:40 (10¼®)</option>
-                                <option value="0">20:40 (17¼®)</option>
+                                <option value="0">09:40 (150ì„)</option>
+                                <option value="0">12:40 (111ì„)</option>
+                                <option value="0">15:40 (124ì„)</option>
+                                <option value="0">18:40 (10ì„)</option>
+                                <option value="0">20:40 (17ì„)</option>
 				            </select>
 						</div>
 
@@ -234,56 +253,56 @@
 					<!-- Order Details -->
 					<div class="col-md-5 order-details">
 						<div class="section-title text-center">
-							<h3 class="title">¿¹¸Å ³»¿ª</h3>
+							<h3 class="title">ì˜ˆë§¤ ë‚´ì—­</h3>
 						</div>
 						<div class="order-summary">
 							<div class="order-products">
 								<div class="order-col">
-									<div>¿µÈ­</div>
-									<div><strong>º¸Çì¹Ì¾È·¦¼Òµð</strong></div>
+									<div>ì˜í™”</div>
+									<div><strong>ë³´í—¤ë¯¸ì•ˆëž©ì†Œë””</strong></div>
 								</div>
 								<div class="order-col">
-									<div>¿µÈ­°ü</div>
-									<div><strong>´ëÀüÀ¯¼º</strong></div>
+									<div>ì˜í™”ê´€</div>
+									<div><strong>ëŒ€ì „ìœ ì„±</strong></div>
 								</div>
                                 <div class="order-col">
-								<div>³¯Â¥</div>
+								<div>ë‚ ì§œ</div>
                                 <div><strong>2018.11.22.</strong></div>
 							</div>
                                 <div class="order-col">
-								<div>½Ã°£</div>
+								<div>ì‹œê°„</div>
                                 <div><strong>09:40</strong></div>
 							</div>
                                 <div class="order-col">
-								<div>ÁÂ¼®</div>
+								<div>ì¢Œì„</div>
                                 <div><strong>H1,H2</strong></div>
 							</div>
                                 <div class="order-col">
-								<div>Æ¼ÄÏ °¡°Ý</div>
+								<div>í‹°ì¼“ ê°€ê²©</div>
                                 <div><strong>12,000</strong></div>
 							</div>
 							</div><br><br>
 							<ul>
-                                        <li>º¸À¯ Æ÷ÀÎÆ®°¡ 1,000Á¡ ÀÌ»óÀÏ °æ¿ì¸¸ »ç¿ë °¡´ÉÇÕ´Ï´Ù.</li>
-                                        <li>Æ¼ÄÏ ¸Å¼ö´ç 100Æ÷ÀÎÆ®°¡ Àû¸³µË´Ï´Ù.</li>
+                                        <li>ë³´ìœ  í¬ì¸íŠ¸ê°€ 1,000ì  ì´ìƒì¼ ê²½ìš°ë§Œ ì‚¬ìš© ê°€ëŠ¥í•©ë‹ˆë‹¤.</li>
+                                        <li>í‹°ì¼“ ë§¤ìˆ˜ë‹¹ 100í¬ì¸íŠ¸ê°€ ì ë¦½ë©ë‹ˆë‹¤.</li>
                                     </ul>
                                     <br>
-                                    <strong>º¸À¯ Æ÷ÀÎÆ®</strong> : 900
+                                    <strong>ë³´ìœ  í¬ì¸íŠ¸</strong> : <p id="user-point"><% out.print(is.getUserPoint()); %></p>
                         <br><br>
 						<div class="input-checkbox">
 							<input type="checkbox" id="terms">
 							<label for="terms">
 								<span></span>
-								Æ÷ÀÎÆ® »ç¿ë
+								í¬ì¸íŠ¸ ì‚¬ìš©
 							</label>
 						</div>
 							<div class="order-col">
 								<div><strong>TOTAL</strong></div>
-								<div><strong class="order-total">24,000</strong></div>
+								<div><strong class="order-total">24000</strong></div>
 							</div>
 						</div>
 						
-                        <input class="primary-btn order-submit" type="submit" value="°áÁ¦ ÇÏ±â">
+                        <input class="primary-btn order-submit" type="submit" value="ê²°ì œ í•˜ê¸°">
 					</div>
 					<!-- /Order Details -->
                             </form> <!-- /form -->
@@ -333,6 +352,19 @@
 		<script src="js/nouislider.min.js"></script>
 		<script src="js/jquery.zoom.min.js"></script>
 		<script src="js/main.js"></script>
-
+		<!-- checkbox -->
+				<script>
+			$("#terms").click(function() {
+				var chkbox = document.getElementById("terms");
+				var point = parseInt($("#user-point").html());
+				var total = parseInt($(".order-total").html());
+				if(chkbox.checked) {
+					$(".order-total").html(total-point);
+				}
+				else {
+					$(".order-total").html(total+point);
+				}
+			});
+		</script>
 	</body>
 </html>

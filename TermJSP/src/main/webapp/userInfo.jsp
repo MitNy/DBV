@@ -19,7 +19,7 @@
 		
 	}
 	infoService is = new infoService();
-	is.getUserInto(sessionID);
+	is.getUserInfo(sessionID);
 %>
 <!DOCTYPE html>
 <html lang="kr">

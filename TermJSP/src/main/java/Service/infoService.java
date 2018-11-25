@@ -45,7 +45,7 @@ public class infoService {
 	}
 	
 	
-	public void getUserInto(String sessionID) throws Exception {
+	public void getUserInfo(String sessionID) throws Exception {
 		Database dbCon = new Database();
 		Connection conn = dbCon.GetConnection();
 		try {
