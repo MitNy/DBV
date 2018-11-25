@@ -1,5 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
+<%@ page import="Service.infoService" %>
+<%
+	String sessionID="";
+	if( session.getAttribute("user-session") == null && session.getAttribute("admin-session")== null) {
+		%>
+			<script>alert("로그인이 필요합니다."); history.go(-1);</script>
+		<%
+	}
+	else {
+		if( session.getAttribute("user-session") != null && session.getAttribute("admin-session")== null) {
+			sessionID = session.getAttribute("user-session").toString();
+		}
+		else {
+			sessionID = session.getAttribute("admin-session").toString();
+		}
+		
+	}
+	infoService is = new infoService();
+	is.getUserInto(sessionID);
+%>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -155,18 +175,34 @@
 				<div class="row">
 
 					<div class="col-md-7">
-                        <form action="">
+                        <form action="infoPro.jsp" method="post">
+                        	<div class="form-group">
+                        		<p class="form-title">아이디</p>
+								<input class="input" type="text" id="user-id" name="user-id" value="<%=sessionID %>" readonly>
+							</div>
 							<div class="form-group">
-								<input class="input" type="text" id="user-name" name="user-name" placeholder="이름">
+								<p class="form-title">비밀번호</p>
+								<input class="input" type="password" id="password" name="password" placeholder="비밀번호">
+							</div>
+							<div class="form-group">
+								<p class="form-title">비밀번호 확인</p>
+								<input class="input" type="password" id="password-check" name="password-check" placeholder="비밀번호 확인">
+							</div>
+							<div class="form-group">
+							<p class="form-title">이름</p>
+								<input class="input" type="text" id="user-name" name="user-name" value="<% out.print(is.getUserName()); %>">
 							</div>
                         <div class="form-group">
-								<input class="input" type="text" id="user-birth" name="user-birth" placeholder="생년월일">
+                        		<p class="form-title">생년월일</p>
+								<input class="input" type="text" id="user-birth" value="<% out.print(is.getUserBirthday()); %>" readonly>
 							</div>
 							<div class="form-group">
-								<input class="input" type="text" id="user-address" name="user-address" placeholder="주소">
+								<p class="form-title">주소</p>
+								<input class="input" type="text" id="user-address" name="user-address" value="<% out.print(is.getUserAddress()); %>">
 							</div>
 							<div class="form-group">
-								<input class="input" type="tel" id="user-tel" name="user-tel" placeholder="연락처">
+								<p class="form-title">연락처</p>
+								<input class="input" type="tel" id="user-tel" name="user-tel" value="<% out.print(is.getUserPhone()); %>">
 							</div>
                         
                             <div>
@@ -180,7 +216,10 @@
 								<h4>보유 포인트</h4>
                                 <div class="product-rating">
 								</div>
-								<h4 class="product-price">980 점</h4>
+								<h4 class="product-price">
+								<% out.print(is.getUserPoint()); %>
+								
+								</h4>
 								
 							</div>
 						</div>
@@ -272,5 +311,17 @@
 		<script src="js/nouislider.min.js"></script>
 		<script src="js/jquery.zoom.min.js"></script>
 		<script src="js/main.js"></script>
+		<script type="text/javascript">
+			function checkValue() {
+				if(!document.getElementById("password").value) {
+					alert("비밀번호를 입력하세요");
+					return false;
+				}
+				if( document.getElementById("password").value != document.getElementById("password-check").value ) {
+					alert("비밀번호가 일치하지 않습니다.");
+					return false;
+				}
+			}
+		</script>
 	</body>
 </html>

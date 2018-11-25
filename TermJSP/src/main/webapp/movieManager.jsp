@@ -191,7 +191,6 @@
 <!-- row -->
 				<div class="row">
 					<!-- Product main img -->
-
 				</div>
 				<!-- /row -->
 				<!-- /row -->
@@ -244,6 +243,7 @@
         <h4 class="modal-title">영화 추가</h4>
       </div>
       <div class="modal-body">
+      			<form action="" method="post">
                         <div class="form-group">
 								<input class="input" type="text" id="movieID" name="movieID" placeholder="영화 아이디">
 							</div>
@@ -262,6 +262,7 @@
                         <div class="form-group">
 								<input class="input" type="text" id="user-id" name="user-id" placeholder="주요 정보">
 							</div>
+							</form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">추가</button>

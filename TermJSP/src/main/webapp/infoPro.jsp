@@ -3,27 +3,26 @@
 <%@ page import="java.sql.Connection" %>
 <%@ page import="java.sql.Date" %>
 <%@ page import="Dao.Database" %>
-<%@ page import="Dao.join" %>
+<%@ page import="Service.infoService" %>
 <% 
 	Database dbCon = new Database();
-	join join = new join();
+	infoService is = new infoService();
 	Connection conn = dbCon.GetConnection();
-	String userID = request.getParameter("user-id");
+	String id = request.getParameter("user-id");
 	String pwd = request.getParameter("password");
 	String name = request.getParameter("user-name");
-	String birthday = request.getParameter("birthday");
 	String address = request.getParameter("address");
 	String tel = request.getParameter("tel");
 	
-	boolean joinResult = join.joinCheck(userID, pwd, name, birthday, address, tel);
-	if( joinResult == true) {
+	boolean editResult = is.editInfo(id, pwd, name, address, tel);
+	if( editResult == true) {
 		%>
-		<script>alert("회원가입이 완료되었습니다."); window.location.href="login.jsp";</script>
+		<script>alert("개인정보가 수정되었습니다."); history.go(-1);</script>
 		<%
 	}
 	else {
 		%>
-		<script>alert("회원가입이 불가능합니다."); history.go(-1);</script>
+		<script>alert("개인정보를 수정할 수 없습니다."); history.go(-1);</script>
 		<%
 	}
 	
