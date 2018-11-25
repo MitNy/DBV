@@ -1,7 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<% request.setCharacterEncoding("UTF-8"); %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="kr">
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -40,7 +40,7 @@
                         <li class="dropdown" id="user-toggle">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
         <i class="fa fa-user"></i><% 
-        	// ÀÏ¹Ý »ç¿ëÀÚ ·Î±×ÀÎ
+        	// ì¼ë°˜ ì‚¬ìš©ìž ë¡œê·¸ì¸
         	if( session.getAttribute("user-session") != null && session.getAttribute("admin-session") == null ){
         	Object user = session.getAttribute("user-session");
         	out.print(user);
@@ -54,12 +54,12 @@
         	}
         %></a>
         <ul class="dropdown-menu user-dropdown">
-          <li><a href="userInfo.jsp"><i class="fas fa-user-circle"></i>&nbsp;&nbsp;°³ÀÎÁ¤º¸</a></li>
+          <li><a href="userInfo.jsp"><i class="fas fa-user-circle"></i>&nbsp;&nbsp;ê°œì¸ì •ë³´</a></li>
           <%
           	if( session.getAttribute("user-session") != null || session.getAttribute("admin-session") != null) {        	  %>
-				<li><a href="logout.jsp"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;·Î±×¾Æ¿ô</a></li>
+				<li><a href="logout.jsp"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;ë¡œê·¸ì•„ì›ƒ</a></li>
           <% } else { %>
-          <li><a href="login.jsp"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;·Î±×ÀÎ</a></li>
+          <li><a href="login.jsp"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;ë¡œê·¸ì¸</a></li>
           <% } %>
         </ul>
       </li>
@@ -89,12 +89,12 @@
 							<div class="header-search">
 								<form>
 									<select class="input-select">
-										<option value="0">ÀüÃ¼</option>
-										<option value="1">¿µÈ­</option>
+										<option value="0">ì „ì²´</option>
+										<option value="1">ì˜í™”</option>
 										<option value="1"></option>
 									</select>
 									<input class="input" placeholder="">
-									<button class="search-btn">°Ë»ö</button>
+									<button class="search-btn">ê²€ìƒ‰</button>
 								</form>
 							</div>
 						</div>
@@ -121,11 +121,11 @@
 				<div id="responsive-nav">
 					<!-- NAV -->
 					<ul class="main-nav nav navbar-nav">
-						<li><a href="index.jsp">È¨</a></li>
-						<li><a href="movieManager.jsp">¿µÈ­ °ü¸®</a></li>
-                        <li><a href="theaterManager.jsp">¿µÈ­°ü °ü¸®</a></li>
-						<li class="active"><a href="ticket.jsp">Æ¼ÄÏ ¹ß±Ç</a></li>
-                        <li><a href="vipManager.jsp">VIP È¸¿ø °ü¸®</a></li>
+						<li><a href="index.jsp">í™ˆ</a></li>
+						<li><a href="movieManager.jsp">ì˜í™” ê´€ë¦¬</a></li>
+                        <li><a href="theaterManager.jsp">ì˜í™”ê´€ ê´€ë¦¬</a></li>
+						<li class="active"><a href="ticket.jsp">í‹°ì¼“ ë°œê¶Œ</a></li>
+                        <li><a href="vipManager.jsp">VIP íšŒì› ê´€ë¦¬</a></li>
 					</ul>
 					<!-- /NAV -->
 				</div>
@@ -141,10 +141,10 @@
 				<!-- row -->
 				<div class="row">
 					<div class="col-md-12">
-						<h3 class="breadcrumb-header">Æ¼ÄÏ ¹ß±Ç</h3>
+						<h3 class="breadcrumb-header">í‹°ì¼“ ë°œê¶Œ</h3>
 						<ul class="breadcrumb-tree">
-							<li><a href="#">°ü¸®ÀÚ ÆäÀÌÁö</a></li>
-							<li class="active">Æ¼ÄÏ ¹ß±Ç</li>
+							<li><a href="#">ê´€ë¦¬ìž íŽ˜ì´ì§€</a></li>
+							<li class="active">í‹°ì¼“ ë°œê¶Œ</li>
 						</ul>
 					</div>
 				</div>
@@ -162,19 +162,19 @@
 				<div class="row">
 					<!-- /Product main img -->
                 <div class="billing-details">
-                    <button id="addButton" data-toggle="modal" data-target="#addModal">ÇöÀå ¿¹¸Å</button>
+                    <button id="addButton" data-toggle="modal" data-target="#addModal">í˜„ìž¥ ì˜ˆë§¤</button>
 				<table id="reservation-list">
                             <thead>
                                 <tr>
-                                    <th>¿¹¸Å ¾ÆÀÌµð</th>
-                                    <th>°í°´ ¾ÆÀÌµð</th>
-                                    <th>¿µÈ­ ¾ÆÀÌµð</th>
-                                    <th>¿µÈ­°ü ¾ÆÀÌµð</th>
-                                    <th>³¯Â¥</th>
-                                    <th>½Ã°£</th>
-                                    <th>ÁÂ¼®</th>
-                                    <th>°áÁ¦ ¿©ºÎ</th>
-                                    <th colspan="2">°ü¸®</th>
+                                    <th>ì˜ˆë§¤ ì•„ì´ë””</th>
+                                    <th>ê³ ê° ì•„ì´ë””</th>
+                                    <th>ì˜í™” ì•„ì´ë””</th>
+                                    <th>ì˜í™”ê´€ ì•„ì´ë””</th>
+                                    <th>ë‚ ì§œ</th>
+                                    <th>ì‹œê°„</th>
+                                    <th>ì¢Œì„</th>
+                                    <th>ê²°ì œ ì—¬ë¶€</th>
+                                    <th colspan="2">ê´€ë¦¬</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -187,8 +187,8 @@
                                         <td>09:40</td>
                                         <td>H1,H2</td>
                                         <td>F</td>
-                                        <td><a href="">°áÁ¦</a></td>
-                                        <td><a href="">¹ß±Ç</a></td>
+                                        <td><a href="">ê²°ì œ</a></td>
+                                        <td><a href="">ë°œê¶Œ</a></td>
                                     </tr>
                                 </tbody>
                     </table>
@@ -249,70 +249,70 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">ÇöÀå ¿¹¸Å</h4>
+        <h4 class="modal-title">í˜„ìž¥ ì˜ˆë§¤</h4>
       </div>
       <div class="modal-body">
-          <h5>°í°´ ¾ÆÀÌµð</h5>
+          <h5>ê³ ê° ì•„ì´ë””</h5>
           <div class="user-input">
                 <input class="input" type="text" name="userID">
-                <button class="search-btn">ÀÔ·Â</button>
+                <button class="search-btn">ìž…ë ¥</button>
 				    </div>
           <br>
-            <h5>¿µÈ­ ¼±ÅÃ</h5>
+            <h5>ì˜í™” ì„ íƒ</h5>
                             <select class="input-select" style="width:100%;">
-								<option value="0">º¸Çì¹Ì¾È·¦¼Òµð</option>
-                                <option value="0">½ÅºñÇÑµ¿¹°µé°ú±×¸°µ¨¿ÐµåÀÇ¹üÁË</option>
-                                <option value="0">¼º³­È²¼Ò</option>
-                                <option value="0">¿Ïº®ÇÑÅ¸ÀÎ</option>
-                                <option value="0">Åø¸®</option>
-                                <option value="0">¿µÁÖ</option>
-                                <option value="0">¶ó¶ó·£µå</option>
-                                <option value="0">¿Ãµåº¸ÀÌ</option>
+								<option value="0">ë³´í—¤ë¯¸ì•ˆëž©ì†Œë””</option>
+                                <option value="0">ì‹ ë¹„í•œë™ë¬¼ë“¤ê³¼ê·¸ë¦°ë¸ì™ˆë“œì˜ë²”ì£„</option>
+                                <option value="0">ì„±ë‚œí™©ì†Œ</option>
+                                <option value="0">ì™„ë²½í•œíƒ€ì¸</option>
+                                <option value="0">íˆ´ë¦¬</option>
+                                <option value="0">ì˜ì£¼</option>
+                                <option value="0">ë¼ë¼ëžœë“œ</option>
+                                <option value="0">ì˜¬ë“œë³´ì´</option>
 				            </select>
                         <br><br>
-          <h5>¿µÈ­°ü ¼±ÅÃ</h5>
+          <h5>ì˜í™”ê´€ ì„ íƒ</h5>
                             <select class="input-select" style="width:100%;">
-                                <option value="0">´ëÀüÀ¯¼º</option>
-                                <option value="0">´ëÀü³ëÀº</option>
-                                <option value="0">´ëÀüµÐ»ê</option>
-                                <option value="0">´ëÀüÅº¹æ</option>
-                                <option value="0">´ëÀü°¶·¯¸®¾Æ</option>
+                                <option value="0">ëŒ€ì „ìœ ì„±</option>
+                                <option value="0">ëŒ€ì „ë…¸ì€</option>
+                                <option value="0">ëŒ€ì „ë‘”ì‚°</option>
+                                <option value="0">ëŒ€ì „íƒ„ë°©</option>
+                                <option value="0">ëŒ€ì „ê°¤ëŸ¬ë¦¬ì•„</option>
 				            </select>
                             <br><br>
-          <h5>³¯Â¥ ¼±ÅÃ</h5>
+          <h5>ë‚ ì§œ ì„ íƒ</h5>
           <input class="input" type="date" name="date">
           <br><br>
-          <h5>½Ã°£ ¼±ÅÃ</h5>
+          <h5>ì‹œê°„ ì„ íƒ</h5>
                             <select class="input-select" style="width:100%;">
-                                <option value="0">09:40 (150¼®)</option>
-                                <option value="0">12:40 (111¼®)</option>
-                                <option value="0">15:40 (124¼®)</option>
-                                <option value="0">18:40 (10¼®)</option>
-                                <option value="0">20:40 (17¼®)</option>
+                                <option value="0">09:40 (150ì„)</option>
+                                <option value="0">12:40 (111ì„)</option>
+                                <option value="0">15:40 (124ì„)</option>
+                                <option value="0">18:40 (10ì„)</option>
+                                <option value="0">20:40 (17ì„)</option>
 				            </select>
           <br><br>
-          <h5>ÁÂ¼®</h5>
+          <h5>ì¢Œì„</h5>
           <input class="input" type="text" name="seat">
           <br><br>
           <ul>
-                                        <li>º¸À¯ Æ÷ÀÎÆ®°¡ 1,000Á¡ ÀÌ»óÀÏ °æ¿ì¸¸ »ç¿ë °¡´ÉÇÕ´Ï´Ù.</li>
-                                        <li>Æ¼ÄÏ ¸Å¼ö´ç 100Æ÷ÀÎÆ®°¡ Àû¸³µË´Ï´Ù.</li>
+                                        <li>ë³´ìœ  í¬ì¸íŠ¸ê°€ 1,000ì  ì´ìƒì¼ ê²½ìš°ë§Œ ì‚¬ìš© ê°€ëŠ¥í•©ë‹ˆë‹¤.</li>
+                                        <li>í‹°ì¼“ ë§¤ìˆ˜ë‹¹ 100í¬ì¸íŠ¸ê°€ ì ë¦½ë©ë‹ˆë‹¤.</li>
                                     </ul>
                                     <br>
-                                    <strong>º¸À¯ Æ÷ÀÎÆ®</strong> : 900
+                                    <strong>ë³´ìœ  í¬ì¸íŠ¸</strong> : 900
                         <br><br>
 						<div class="input-checkbox">
 							<input type="checkbox" id="terms">
 							<label for="terms">
 								<span></span>
-								Æ÷ÀÎÆ® »ç¿ë
+								í¬ì¸íŠ¸ ì‚¬ìš©
 							</label>
 						</div>
           
       </div>
       <div class="modal-footer">
           <p style="float:left; font-size: 20px; margin:0;"><strong>Total</strong>&nbsp;&nbsp;&nbsp;12,000
-        &nbsp;&nbsp;</p><button type="button" class="btn btn-default" data-dismiss="modal">°áÁ¦</button>
+        &nbsp;&nbsp;</p><button type="button" class="btn btn-default" data-dismiss="modal">ê²°ì œ</button>
       </div>
     </div>
             </div>

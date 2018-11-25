@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<% request.setCharacterEncoding("UTF-8"); %>
 <%@ page import="java.sql.Connection" %>
 <%@ page import="java.sql.Date" %>
 <%@ page import="Dao.Database" %>
@@ -17,12 +17,12 @@
 	boolean editResult = is.editInfo(id, pwd, name, address, tel);
 	if( editResult == true) {
 		%>
-		<script>alert("╟Ёюна╓╨╦╟║ ╪Жа╓╣г╬З╫ю╢о╢ы."); history.go(-1);</script>
+		<script>alert("Й╟°Л²╦Л═∙КЁ╢Й╟─ Л┬≤Л═∙К░≤Л≈┬Л┼╣К▀┬К▀╓."); history.go(-1);</script>
 		<%
 	}
 	else {
 		%>
-		<script>alert("╟Ёюна╓╨╦╦╕ ╪Жа╓гр ╪Ж ╬Ь╫ю╢о╢ы."); history.go(-1);</script>
+		<script>alert("Й╟°Л²╦Л═∙КЁ╢К╔╪ Л┬≤Л═∙М∙═ Л┬≤ Л≈├Л┼╣К▀┬К▀╓."); history.go(-1);</script>
 		<%
 	}
 	

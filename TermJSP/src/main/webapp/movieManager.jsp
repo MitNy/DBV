@@ -1,12 +1,16 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+    <%@ page import="Service.adminService" %>
+    <%@ page import="org.json.simple.JSONArray" %>
+    <%@ page import="org.json.simple.JSONObject" %>
+    <% request.setCharacterEncoding("UTF-8"); %>
     <% if(session.getAttribute("admin-session") == null ) {
-		%><script>alert("±ÇÇÑÀÌ ¾ø½À´Ï´Ù."); history.go(-1);</script>
+		%><script>alert("ê¶Œí•œì´ ì—†ìŠµë‹ˆë‹¤."); history.go(-1);</script>
 		<%
 	}
+    adminService as = new adminService();
 %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="kr">
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -50,12 +54,12 @@
         	out.print(user);
         } %></a>
         <ul class="dropdown-menu user-dropdown">
-          <li><a href="userInfo.jsp"><i class="fas fa-user-circle"></i>&nbsp;&nbsp;°³ÀÎÁ¤º¸</a></li>
+          <li><a href="userInfo.jsp"><i class="fas fa-user-circle"></i>&nbsp;&nbsp;ê°œì¸ì •ë³´</a></li>
           <%
           	if( session.getAttribute("admin-session") != null) {        	  %>
-				<li><a href="logout.jsp"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;·Î±×¾Æ¿ô</a></li>
+				<li><a href="logout.jsp"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;ë¡œê·¸ì•„ì›ƒ</a></li>
           <% } else { %>
-          <li><a href="login.jsp"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;·Î±×ÀÎ</a></li>
+          <li><a href="login.jsp"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;ë¡œê·¸ì¸</a></li>
           <% } %>
         </ul>
       </li>
@@ -85,12 +89,12 @@
 							<div class="header-search">
 								<form>
 									<select class="input-select">
-										<option value="0">ÀüÃ¼</option>
-										<option value="1">¿µÈ­</option>
+										<option value="0">ì „ì²´</option>
+										<option value="1">ì˜í™”</option>
 										<option value="1"></option>
 									</select>
 									<input class="input" placeholder="">
-									<button class="search-btn">°Ë»ö</button>
+									<button class="search-btn">ê²€ìƒ‰</button>
 								</form>
 							</div>
 						</div>
@@ -117,11 +121,11 @@
 				<div id="responsive-nav">
 					<!-- NAV -->
 					<ul class="main-nav nav navbar-nav">
-						<li><a href="index.jsp">È¨</a></li>
-						<li class="active"><a href="movieManager.jsp">¿µÈ­ °ü¸®</a></li>
-                        <li><a href="theaterManager.jsp">¿µÈ­°ü °ü¸®</a></li>
-						<li><a href="ticket.jsp">Æ¼ÄÏ ¹ß±Ç</a></li>
-                        <li><a href="vipManager.jsp">VIP È¸¿ø °ü¸®</a></li>
+						<li><a href="index.jsp">í™ˆ</a></li>
+						<li class="active"><a href="movieManager.jsp">ì˜í™” ê´€ë¦¬</a></li>
+                        <li><a href="theaterManager.jsp">ì˜í™”ê´€ ê´€ë¦¬</a></li>
+						<li><a href="ticket.jsp">í‹°ì¼“ ë°œê¶Œ</a></li>
+                        <li><a href="vipManager.jsp">VIP íšŒì› ê´€ë¦¬</a></li>
 					</ul>
 					<!-- /NAV -->
 				</div>
@@ -137,10 +141,10 @@
 				<!-- row -->
 				<div class="row">
 					<div class="col-md-12">
-						<h3 class="breadcrumb-header">¿µÈ­ °ü¸®</h3>
+						<h3 class="breadcrumb-header">ì˜í™” ê´€ë¦¬</h3>
 						<ul class="breadcrumb-tree">
-							<li><a href="#">°ü¸®ÀÚ ÆäÀÌÁö</a></li>
-							<li class="active">¿µÈ­ °ü¸®</li>
+							<li><a href="#">ê´€ë¦¬ìž íŽ˜ì´ì§€</a></li>
+							<li class="active">ì˜í™” ê´€ë¦¬</li>
 						</ul>
 					</div>
 				</div>
@@ -158,30 +162,48 @@
 				<div class="row">
 					<!-- /Product main img -->
                 <div class="billing-details">
-                    <button id="addButton" data-toggle="modal" data-target="#addModal">¿µÈ­ Ãß°¡</button>
+                    <button id="addButton" data-toggle="modal" data-target="#addModal">ì˜í™” ì¶”ê°€</button>
 				<table id="reservation-list">
                             <thead>
                                 <tr>
-                                    <th>¿µÈ­ ¾ÆÀÌµð</th>
-                                    <th>¿µÈ­ Á¦¸ñ</th>
-                                    <th>°¨µ¶</th>
-                                    <th>Ãâ¿¬</th>
-                                    <th>µî±Þ</th>
-                                    <th>ÁÖ¿ä Á¤º¸</th>
-                                    <th colspan="2">°ü¸®</th>
+                                    <th>ì˜í™” ì•„ì´ë””</th>
+                                    <th>ì˜í™” ì œëª©</th>
+                                    <th>ê°ë…</th>
+                                    <th>ì¶œì—°</th>
+                                    <th>ë“±ê¸‰</th>
+                                    <th>ì£¼ìš” ì •ë³´</th>
+                                    <th colspan="2">ê´€ë¦¬</th>
                                 </tr>
                                 </thead>
                                 <tbody>
+                                <%
+                                	JSONArray movieList = as.getMovie();
+                                	for(int i=0; i<movieList.size(); i++ ) {
+                                		JSONObject movie = (JSONObject) movieList.get(i);
+                                		out.print("<tr>");
+                                		out.print("<td>"+movie.get("movieID-"+i)+"</td>");
+                                		out.print("<td>"+movie.get("movieTitle-"+i)+"</td>");
+                                		out.print("<td>"+movie.get("director-"+i)+"</td>");
+                                		out.print("<td>"+movie.get("cast-"+i)+"</td>");
+                                		out.print("<td>"+movie.get("grade-"+i)+"</td>");
+                                		out.print("<td>"+movie.get("information-"+i)+"</td>");
+                                		out.print("<td><a href=''>ìˆ˜ì •</a></td>");
+                                		out.print("<td><a href=''>ì‚­ì œ</a></td>");
+                                		out.print("</tr>");
+                                	}
+                                
+                                %>
+                                <!--
                                     <tr>
                                         <td>ABS1000</td>
-                                        <td>º¸Çì¹Ì¾È·¦¼Òµð</td>
-                                        <td>´©±¸¾ß</td>
-                                        <td>´©±¼±î, º¸Çì¹Ì¾È</td>
+                                        <td>ë³´í—¤ë¯¸ì•ˆëž©ì†Œë””</td>
+                                        <td>ëˆ„êµ¬ì•¼</td>
+                                        <td>ëˆ„êµ´ê¹Œ, ë³´í—¤ë¯¸ì•ˆ</td>
                                         <td>15</td>
-                                        <td>Àß ¸ð¸£°Ú°í..</td>
-                                        <td><a href="">¼öÁ¤</a></td>
-                                        <td><a href="">»èÁ¦</a></td>
-                                    </tr>
+                                        <td>ìž˜ ëª¨ë¥´ê² ê³ ..</td>
+                                        <td><a href="">ìˆ˜ì •</a></td>
+                                        <td><a href="">ì‚­ì œ</a></td>
+                                    </tr>-->
                                 </tbody>
                     </table>
                 </div>
@@ -240,33 +262,36 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">¿µÈ­ Ãß°¡</h4>
+        <h4 class="modal-title">ì˜í™” ì¶”ê°€</h4>
       </div>
+      <form action="addMovie.jsp" method="post">
       <div class="modal-body">
-      			<form action="" method="post">
+      			
                         <div class="form-group">
-								<input class="input" type="text" id="movieID" name="movieID" placeholder="¿µÈ­ ¾ÆÀÌµð">
+								<input class="input" type="text" id="movieID" name="movieID" placeholder="ì˜í™” ì•„ì´ë””">
 							</div>
                         <div class="form-group">
-								<input class="input" type="text" id="movieTitle" name="movieTitle" placeholder="¿µÈ­ Á¦¸ñ">
+								<input class="input" type="text" id="movieTitle" name="movieTitle" placeholder="ì˜í™” ì œëª©">
 							</div>
                         <div class="form-group">
-								<input class="input" type="text" id="director" name="director" placeholder="°¨µ¶">
+								<input class="input" type="text" id="director" name="director" placeholder="ê°ë…">
 							</div>
                         <div class="form-group">
-								<input class="input" type="text" id="user-id" name="user-id" placeholder="Ãâ¿¬">
+								<input class="input" type="text" id="cast" name="cast" placeholder="ì¶œì—°">
 							</div>
                         <div class="form-group">
-								<input class="input" type="text" id="user-id" name="user-id" placeholder="µî±Þ">
+								<input class="input" type="text" id="grade" name="grade" placeholder="ë“±ê¸‰">
 							</div>
                         <div class="form-group">
-								<input class="input" type="text" id="user-id" name="user-id" placeholder="ÁÖ¿ä Á¤º¸">
+								<input class="input" type="text" id="information" name="information" placeholder="ì£¼ìš” ì •ë³´">
 							</div>
-							</form>
+							
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Ãß°¡</button>
+      <input type="submit" class="btn btn-default"  value="ì¶”ê°€">
+        <!--  data-dismiss="modal"  -->
       </div>
+      </form>
     </div>
 
   </div>

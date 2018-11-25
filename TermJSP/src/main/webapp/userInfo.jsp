@@ -1,11 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<% request.setCharacterEncoding("UTF-8"); %>
 <%@ page import="Service.infoService" %>
+
 <%
 	String sessionID="";
 	if( session.getAttribute("user-session") == null && session.getAttribute("admin-session")== null) {
 		%>
-			<script>alert("�α����� �ʿ��մϴ�."); history.go(-1);</script>
+			<script>alert("로그인이 필요합니다."); history.go(-1);</script>
 		<%
 	}
 	else {
@@ -21,7 +22,7 @@
 	is.getUserInto(sessionID);
 %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="kr">
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -60,7 +61,7 @@
                         <li class="dropdown" id="user-toggle">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
         <i class="fa fa-user"></i><% 
-        	// �Ϲ� ����� �α���
+        	// 일반 사용자 로그인
         	if( session.getAttribute("user-session") != null && session.getAttribute("admin-session") == null ){
         	Object user = session.getAttribute("user-session");
         	out.print(user);
@@ -74,12 +75,12 @@
         	}
         %></a>
         <ul class="dropdown-menu user-dropdown">
-          <li><a href="userInfo.jsp"><i class="fas fa-user-circle"></i>&nbsp;&nbsp;��������</a></li>
+          <li><a href="userInfo.jsp"><i class="fas fa-user-circle"></i>&nbsp;&nbsp;개인정보</a></li>
           <%
           	if( session.getAttribute("user-session") != null || session.getAttribute("admin-session") != null) {        	  %>
-				<li><a href="logout.jsp"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;�α׾ƿ�</a></li>
+				<li><a href="logout.jsp"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;로그아웃</a></li>
           <% } else { %>
-          <li><a href="login.jsp"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;�α���</a></li>
+          <li><a href="login.jsp"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;로그인</a></li>
           <% } %>
         </ul>
       </li>
@@ -109,12 +110,12 @@
 							<div class="header-search">
 								<form>
 									<select class="input-select">
-										<option value="0">��ü</option>
-										<option value="1">��ȭ</option>
+										<option value="0">전체</option>
+										<option value="1">영화</option>
 										<option value="1"></option>
 									</select>
 									<input class="input" placeholder="">
-									<button class="search-btn">�˻�</button>
+									<button class="search-btn">검색</button>
 								</form>
 							</div>
 						</div>
@@ -140,9 +141,9 @@
 				<div id="responsive-nav">
 					<!-- NAV -->
 					<ul class="main-nav nav navbar-nav">
-						<li><a href="index.jsp">Ȩ</a></li>
-						<li><a href="theater.jsp">��ȭ��</a></li>
-						<li><a href="reservation.jsp">����</a></li>
+						<li><a href="index.jsp">홈</a></li>
+						<li><a href="theater.jsp">영화관</a></li>
+						<li><a href="reservation.jsp">예매</a></li>
 					</ul>
 					<!-- /NAV -->
 				</div>
@@ -158,7 +159,7 @@
 				<!-- row -->
 				<div class="row">
 					<div class="col-md-12">
-						<h3 class="breadcrumb-header">��������</h3>
+						<h3 class="breadcrumb-header">개인정보</h3>
 					</div>
 				</div>
 				<!-- /row -->
@@ -177,43 +178,43 @@
 					<div class="col-md-7">
                         <form action="infoPro.jsp" method="post">
                         	<div class="form-group">
-                        		<p class="form-title">���̵�</p>
+                        		<p class="form-title">아이디</p>
 								<input class="input" type="text" id="user-id" name="user-id" value="<%=sessionID %>" readonly>
 							</div>
 							<div class="form-group">
-								<p class="form-title">��й�ȣ</p>
-								<input class="input" type="password" id="password" name="password" placeholder="��й�ȣ">
+								<p class="form-title">비밀번호</p>
+								<input class="input" type="password" id="password" name="password" placeholder="비밀번호">
 							</div>
 							<div class="form-group">
-								<p class="form-title">��й�ȣ Ȯ��</p>
-								<input class="input" type="password" id="password-check" name="password-check" placeholder="��й�ȣ Ȯ��">
+								<p class="form-title">비밀번호 확인</p>
+								<input class="input" type="password" id="password-check" name="password-check" placeholder="비밀번호 확인">
 							</div>
 							<div class="form-group">
-							<p class="form-title">�̸�</p>
+							<p class="form-title">이름</p>
 								<input class="input" type="text" id="user-name" name="user-name" value="<% out.print(is.getUserName()); %>">
 							</div>
                         <div class="form-group">
-                        		<p class="form-title">�������</p>
+                        		<p class="form-title">생년월일</p>
 								<input class="input" type="text" id="user-birth" value="<% out.print(is.getUserBirthday()); %>" readonly>
 							</div>
 							<div class="form-group">
-								<p class="form-title">�ּ�</p>
+								<p class="form-title">주소</p>
 								<input class="input" type="text" id="user-address" name="user-address" value="<% out.print(is.getUserAddress()); %>">
 							</div>
 							<div class="form-group">
-								<p class="form-title">����ó</p>
+								<p class="form-title">연락처</p>
 								<input class="input" type="tel" id="user-tel" name="user-tel" value="<% out.print(is.getUserPhone()); %>">
 							</div>
                         
                             <div>
                         </div>
-                        <input type="submit" id="save" value="����">
+                        <input type="submit" id="save" value="저장">
                             </form>
 					</div>
                    <div class="col-sm-3">
 						<div class="product">
 							<div class="product-body">
-								<h4>���� ����Ʈ</h4>
+								<h4>보유 포인트</h4>
                                 <div class="product-rating">
 								</div>
 								<h4 class="product-price">
@@ -229,7 +230,7 @@
 					<div class="col-sm-3">
 						<div class="product">
 							<div class="product-body">
-								<h4>ȸ�� ���</h4>
+								<h4>회원 등급</h4>
                                 <div class="product-rating">
 								</div>
 								<h4 class="product-price">VIP</h4>
@@ -242,23 +243,23 @@
 				<!-- /row -->
                 <div class="billing-details">
 							<div class="section-title">
-								<h3 class="title">�ֱ� ���� ����</h3>
+								<h3 class="title">최근 예매 내역</h3>
 							</div>
 							<table id="reservation-list">
                             <thead>
                                 <tr>
-                                    <th>��ȭ</th>
-                                    <th>��ȭ��</th>
-                                    <th>��¥</th>
-                                    <th>�ð�</th>
-                                    <th>�¼�</th>
-                                    <th>���� ����</th>
+                                    <th>영화</th>
+                                    <th>영화관</th>
+                                    <th>날짜</th>
+                                    <th>시간</th>
+                                    <th>좌석</th>
+                                    <th>결제 여부</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>����̾ȷ��ҵ�</td>
-                                        <td>��������</td>
+                                        <td>보헤미안랩소디</td>
+                                        <td>대전유성</td>
                                         <td>2018. 11. 22.</td>
                                         <td>09:40</td>
                                         <td>H1,H2</td>
@@ -314,11 +315,11 @@
 		<script type="text/javascript">
 			function checkValue() {
 				if(!document.getElementById("password").value) {
-					alert("��й�ȣ�� �Է��ϼ���");
+					alert("비밀번호를 입력하세요");
 					return false;
 				}
 				if( document.getElementById("password").value != document.getElementById("password-check").value ) {
-					alert("��й�ȣ�� ��ġ���� �ʽ��ϴ�.");
+					alert("비밀번호가 일치하지 않습니다.");
 					return false;
 				}
 			}
