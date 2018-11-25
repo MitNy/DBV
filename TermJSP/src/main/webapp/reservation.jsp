@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <% request.setCharacterEncoding("UTF-8"); %>
  <%@ page import="Service.infoService" %>
+ <%@ page import="Service.reservationService" %>
+    <%@ page import="org.json.simple.JSONArray" %>
+    <%@ page import="org.json.simple.JSONObject" %>
 
 <%
 	String sessionID="";
@@ -19,7 +22,9 @@
 		
 	}
 	infoService is = new infoService();
+	reservationService rvs = new reservationService();
 	is.getUserInfo(sessionID);
+	
 %>   
 <!DOCTYPE html>
 <html lang="kr">
@@ -185,14 +190,12 @@
 								<h3 class="title">영화 선택</h3>
 							</div>
                             <select class="input-select" name="selected-movie" style="width:100%;">
-								<option value="0">보헤미안랩소디</option>
-                                <option value="0">신비한동물들과그린델왈드의범죄</option>
-                                <option value="0">성난황소</option>
-                                <option value="0">완벽한타인</option>
-                                <option value="0">툴리</option>
-                                <option value="0">영주</option>
-                                <option value="0">라라랜드</option>
-                                <option value="0">올드보이</option>
+								<%
+									JSONArray movieList = rvs.getMovieList();
+									for( int i=0; i<movieList.size(); i++ ) {
+										out.print("<option value='"+i+"'>"+movieList.get(i)+"</option>");
+									}
+								%>
 				            </select>
                             
                             
@@ -204,11 +207,13 @@
 								<h3 class="title">영화관 선택</h3>
 							</div>
                             <select class="input-select" name="selected-sang" style="width:100%;">
-                                <option value="0">대전유성</option>
-                                <option value="0">대전노은</option>
-                                <option value="0">대전둔산</option>
-                                <option value="0">대전탄방</option>
-                                <option value="0">대전갤러리아</option>
+                                <%
+									JSONArray theaterList = rvs.getTheaterList();
+									for( int i=0; i<theaterList.size(); i++ ) {
+										out.print("<option value='"+i+"'>"+theaterList.get(i)+"</option>");
+									}
+								%>
+
 				            </select>
                             
                             
@@ -359,11 +364,12 @@
 				var point = parseInt($("#user-point").html());
 				var total = parseInt($(".order-total").html());
 				if(chkbox.checked) {
-					$(".order-total").html(total-point);
+						$(".order-total").html(total-point);
 				}
 				else {
 					$(".order-total").html(total+point);
 				}
+				
 			});
 		</script>
 	</body>
