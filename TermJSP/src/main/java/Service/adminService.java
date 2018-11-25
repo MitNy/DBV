@@ -65,4 +65,58 @@ public class adminService {
 		}
 		return null;
 	}
+	
+	public boolean addTheater(String theaterID, String theaterName, String address, String number,String sangyounggwan,String seats) throws Exception  {
+		Database dbCon = new Database();
+		Connection conn = dbCon.GetConnection();
+		try {
+			int int_seats = Integer.parseInt(seats);
+			String addQuery = "insert into theater (theaterID,theaterName,address,number,sangyounggwan,seats) values(?,?,?,?,?,?)";
+			PreparedStatement ps = conn.prepareStatement(addQuery);
+			ps.setString(1, theaterID);
+			ps.setString(2, theaterName);
+			ps.setString(3, address);
+			ps.setString(4, number);
+			ps.setString(5, sangyounggwan);
+			ps.setInt(6, int_seats);
+			ps.executeUpdate();
+			
+			ps.close();
+			conn.close();
+			return true;
+		}
+		catch(Exception e ) {
+			System.out.println(e.getMessage());
+		}
+		return false;
+	}
+	
+	public JSONArray getTheater() throws Exception {
+		//List<String> movieList = new ArrayList<String>();
+		JSONArray theaterList = new JSONArray();
+		JSONObject theater = new JSONObject();
+		Database dbCon = new Database();
+		Connection conn = dbCon.GetConnection();
+		try {
+			String getQuery="select * from theater";
+			PreparedStatement ps = conn.prepareStatement(getQuery);
+			ResultSet rs = ps.executeQuery();
+			int i=0;
+			while(rs.next()) {
+				theater.put("theaterID-"+i,rs.getString("theaterID"));
+				theater.put("theaterName-"+i,rs.getString("theaterName"));
+				theater.put("address-"+i,rs.getString("address"));
+				theater.put("number-"+i,rs.getString("number"));
+				theater.put("sangyounggwan-"+i,rs.getString("sangyounggwan"));
+				theater.put("seats-"+i,rs.getInt("seats"));
+				theaterList.add(theater);
+				i++;
+			}
+			return theaterList;
+		}
+		catch(Exception e ) {
+			
+		}
+		return null;
+	}
 }

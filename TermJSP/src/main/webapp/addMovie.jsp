@@ -19,7 +19,7 @@
 	
 	if( addResult == true) {
 		%>
-	  	<script>alert("영화가 추가되었습니다."); history.go(-1);</script>
+	  	<script>alert("영화가 추가되었습니다."); window.location.href="movieManager.jsp";</script>
 		<%
 	}
 	else {

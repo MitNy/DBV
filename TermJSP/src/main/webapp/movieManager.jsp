@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<% request.setCharacterEncoding("UTF-8"); %>
     <%@ page import="Service.adminService" %>
     <%@ page import="org.json.simple.JSONArray" %>
     <%@ page import="org.json.simple.JSONObject" %>
-    <% request.setCharacterEncoding("UTF-8"); %>
+    
     <% if(session.getAttribute("admin-session") == null ) {
 		%><script>alert("권한이 없습니다."); history.go(-1);</script>
 		<%
