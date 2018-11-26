@@ -2336,7 +2336,14 @@ textarea.input {
     color: white;
     padding:5px;
     border:0px;
-    
+}
+
+.black-btn {
+    margin:10px;
+    background-color: black;
+    color: white;
+    padding:5px;
+    border:0px;
 }
 
 #movie-detail {
@@ -2345,4 +2352,111 @@ textarea.input {
 
 .form-title {
 	text-align:left;
+}
+
+#seat-number {
+	max-width:70px;
+}
+
+
+/* seats script */
+#seats-script {
+	display:inline-block;
+}
+.screen
+{
+  width:100%;
+  height:20px;
+  background:black;
+  color:#fff;
+  line-height:20px;
+  font-size:15px;
+}
+
+.smallBox::before
+{
+  content:".";
+  width:15px;
+  height:15px;
+  float:left;
+  margin-right:10px;
+}
+.greenBox::before
+{
+  content:"";
+  background:Green;
+}
+.redBox::before
+{
+  content:"";
+  background:Red;
+}
+.emptyBox::before
+{
+  content="";
+  box-shadow: inset 0px 2px 3px 0px rgba(0, 0, 0, .3), 0px 1px 0px 0px rgba(255, 255, 255, .8);
+    background-color:#ccc;
+}
+
+.seats
+{
+  border:1px solid red;background:yellow;
+} 
+
+.seatGap
+{
+  width:40px;
+}
+
+.seatVGap
+{
+  height:40px;
+}
+
+#seats-script table
+{
+ 	text-align:center;
+}
+
+.borderless td, .borderless th {
+    border: none;
+}
+
+
+.Displaytable
+{	
+  text-align:center;
+}
+.Displaytable td, .Displaytable th {
+    border: 1px solid;
+    text-align: left;
+}
+
+#seats-script textarea
+{
+  border:none;
+  background:transparent;
+}
+
+
+
+#seats-script input[type=checkbox] {
+    width:0px;
+    margin-right:18px;
+}
+
+#seats-script input[type=checkbox]:before {
+    content: "";
+    width: 15px;
+    height: 15px;
+    display: inline-block;
+    vertical-align:middle;
+    text-align: center;
+    box-shadow: inset 0px 2px 3px 0px rgba(0, 0, 0, .3), 0px 1px 0px 0px rgba(255, 255, 255, .8);
+    background-color:#ccc;
+}
+
+#seats-script input[type=checkbox]:checked:before {
+    background-color:Green;
+    font-size: 15px;
 }

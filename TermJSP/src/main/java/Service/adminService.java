@@ -119,4 +119,29 @@ public class adminService {
 		}
 		return null;
 	}
+	
+	public JSONObject getSpecificTheater(String theaterID) throws Exception {
+		JSONObject theater = new JSONObject();
+		Database dbCon = new Database();
+		Connection conn = dbCon.GetConnection();
+		try {
+			String getQuery="select * from theater where theaterID=?";
+			PreparedStatement ps = conn.prepareStatement(getQuery);
+			ps.setString(1, theaterID);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				theater.put("theaterID",rs.getString("theaterID"));
+				theater.put("theaterName",rs.getString("theaterName"));
+				theater.put("address",rs.getString("address"));
+				theater.put("number",rs.getString("number"));
+				theater.put("sangyounggwan",rs.getString("sangyounggwan"));
+				theater.put("seats",rs.getInt("seats"));
+			}
+			return theater;
+		}
+		catch(Exception e ) {
+			
+		}
+		return null;
+	}
 }

@@ -1,7 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<% request.setCharacterEncoding("UTF-8"); %>
+<%@ page import="Service.infoService" %>
+<%@ page import="Service.adminService" %>
 <% if(session.getAttribute("admin-session") == null ) {
-		%><script>alert("±ÇÇÑÀÌ ¾ø½À´Ï´Ù."); history.go(-1);</script>
+		%><script>alert("ê¶Œí•œì´ ì—†ìŠµë‹ˆë‹¤."); history.go(-1);</script>
 		<%
 	}
 %>
@@ -51,12 +53,12 @@
         	out.print(user);
         } %></a>
         <ul class="dropdown-menu user-dropdown">
-          <li><a href="userInfo.jsp"><i class="fas fa-user-circle"></i>&nbsp;&nbsp;°³ÀÎÁ¤º¸</a></li>
+          <li><a href="userInfo.jsp"><i class="fas fa-user-circle"></i>&nbsp;&nbsp;ê°œì¸ì •ë³´</a></li>
           <%
           	if( session.getAttribute("admin-session") != null) {        	  %>
-				<li><a href="logout.jsp"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;·Î±×¾Æ¿ô</a></li>
+				<li><a href="logout.jsp"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;ë¡œê·¸ì•„ì›ƒ</a></li>
           <% } else { %>
-          <li><a href="login.jsp"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;·Î±×ÀÎ</a></li>
+          <li><a href="login.jsp"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;ë¡œê·¸ì¸</a></li>
           <% } %>
         </ul>
       </li>
@@ -86,12 +88,12 @@
 							<div class="header-search">
 								<form>
 									<select class="input-select">
-										<option value="0">ÀüÃ¼</option>
-										<option value="1">¿µÈ­</option>
+										<option value="0">ì „ì²´</option>
+										<option value="1">ì˜í™”</option>
 										<option value="1"></option>
 									</select>
 									<input class="input" placeholder="">
-									<button class="search-btn">°Ë»ö</button>
+									<button class="search-btn">ê²€ìƒ‰</button>
 								</form>
 							</div>
 						</div>
@@ -118,11 +120,11 @@
 				<div id="responsive-nav">
 					<!-- NAV -->
 					<ul class="main-nav nav navbar-nav">
-						<li><a href="index.jsp">È¨</a></li>
-						<li><a href="movieManager.jsp">¿µÈ­ °ü¸®</a></li>
-                        <li><a href="theaterManager.jsp">¿µÈ­°ü °ü¸®</a></li>
-						<li><a href="ticket.jsp">Æ¼ÄÏ ¹ß±Ç</a></li>
-                        <li class="active"><a href="vipManager.jsp">VIP È¸¿ø °ü¸®</a></li>
+						<li><a href="index.jsp">í™ˆ</a></li>
+						<li><a href="movieManager.jsp">ì˜í™” ê´€ë¦¬</a></li>
+                        <li><a href="theaterManager.jsp">ì˜í™”ê´€ ê´€ë¦¬</a></li>
+						<li><a href="ticket.jsp">í‹°ì¼“ ë°œê¶Œ</a></li>
+                        <li class="active"><a href="vipManager.jsp">VIP íšŒì› ê´€ë¦¬</a></li>
 					</ul>
 					<!-- /NAV -->
 				</div>
@@ -138,10 +140,10 @@
 				<!-- row -->
 				<div class="row">
 					<div class="col-md-12">
-						<h3 class="breadcrumb-header">VIP È¸¿ø °ü¸®</h3>
+						<h3 class="breadcrumb-header">VIP íšŒì› ê´€ë¦¬</h3>
 						<ul class="breadcrumb-tree">
-							<li><a href="#">°ü¸®ÀÚ ÆäÀÌÁö</a></li>
-							<li class="active">VIP È¸¿ø °ü¸®</li>
+							<li><a href="#">ê´€ë¦¬ìž íŽ˜ì´ì§€</a></li>
+							<li class="active">VIP íšŒì› ê´€ë¦¬</li>
 						</ul>
 					</div>
 				</div>
@@ -163,18 +165,18 @@
 				    <div class="vip-search">
 								<form>
 									<input class="input" placeholder="">
-									<button class="search-btn">°Ë»ö</button>
+									<button class="search-btn">ê²€ìƒ‰</button>
 								</form>
 				    </div>
 						<!-- /SEARCH BAR -->
 				<table id="reservation-list">
                             <thead>
                                 <tr>
-                                    <th>¼øÀ§</th>
-                                    <th>°í°´ ¾ÆÀÌµð</th>
-                                    <th>±¸¸Å ½ÇÀû</th>
-                                    <th>Æ÷ÀÎÆ®</th>
-                                    <th>µî±Þ</th>
+                                    <th>ìˆœìœ„</th>
+                                    <th>ê³ ê° ì•„ì´ë””</th>
+                                    <th>êµ¬ë§¤ ì‹¤ì </th>
+                                    <th>í¬ì¸íŠ¸</th>
+                                    <th>ë“±ê¸‰</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -214,14 +216,6 @@
 					<!-- row -->
 					<div class="row">
 						<div class="col-md-12 text-center">
-							<ul class="footer-payments">
-								<li><a href="#"><i class="fa fa-cc-visa"></i></a></li>
-								<li><a href="#"><i class="fa fa-credit-card"></i></a></li>
-								<li><a href="#"><i class="fa fa-cc-paypal"></i></a></li>
-								<li><a href="#"><i class="fa fa-cc-mastercard"></i></a></li>
-								<li><a href="#"><i class="fa fa-cc-discover"></i></a></li>
-								<li><a href="#"><i class="fa fa-cc-amex"></i></a></li>
-							</ul>
 							<span class="copyright">
 								<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 								Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved
@@ -236,82 +230,6 @@
 			<!-- /bottom footer -->
 		</footer>
 		<!-- /FOOTER -->
-        <!--modal-->
-        <div id="addModal" class="modal fade" role="dialog">
-<div class="modal-dialog">
-
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">ÇöÀå ¿¹¸Å</h4>
-      </div>
-      <div class="modal-body">
-          <h5>°í°´ ¾ÆÀÌµð</h5>
-          <input class="input" type="text" name="userID">
-          <br><br>
-            <h5>¿µÈ­ ¼±ÅÃ</h5>
-                            <select class="input-select" style="width:100%;">
-								<option value="0">º¸Çì¹Ì¾È·¦¼Òµð</option>
-                                <option value="0">½ÅºñÇÑµ¿¹°µé°ú±×¸°µ¨¿ÐµåÀÇ¹üÁË</option>
-                                <option value="0">¼º³­È²¼Ò</option>
-                                <option value="0">¿Ïº®ÇÑÅ¸ÀÎ</option>
-                                <option value="0">Åø¸®</option>
-                                <option value="0">¿µÁÖ</option>
-                                <option value="0">¶ó¶ó·£µå</option>
-                                <option value="0">¿Ãµåº¸ÀÌ</option>
-				            </select>
-                        <br><br>
-          <h5>¿µÈ­°ü ¼±ÅÃ</h5>
-                            <select class="input-select" style="width:100%;">
-                                <option value="0">´ëÀüÀ¯¼º</option>
-                                <option value="0">´ëÀü³ëÀº</option>
-                                <option value="0">´ëÀüµÐ»ê</option>
-                                <option value="0">´ëÀüÅº¹æ</option>
-                                <option value="0">´ëÀü°¶·¯¸®¾Æ</option>
-				            </select>
-                            <br><br>
-          <h5>³¯Â¥ ¼±ÅÃ</h5>
-          <input class="input" type="date" name="date">
-          <br><br>
-          <h5>½Ã°£ ¼±ÅÃ</h5>
-                            <select class="input-select" style="width:100%;">
-                                <option value="0">09:40 (150¼®)</option>
-                                <option value="0">12:40 (111¼®)</option>
-                                <option value="0">15:40 (124¼®)</option>
-                                <option value="0">18:40 (10¼®)</option>
-                                <option value="0">20:40 (17¼®)</option>
-				            </select>
-          <br><br>
-          <h5>ÁÂ¼®</h5>
-          <input class="input" type="text" name="seat">
-          <br><br>
-          <ul>
-                                        <li>º¸À¯ Æ÷ÀÎÆ®°¡ 1,000Á¡ ÀÌ»óÀÏ °æ¿ì¸¸ »ç¿ë °¡´ÉÇÕ´Ï´Ù.</li>
-                                        <li>Æ¼ÄÏ ¸Å¼ö´ç 100Æ÷ÀÎÆ®°¡ Àû¸³µË´Ï´Ù.</li>
-                                    </ul>
-                                    <br>
-                                    <strong>º¸À¯ Æ÷ÀÎÆ®</strong> : 900
-                        <br><br>
-						<div class="input-checkbox">
-							<input type="checkbox" id="terms">
-							<label for="terms">
-								<span></span>
-								Æ÷ÀÎÆ® »ç¿ë
-							</label>
-						</div>
-          
-      </div>
-      <div class="modal-footer">
-          <p style="float:left; font-size: 20px; margin:0;"><strong>Total</strong>&nbsp;&nbsp;&nbsp;12,000
-        &nbsp;&nbsp;</p><button type="button" class="btn btn-default" data-dismiss="modal">°áÁ¦</button>
-      </div>
-    </div>
-            </div>
-        </div>
-        <!-- /modal -->
-        
-
 		<!-- jQuery Plugins -->
 		<script src="js/jquery.min.js"></script>
 		<script src="js/bootstrap.min.js"></script>

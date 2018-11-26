@@ -182,14 +182,13 @@
 			<div class="container">
 				<!-- row -->
 				<div class="row">
-                        <form>
 					<div class="col-md-7">
 						<!-- Billing Details -->
 						<div class="select-movie">
 							<div class="section-title">
 								<h3 class="title">영화 선택</h3>
 							</div>
-                            <select class="input-select" name="selected-movie" style="width:100%;">
+                            <select class="input-select" id="select-movie" name="select-movie" style="width:100%;">
 								<%
 									JSONArray movieList = rvs.getMovieList();
 									for( int i=0; i<movieList.size(); i++ ) {
@@ -206,7 +205,7 @@
 							<div class="section-title">
 								<h3 class="title">영화관 선택</h3>
 							</div>
-                            <select class="input-select" name="selected-sang" style="width:100%;">
+                            <select class="input-select" id="select-theater" name="select-theater" style="width:100%;">
                                 <%
 									JSONArray theaterList = rvs.getTheaterList();
 									for( int i=0; i<theaterList.size(); i++ ) {
@@ -224,7 +223,7 @@
 							<div class="section-title">
 								<h3 class="title">날짜 선택</h3>
 							</div>
-                            <input class="input" type="date" name="date">
+                            <input class="input" type="date" id="select-date" name="select-date">
 						</div>
                         <br>
 						<!-- /Billing Details -->
@@ -232,7 +231,7 @@
 							<div class="section-title">
 								<h3 class="title">시간 선택</h3>
 							</div>
-                            <select class="input-select" name="selected-time" style="width:100%;">
+                            <select class="input-select" id="select-time" name="select-time" style="width:100%;">
                                 <option value="0">09:40 (150석)</option>
                                 <option value="0">12:40 (111석)</option>
                                 <option value="0">15:40 (124석)</option>
@@ -244,19 +243,227 @@
 							<div class="section-title">
 								<h3 class="title">좌석 선택</h3>
 							</div>
-                            <select class="input-select" name="seleted-seats" style="width:100%;">
-                                <option value="0">09:40 (150석)</option>
-                                <option value="0">12:40 (111석)</option>
-                                <option value="0">15:40 (124석)</option>
-                                <option value="0">18:40 (10석)</option>
-                                <option value="0">20:40 (17석)</option>
-				            </select>
+							<div class="col-md-5">
+								<input type="number" class="input" id="seat-number" name="seat-number" min="0" max="120" required> 명
+								<button class="black-btn" id="select-button">좌석 선택하기</button>
+							</div>
 						</div>
+								<div id="seats-script" style="display:none;">
+								<div class="seatStructure">
+										<table class='table borderless' id="seatsBlock">
+										  <tr>
+										    <td colspan="14"><div class="screen">SCREEN</div></td>
+										    <td rowspan="20">
+										      <div class="smallBox greenBox">Selected Seat</div> <br/>
+										      <div class="smallBox redBox">Reserved Seat</div><br/>
+										      <div class="smallBox emptyBox">Empty Seat</div><br/>
+										    </td>
+										    
+										    <br>
+										  </tr>
+										  
+										  <tr>
+										    <td></td>
+										    <td>1</td>
+										    <td>2</td>
+										    <td>3</td>
+										    <td>4</td>
+										    <td>5</td>
+										    <td></td>
+										    <td>6</td>
+										    <td>7</td>
+										    <td>8</td>
+										    <td>9</td>
+										    <td>10</td>
+										    <td>11</td>
+										    <td>12</td>
+										</tr>
+										  
+										<tr>
+										    <td>A</td>
+										    <td><input type="checkbox" class="seats" value="A1"></td>
+										    <td><input type="checkbox" class="seats" value="A2"></td>
+										    <td><input type="checkbox" class="seats" value="A3"></td>
+										    <td><input type="checkbox" class="seats" value="A4"></td>
+										    <td><input type="checkbox" class="seats" value="A5"></td>
+										    <td class="seatGap"></td>
+										    <td><input type="checkbox" class="seats" value="A6"></td>
+										    <td><input type="checkbox" class="seats" value="A7"></td>
+										    <td><input type="checkbox" class="seats" value="A8"></td>
+										    <td><input type="checkbox" class="seats" value="A9"></td>
+										    <td><input type="checkbox" class="seats" value="A10"></td>
+										    <td><input type="checkbox" class="seats" value="A11"></td>
+										    <td><input type="checkbox" class="seats" value="A12"></td>
+										  </tr>
+										  
+										  <tr>
+										    <td>B</td>
+										    <td><input type="checkbox" class="seats" value="B1"></td>
+										    <td><input type="checkbox" class="seats" value="B2"></td>
+										    <td><input type="checkbox" class="seats" value="B3"></td>
+										    <td><input type="checkbox" class="seats" value="B4"></td>
+										    <td><input type="checkbox" class="seats" value="B5"></td>
+										    <td></td>
+										    <td><input type="checkbox" class="seats" value="B6"></td>
+										    <td><input type="checkbox" class="seats" value="B7"></td>
+										    <td><input type="checkbox" class="seats" value="B8"></td>
+										    <td><input type="checkbox" class="seats" value="B9"></td>
+										    <td><input type="checkbox" class="seats" value="B10"></td>
+										    <td><input type="checkbox" class="seats" value="B11"></td>
+										    <td><input type="checkbox" class="seats" value="B12"></td>
+										  </tr>
+										  
+										  <tr>
+										    <td>C</td>
+										    <td><input type="checkbox" class="seats" value="C1"></td>
+										    <td><input type="checkbox" class="seats" value="C2"></td>
+										    <td><input type="checkbox" class="seats" value="C3"></td>
+										    <td><input type="checkbox" class="seats" value="C4"></td>
+										    <td><input type="checkbox" class="seats" value="C5"></td>
+										    <td></td>
+										    <td><input type="checkbox" class="seats" value="C6"></td>
+										    <td><input type="checkbox" class="seats" value="C7"></td>
+										    <td><input type="checkbox" class="seats" value="C8"></td>
+										    <td><input type="checkbox" class="seats" value="C9"></td>
+										    <td><input type="checkbox" class="seats" value="C10"></td>
+										    <td><input type="checkbox" class="seats" value="C11"></td>
+										    <td><input type="checkbox" class="seats" value="C12"></td>
+										</tr>
+										  
+										<tr>
+										    <td>D</td>
+										    <td><input type="checkbox" class="seats" value="D1"></td>
+										    <td><input type="checkbox" class="seats" value="D2"></td>
+										    <td><input type="checkbox" class="seats" value="D3"></td>
+										    <td><input type="checkbox" class="seats" value="D4"></td>
+										    <td><input type="checkbox" class="seats" value="D5"></td>
+										    <td></td>
+										    <td><input type="checkbox" class="seats" value="D6"></td>
+										    <td><input type="checkbox" class="seats" value="D7"></td>
+										    <td><input type="checkbox" class="seats" value="D8"></td>
+										    <td><input type="checkbox" class="seats" value="D9"></td>
+										    <td><input type="checkbox" class="seats" value="D10"></td>
+										    <td><input type="checkbox" class="seats" value="D11"></td>
+										    <td><input type="checkbox" class="seats" value="D12"></td>
+										</tr>
+										  
+										<tr>
+										    <td>E</td>
+										    <td><input type="checkbox" class="seats" value="E1"></td>
+										    <td><input type="checkbox" class="seats" value="E2"></td>
+										    <td><input type="checkbox" class="seats" value="E3"></td>
+										    <td><input type="checkbox" class="seats" value="E4"></td>
+										    <td><input type="checkbox" class="seats" value="E5"></td>
+										    <td></td>
+										    <td><input type="checkbox" class="seats" value="E6"></td>
+										    <td><input type="checkbox" class="seats" value="E7"></td>
+										    <td><input type="checkbox" class="seats" value="E8"></td>
+										    <td><input type="checkbox" class="seats" value="E9"></td>
+										    <td><input type="checkbox" class="seats" value="E10"></td>
+										    <td><input type="checkbox" class="seats" value="E11"></td>
+										    <td><input type="checkbox" class="seats" value="E12"></td>
+										</tr>
+										  
+										<tr class="seatVGap"></tr>
+										  
+										<tr>
+										    <td>F</td>
+										    <td><input type="checkbox" class="seats" value="F1"></td>
+										    <td><input type="checkbox" class="seats" value="F2"></td>
+										    <td><input type="checkbox" class="seats" value="F3"></td>
+										    <td><input type="checkbox" class="seats" value="F4"></td>
+										    <td><input type="checkbox" class="seats" value="F5"></td>
+										    <td></td>
+										    <td><input type="checkbox" class="seats" value="F6"></td>
+										    <td><input type="checkbox" class="seats" value="F7"></td>
+										    <td><input type="checkbox" class="seats" value="F8"></td>
+										    <td><input type="checkbox" class="seats" value="F9"></td>
+										    <td><input type="checkbox" class="seats" value="F10"></td>
+										    <td><input type="checkbox" class="seats" value="F11"></td>
+										    <td><input type="checkbox" class="seats" value="F12"></td>
+										</tr>
+										  
+										<tr>
+										    <td>G</td>
+										    <td><input type="checkbox" class="seats" value="G1"></td>
+										    <td><input type="checkbox" class="seats" value="G2"></td>
+										    <td><input type="checkbox" class="seats" value="G3"></td>
+										    <td><input type="checkbox" class="seats" value="G4"></td>
+										    <td><input type="checkbox" class="seats" value="G5"></td>
+										    <td></td>
+										    <td><input type="checkbox" class="seats" value="G6"></td>
+										    <td><input type="checkbox" class="seats" value="G7"></td>
+										    <td><input type="checkbox" class="seats" value="G8"></td>
+										    <td><input type="checkbox" class="seats" value="G9"></td>
+										    <td><input type="checkbox" class="seats" value="G10"></td>
+										    <td><input type="checkbox" class="seats" value="G11"></td>
+										    <td><input type="checkbox" class="seats" value="G12"></td>
+										</tr>
+										  
+										<tr>
+										    <td>H</td>
+										    <td><input type="checkbox" class="seats" value="H1"></td>
+										    <td><input type="checkbox" class="seats" value="H2"></td>
+										    <td><input type="checkbox" class="seats" value="H3"></td>
+										    <td><input type="checkbox" class="seats" value="H4"></td>
+										    <td><input type="checkbox" class="seats" value="H5"></td>
+										    <td></td>
+										    <td><input type="checkbox" class="seats" value="H6"></td>
+										    <td><input type="checkbox" class="seats" value="H7"></td>
+										    <td><input type="checkbox" class="seats" value="H8"></td>
+										    <td><input type="checkbox" class="seats" value="H9"></td>
+										    <td><input type="checkbox" class="seats" value="H10"></td>
+										    <td><input type="checkbox" class="seats" value="H11"></td>
+										    <td><input type="checkbox" class="seats" value="H12"></td>
+										</tr>
+										  
+										<tr>
+										    <td>I</td>
+										    <td><input type="checkbox" class="seats" value="I1"></td>
+										    <td><input type="checkbox" class="seats" value="I2"></td>
+										    <td><input type="checkbox" class="seats" value="I3"></td>
+										    <td><input type="checkbox" class="seats" value="I4"></td>
+										    <td><input type="checkbox" class="seats" value="I5"></td>
+										    <td></td>
+										    <td><input type="checkbox" class="seats" value="I6"></td>
+										    <td><input type="checkbox" class="seats" value="I7"></td>
+										    <td><input type="checkbox" class="seats" value="I8"></td>
+										    <td><input type="checkbox" class="seats" value="I9"></td>
+										    <td><input type="checkbox" class="seats" value="I10"></td>
+										    <td><input type="checkbox" class="seats" value="I11"></td>
+										    <td><input type="checkbox" class="seats" value="I12"></td>
+										</tr>
+										  
+										<tr>
+										    <td>J</td>
+										    <td><input type="checkbox" class="seats" value="J1"></td>
+										    <td><input type="checkbox" class="seats" value="J2"></td>
+										    <td><input type="checkbox" class="seats" value="J3"></td>
+										    <td><input type="checkbox" class="seats" value="J4"></td>
+										    <td><input type="checkbox" class="seats" value="J5"></td>
+										    <td></td>
+										    <td><input type="checkbox" class="seats" value="J6"></td>
+										    <td><input type="checkbox" class="seats" value="J7"></td>
+										    <td><input type="checkbox" class="seats" value="J8"></td>
+										    <td><input type="checkbox" class="seats" value="J9"></td>
+										    <td><input type="checkbox" class="seats" value="J10"></td>
+										    <td><input type="checkbox" class="seats" value="J11"></td>
+										    <td><input type="checkbox" class="seats" value="J12"></td>
+										</tr>
+										  
+										  
+										</table>
+										  
+										<br/><button class="black-btn" id="confirm">선택한 좌석으로 예매하기</button>
+</div>
+							
+							</div>
 
 					</div>
                     <br><br>
 					<!-- Order Details -->
 					<div class="col-md-5 order-details">
+                        <form>
 						<div class="section-title text-center">
 							<h3 class="title">예매 내역</h3>
 						</div>
@@ -264,27 +471,27 @@
 							<div class="order-products">
 								<div class="order-col">
 									<div>영화</div>
-									<div><strong>보헤미안랩소디</strong></div>
+									<div><strong id="selected-movie"></strong></div>
 								</div>
 								<div class="order-col">
 									<div>영화관</div>
-									<div><strong>대전유성</strong></div>
+									<div><strong id="selected-theater"></strong></div>
 								</div>
                                 <div class="order-col">
 								<div>날짜</div>
-                                <div><strong>2018.11.22.</strong></div>
+                                <div><strong id="selected-date"></strong></div>
 							</div>
                                 <div class="order-col">
 								<div>시간</div>
-                                <div><strong>09:40</strong></div>
+                                <div><strong id="selected-time"></strong></div>
 							</div>
                                 <div class="order-col">
 								<div>좌석</div>
-                                <div><strong>H1,H2</strong></div>
+                                <div><strong id="selected-seats"></strong></div>
 							</div>
                                 <div class="order-col">
 								<div>티켓 가격</div>
-                                <div><strong>12,000</strong></div>
+                                <div><strong id="ticket-price">12000</strong></div>
 							</div>
 							</div><br><br>
 							<ul>
@@ -303,14 +510,15 @@
 						</div>
 							<div class="order-col">
 								<div><strong>TOTAL</strong></div>
-								<div><strong class="order-total">24000</strong></div>
+								<div><strong class="order-total" id="total-price"></strong></div>
 							</div>
 						</div>
 						
                         <input class="primary-btn order-submit" type="submit" value="결제 하기">
+					</form> <!-- /form -->
 					</div>
 					<!-- /Order Details -->
-                            </form> <!-- /form -->
+                            
 				</div>
 				<!-- /row -->
 			</div>
@@ -327,14 +535,6 @@
 					<!-- row -->
 					<div class="row">
 						<div class="col-md-12 text-center">
-							<ul class="footer-payments">
-								<li><a href="#"><i class="fa fa-cc-visa"></i></a></li>
-								<li><a href="#"><i class="fa fa-credit-card"></i></a></li>
-								<li><a href="#"><i class="fa fa-cc-paypal"></i></a></li>
-								<li><a href="#"><i class="fa fa-cc-mastercard"></i></a></li>
-								<li><a href="#"><i class="fa fa-cc-discover"></i></a></li>
-								<li><a href="#"><i class="fa fa-cc-amex"></i></a></li>
-							</ul>
 							<span class="copyright">
 								<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 								Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved
@@ -358,19 +558,66 @@
 		<script src="js/jquery.zoom.min.js"></script>
 		<script src="js/main.js"></script>
 		<!-- checkbox -->
-				<script>
+		<script>
 			$("#terms").click(function() {
 				var chkbox = document.getElementById("terms");
 				var point = parseInt($("#user-point").html());
 				var total = parseInt($(".order-total").html());
-				if(chkbox.checked) {
-						$(".order-total").html(total-point);
+				if( point >= 1000 ) {
+					if(chkbox.checked) {
+							$(".order-total").html(total-point);
+					}
+					else {
+						$(".order-total").html(total+point);
+					}
 				}
 				else {
-					$(".order-total").html(total+point);
+					alert("1000포인트 이상만 사용가능합니다.");
+					chkbox.checked = false;
 				}
 				
 			});
+			
+			$("#confirm").click(function() {
+				if ($("input:checked").length == ($("#seat-number").val())) {
+			      $(".seatStructure *").prop("disabled", true);
+			      
+			     var allSeatsVals = [];
+			     $('#seatsBlock :checked').each(function() {
+			       allSeatsVals.push($(this).val()+" ");
+			     });
+			     $('#selected-seats').html(allSeatsVals);
+			     $("#total-price").html(parseInt($("#ticket-price").html())*$("#seat-number").val());
+			    }
+			  else
+			    {
+			      alert(($("#seat-number").val()) + " 자리를 선택해주세요.")
+			    }
+			});
+			
+			$("#select-button").click(function() {
+				if( $("#seat-number").html() != null ){
+					$("#seats-script").show();
+				}
+			})
+			
+			$("#select-movie").change(function() {
+				$("#selected-movie").html($("#select-movie option:selected").text());
+				
+			});
+			$("#select-theater").change(function() {
+				$("#selected-theater").html($("#select-theater option:selected").text());
+				
+			});
+			$("#select-date").change(function() {
+				$("#selected-date").html($("#select-date").val());
+			});
+			$("#select-time").change(function() {
+				$("#selected-time").html($("#select-time option:selected").text());
+				
+			});
+			
+			
 		</script>
 	</body>
 </html>
