@@ -54,6 +54,11 @@
         	}
         %></a>
         <ul class="dropdown-menu user-dropdown">
+        <% if( session.getAttribute("admin-session") != null ) { %>
+        		<li><a href="movieManager.jsp"><i class="fas fa-wrench"></i>&nbsp;&nbsp;관리자 페이지</a></li>
+        	<%
+        	}
+        	%>
           <li><a href="userInfo.jsp"><i class="fas fa-user-circle"></i>&nbsp;&nbsp;개인정보</a></li>
           <%
           	if( session.getAttribute("user-session") != null || session.getAttribute("admin-session") != null) {        	  %>
@@ -168,8 +173,8 @@
                                 <tr>
                                     <th>예매 아이디</th>
                                     <th>고객 아이디</th>
-                                    <th>영화 아이디</th>
-                                    <th>영화관 아이디</th>
+                                    <th>영화 제목</th>
+                                    <th>영화관</th>
                                     <th>날짜</th>
                                     <th>시간</th>
                                     <th>좌석</th>

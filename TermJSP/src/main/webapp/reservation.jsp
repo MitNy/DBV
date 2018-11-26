@@ -79,6 +79,11 @@
         	}
         %></a>
         <ul class="dropdown-menu user-dropdown">
+        <% if( session.getAttribute("admin-session") != null ) { %>
+        		<li><a href="movieManager.jsp"><i class="fas fa-wrench"></i>&nbsp;&nbsp;관리자 페이지</a></li>
+        	<%
+        	}
+        	%>
           <li><a href="userInfo.jsp"><i class="fas fa-user-circle"></i>&nbsp;&nbsp;개인정보</a></li>
           <%
           	if( session.getAttribute("user-session") != null || session.getAttribute("admin-session") != null) {        	  %>
@@ -244,7 +249,7 @@
 								<h3 class="title">좌석 선택</h3>
 							</div>
 							<div class="col-md-5">
-								<input type="number" class="input" id="seat-number" name="seat-number" min="0" max="120" required> 명
+								<input type="number" class="input" id="seat-number" name="seat-number" min="1" max="15" required> 명
 								<button class="black-btn" id="select-button">좌석 선택하기</button>
 							</div>
 						</div>
@@ -463,30 +468,41 @@
                     <br><br>
 					<!-- Order Details -->
 					<div class="col-md-5 order-details">
-                        <form>
+                        <form action="reservationPro.jsp" method="post">
 						<div class="section-title text-center">
 							<h3 class="title">예매 내역</h3>
 						</div>
 						<div class="order-summary">
 							<div class="order-products">
+								<input type="hidden" name="user-id" value="<%=sessionID%>">
 								<div class="order-col">
 									<div>영화</div>
+									<input type="hidden" name="selected-movie">
 									<div><strong id="selected-movie"></strong></div>
+									
 								</div>
 								<div class="order-col">
 									<div>영화관</div>
+									<input type="hidden" name="selected-theater">
 									<div><strong id="selected-theater"></strong></div>
+									
 								</div>
                                 <div class="order-col">
 								<div>날짜</div>
+								<input type="hidden" name="selected-date">
                                 <div><strong id="selected-date"></strong></div>
+                                
 							</div>
                                 <div class="order-col">
 								<div>시간</div>
+								<input type="hidden" name="selected-time">
                                 <div><strong id="selected-time"></strong></div>
+                                
 							</div>
                                 <div class="order-col">
 								<div>좌석</div>
+								<input type="hidden" name="selected-seats">
+                                <input type="hidden" name="seats-number">
                                 <div><strong id="selected-seats"></strong></div>
 							</div>
                                 <div class="order-col">
@@ -502,6 +518,7 @@
                                     <strong>보유 포인트</strong> : <p id="user-point"><% out.print(is.getUserPoint()); %></p>
                         <br><br>
 						<div class="input-checkbox">
+							<input type="hidden" name="use-point">
 							<input type="checkbox" id="terms">
 							<label for="terms">
 								<span></span>
@@ -510,10 +527,11 @@
 						</div>
 							<div class="order-col">
 								<div><strong>TOTAL</strong></div>
+								<input type="hidden" name="used-point">
+								<input type="hidden" name="total-price">
 								<div><strong class="order-total" id="total-price"></strong></div>
 							</div>
 						</div>
-						
                         <input class="primary-btn order-submit" type="submit" value="결제 하기">
 					</form> <!-- /form -->
 					</div>
@@ -565,17 +583,34 @@
 				var total = parseInt($(".order-total").html());
 				if( point >= 1000 ) {
 					if(chkbox.checked) {
-							$(".order-total").html(total-point);
+							if( point >= total ) {
+								$(".order-total").html(0);
+								$("input[name=used-point]").val(total);
+							}
+							else {
+								$(".order-total").html(total-point);
+								$("input[name=used-point]").val(point);
+							}
+							$("input[name=use-point]").val("T");
+							
 					}
 					else {
-						$(".order-total").html(total+point);
+						if ( point >= total ) {
+							$(".order-total").html(total);
+							$("input[name=used-point]").val(0);
+						}
+						else {
+							$(".order-total").html(total+point);
+							$("input[name=used-point]").val(point);
+						}
+						$("input[name=use-point]").val("F");
 					}
 				}
 				else {
+					$("input[name=use-point]").val("F");
 					alert("1000포인트 이상만 사용가능합니다.");
 					chkbox.checked = false;
 				}
-				
 			});
 			
 			$("#confirm").click(function() {
@@ -587,7 +622,10 @@
 			       allSeatsVals.push($(this).val()+" ");
 			     });
 			     $('#selected-seats').html(allSeatsVals);
+			     $("input[name=selected-seats]").val(allSeatsVals);
+			     $("input[name=seats-number]").val($("#seat-number").val());
 			     $("#total-price").html(parseInt($("#ticket-price").html())*$("#seat-number").val());
+			     $("input[name=total-price]").val($(".order-total").html());
 			    }
 			  else
 			    {
@@ -603,17 +641,21 @@
 			
 			$("#select-movie").change(function() {
 				$("#selected-movie").html($("#select-movie option:selected").text());
+				$("input[name=selected-movie]").val($("#select-movie option:selected").text());
 				
 			});
 			$("#select-theater").change(function() {
 				$("#selected-theater").html($("#select-theater option:selected").text());
+				$("input[name=selected-theater]").val($("#select-theater option:selected").text());
 				
 			});
 			$("#select-date").change(function() {
 				$("#selected-date").html($("#select-date").val());
+				$("input[name=selected-date]").val($("#select-date").val());
 			});
 			$("#select-time").change(function() {
 				$("#selected-time").html($("#select-time option:selected").text());
+				$("input[name=selected-time]").val($("#select-time option:selected").text());
 				
 			});
 			

@@ -55,6 +55,11 @@
         	out.print(user);
         } %></a>
         <ul class="dropdown-menu user-dropdown">
+        <% if( session.getAttribute("admin-session") != null ) { %>
+        		<li><a href="movieManager.jsp"><i class="fas fa-wrench"></i>&nbsp;&nbsp;관리자 페이지</a></li>
+        	<%
+        	}
+        	%>
           <li><a href="userInfo.jsp"><i class="fas fa-user-circle"></i>&nbsp;&nbsp;개인정보</a></li>
           <%
           	if( session.getAttribute("admin-session") != null) {        	  %>
