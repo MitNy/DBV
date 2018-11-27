@@ -2314,8 +2314,16 @@ textarea.input {
 }
 
 .theater-selector > li {
+	cursor:pointer;
     padding:10px;
     width:40%;
+}
+
+.theater-selector > li:hover {
+    padding:10px;
+    width:40%;
+    border-bottom: 2px solid;
+    border-bottom-color:#D10024;
 }
 
 .theater-selector > li.active {

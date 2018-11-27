@@ -180,7 +180,7 @@
                                 <div>
 								    <ul class="theater-selector" id="theater-selector">
 								    <%
-                                	JSONArray theaterList = ts.getTheaterList();
+                                	JSONArray theaterList = ts.getTheaterListWithID();
                                 	for(int i=0; i<theaterList.size(); i++ ) {
                                 		JSONObject theater = (JSONObject) theaterList.get(i);
                                 		out.print("<li id='"+theater.get("theaterID-"+i)+"'>"+theater.get("theaterName-"+i)+"</li>");

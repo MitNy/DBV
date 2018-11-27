@@ -62,6 +62,25 @@ public class theaterService {
 
 	public JSONArray getTheaterList() throws Exception {
 		JSONArray theaterList = new JSONArray();
+		Database dbCon = new Database();
+		Connection conn = dbCon.GetConnection();
+		try {
+			String getQuery="select theaterName from theater";
+			PreparedStatement ps = conn.prepareStatement(getQuery);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				theaterList.add(rs.getString("theaterName"));
+			}
+			return theaterList;
+		}
+		catch(Exception e ) {
+			
+		}
+		return null;
+	}
+	
+	public JSONArray getTheaterListWithID() throws Exception {
+		JSONArray theaterList = new JSONArray();
 		JSONObject theater = new JSONObject();
 		Database dbCon = new Database();
 		Connection conn = dbCon.GetConnection();

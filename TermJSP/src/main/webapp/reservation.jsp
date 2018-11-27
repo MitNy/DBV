@@ -199,6 +199,7 @@
 								<h3 class="title">영화 선택</h3>
 							</div>
                             <select class="input-select" id="select-movie" name="select-movie" style="width:100%;">
+                            	<option value='' selected>-- 선택 --</option>
 								<%
 									JSONArray movieList = ms.getMovieList();
 									for( int i=0; i<movieList.size(); i++ ) {
@@ -216,6 +217,7 @@
 								<h3 class="title">영화관 선택</h3>
 							</div>
                             <select class="input-select" id="select-theater" name="select-theater" style="width:100%;">
+                            <option value='' selected>-- 선택 --</option>
                                 <%
 									JSONArray theaterList = ts.getTheaterList();
 									for( int i=0; i<theaterList.size(); i++ ) {
@@ -242,6 +244,7 @@
 								<h3 class="title">시간 선택</h3>
 							</div>
                             <select class="input-select" id="select-time" name="select-time" style="width:100%;">
+                            	<option value='' selected>-- 선택 --</option>
                                 <option value="0">09:40 (150석)</option>
                                 <option value="0">12:40 (111석)</option>
                                 <option value="0">15:40 (124석)</option>
