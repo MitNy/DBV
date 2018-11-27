@@ -2,6 +2,7 @@
 <% request.setCharacterEncoding("UTF-8"); %>
     <%@ page import="Service.adminService" %>
     <%@ page import="Service.theaterService" %>
+    <%@ page import="Service.movieService" %>
     <%@ page import="org.json.simple.JSONArray" %>
     <%@ page import="org.json.simple.JSONObject" %>
     <% if(session.getAttribute("admin-session") == null ) {
@@ -10,6 +11,7 @@
 	}
     adminService as = new adminService();
     theaterService ts = new theaterService();
+    movieService ms = new movieService();
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -179,7 +181,7 @@
                                     <th>전화번호</th>
                                     <th>상영관</th>
                                     <th>좌석 수</th>
-                                    <th colspan="2">관리</th>
+                                    <th colspan="3">관리</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -187,13 +189,15 @@
                                 	JSONArray theaterList = ts.getTheater();
                                 	for(int i=0; i< theaterList.size(); i++ ) {
                                 		JSONObject theater = (JSONObject) theaterList.get(i);
-                                		out.print("<tr>");
+                                		String target = theater.get("theaterID-"+i).toString();
+                                		out.print("<tr id='"+target+"'>");
                                 		out.print("<td>"+theater.get("theaterID-"+i)+"</td>");
                                 		out.print("<td>"+theater.get("theaterName-"+i)+"</td>");
                                 		out.print("<td>"+theater.get("address-"+i)+"</td>");
                                 		out.print("<td>"+theater.get("number-"+i)+"</td>");
                                 		out.print("<td></td>");
                                 		out.print("<td></td>");
+                                		out.print("<td><a id='sManager' onclick=dynamicManagerModal('"+target+"')>상영관 관리</a></td>");
                                 		out.print("<td><a href=''>수정</a></td>");
                                 		out.print("<td><a href=''>삭제</a></td>");
                                 		out.print("</tr>");
@@ -286,6 +290,85 @@
 </div>
         <!-- /modal -->
         
+        
+        <!--  sangyounggwan modal -->
+        <div id="sModal" class="modal fade" role="dialog">
+  	<div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">상영관 관리</h4>
+      </div>
+      <div class="modal-body">
+      		
+      					<!--  <div class="form-group">
+      							<p id="form-title">영화관 아이디</p>
+								<input class="input" type="text" id="theaterID" name="theaterID" readonly>
+						</div>-->
+						<table id="theaterInfo">
+								<tr>
+									<th>영화관 아이디</th>
+									<th>영화관 이름</th>
+								</tr>
+								<tr>
+									<td id="theaterID"></td>
+									<td id="theaterName"></td>
+								</tr>
+						</table>
+						<br>
+						<table>
+							<tr>
+								<td id="sAdd">
+								상영관 이름 <input class="input" type="text" id="sName" name="sName"><br><br>
+								상영 영화 
+								<select class="input-select" id="movieName" name="movieName">
+                            	<option value='' selected>-- 선택 --</option>
+								<%
+									JSONArray movieList = ms.getMovieList();
+									for( int i=0; i<movieList.size(); i++ ) {
+										out.print("<option value='"+i+"'>"+movieList.get(i)+"</option>");
+									}
+								%>
+				            </select>
+								<br><br>
+								상영 시간<br>(0시0분 부터 0시간 간격으로)<input class="input" type="text" id="movieTime" name="movieTime" placeholder="00:00/00">
+								<p id="message"></p><button class="black-btn" id="sAddBtn">추가</button>
+								</td>
+								<td id="sList">
+								<div class="d-inline-block">
+								<strong>4관</strong>&nbsp;보헤미안랩소디<button type="button" class="close">&times;</button>&nbsp;
+								<select class="input-select" style="width:auto;">
+									<option value="">09:40</option>
+									<option value="">11:40</option>
+									<option value="">13:40</option>
+									
+								</select>
+								</div>
+								<div class="d-inline-block">
+								<strong>4관</strong>&nbsp;보헤미안랩소디<button type="button" class="close">&times;</button>&nbsp;
+								<select class="input-select" style="width:auto;">
+									<option value="">09:40</option>
+									<option value="">11:40</option>
+									<option value="">13:40</option>
+									
+								</select>
+								</div>
+								</td>
+								</tr>
+						</table>
+                        
+							</div>
+      <div class="modal-footer">
+        <input type="submit" class="btn btn-default"  value="추가">
+      </div>
+    </div>
+  </div>
+</div>
+        
+        <!--  /sangyounggwan modal -->
+        
 
 		<!-- jQuery Plugins -->
 		<script src="js/jquery.min.js"></script>
@@ -302,7 +385,31 @@
                 else {
                     $(this).addClass("active");
                 }
-            })
+            });
+            
+            function dynamicManagerModal(target) {
+            	$("#sModal").modal("show");
+            	$("#sModal #theaterID").html(target);
+            	$("#sModal #theaterName").html($("#"+target).find("td:nth-child(2)").text());
+            }
+            
+            $("#sAddBtn").click(function() {
+            	var theaterID = $("#sModal #theaterID").html();
+            	var sName = $("#sName").val();
+            	var movieName = $("#movieName option:selected").text();
+            	var movieTime = $("#movieTime").val();
+            	$.post("addSangyounggwan.jsp",
+       			{
+            		"theaterID":theaterID,
+    				"sName":sName,
+					"movieName":movieName,
+					"movieTime":movieTime
+       			},
+       			function(data,status) {
+       				$("#sAdd #message").html(data);
+       			}	
+       			);
+            });
         </script>
 	</body>
 </html>
