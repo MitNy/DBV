@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <% request.setCharacterEncoding("UTF-8"); %>
 <%@ page import="Service.adminService" %>
+<%@ page import="Service.movieService" %>
 <%@ page import="org.json.simple.JSONArray" %>
 <%@ page import="org.json.simple.JSONObject" %>
     
@@ -9,6 +10,7 @@
 		<%
 	}
     adminService as = new adminService();
+    movieService ms = new movieService();
 %>
 <!DOCTYPE html>
 <html lang="kr">
@@ -183,33 +185,23 @@
                                 </thead>
                                 <tbody>
                                 <%
-                                	JSONArray movieList = as.getMovie();
+                                	JSONArray movieList = ms.getMovie();
                                 	for(int i=0; i<movieList.size(); i++ ) {
                                 		JSONObject movie = (JSONObject) movieList.get(i);
-                                		out.print("<tr>");
-                                		out.print("<td>"+movie.get("movieID-"+i)+"</td>");
+                                		String target = movie.get("movieTitle-"+i).toString();
+                                		out.print("<tr id='"+target+"'>");
+                                		out.print("<td id='movieID'>"+movie.get("movieID-"+i)+"</td>");
                                 		out.print("<td>"+movie.get("movieTitle-"+i)+"</td>");
                                 		out.print("<td>"+movie.get("director-"+i)+"</td>");
                                 		out.print("<td>"+movie.get("cast-"+i)+"</td>");
                                 		out.print("<td>"+movie.get("grade-"+i)+"</td>");
                                 		out.print("<td>"+movie.get("information-"+i)+"</td>");
-                                		out.print("<td><a href=''>수정</a></td>");
-                                		out.print("<td><a href=''>삭제</a></td>");
+                                		out.print("<td><a id='editBtn' onclick=dynamicEditModal('"+target+"')>수정</a></td>");
+                                		out.print("<td><a id='deleteBtn' onclick=dynamicDeleteModal('"+target+"')>삭제</a></td>");
                                 		out.print("</tr>");
                                 	}
                                 
                                 %>
-                                <!--
-                                    <tr>
-                                        <td>ABS1000</td>
-                                        <td>보헤미안랩소디</td>
-                                        <td>누구야</td>
-                                        <td>누굴까, 보헤미안</td>
-                                        <td>15</td>
-                                        <td>잘 모르겠고..</td>
-                                        <td><a href="">수정</a></td>
-                                        <td><a href="">삭제</a></td>
-                                    </tr>-->
                                 </tbody>
                     </table>
                 </div>
@@ -260,7 +252,7 @@
 			<!-- /bottom footer -->
 		</footer>
 		<!-- /FOOTER -->
-        <!--modal-->
+        <!--add modal-->
         <div id="addModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
@@ -302,9 +294,84 @@
 
   </div>
 </div>
-        <!-- /modal -->
-        
+        <!-- /add modal -->
 
+        <!--edit modal-->
+        <div id="editModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">영화 추가</h4>
+      </div>
+      <div class="modal-body">
+      			
+                        <div class="form-group">
+                        		<p class="form-title">영화 아이디</p>
+								<input class="input" type="text" id="movieID" name="movieID" placeholder="영화 아이디">
+							</div>
+                        <div class="form-group">
+                        		<p class="form-title">영화 제목</p>
+								<input class="input" type="text" id="movieTitle" name="movieTitle" placeholder="영화 제목">
+							</div>
+                        <div class="form-group">
+                        		<p class="form-title">감독</p>
+								<input class="input" type="text" id="director" name="director" placeholder="감독">
+							</div>
+                        <div class="form-group">
+                        		<p class="form-title">출연</p>
+								<input class="input" type="text" id="cast" name="cast" placeholder="출연">
+							</div>
+                        <div class="form-group">
+                        		<p class="form-title">등급</p>
+								<input class="input" type="text" id="grade" name="grade" placeholder="등급">
+							</div>
+                        <div class="form-group">
+                        		<p class="form-title">주요 정보</p>
+								<input class="input" type="text" id="information" name="information" placeholder="주요 정보">
+							</div>
+							
+      </div>
+      	<div class="modal-footer">
+      	<input type="button" class="btn btn-default" id="editSubmit" value="수정">
+        <!--  data-dismiss="modal"  -->
+      </div>
+    </div>
+
+  </div>
+</div>
+        <!-- /edit modal -->
+	     
+	     <!--delete modal-->
+	   <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+      	<p><strong id="target-name"></strong> 삭제 하시겠습니까?</p>
+      </div>
+      <div class="modal-footer">
+      <button type="button" class="btn btn-primary" id="yes">예</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">아니오</button>
+      </div>
+    </div>
+  </div>
+</div>
+        <!-- /delete modal -->
+        
+        <!--  alert modal -->
+	     <div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+      	
+      </div>
+    </div>
+  </div>
+</div>
+
+		<!--  /alert modal -->
 		<!-- jQuery Plugins -->
 		<script src="js/jquery.min.js"></script>
 		<script src="js/bootstrap.min.js"></script>
@@ -320,8 +387,59 @@
                 else {
                     $(this).addClass("active");
                 }
-            })
+            });
+            
+            function dynamicEditModal(target) {
+            	$("#target-name").html(target);
+            	var originID = $("#"+target).find("td:nth-child(1)").text();
+            	$("#editModal #movieID").val($("#"+target).find("td:nth-child(1)").text());
+            	$("#editModal #movieTitle").val($("#"+target).find("td:nth-child(2)").text());
+            	$("#editModal #director").val($("#"+target).find("td:nth-child(3)").text());
+            	$("#editModal #cast").val($("#"+target).find("td:nth-child(4)").text());
+            	$("#editModal #grade").val($("#"+target).find("td:nth-child(5)").text());
+            	$("#editModal #information").val($("#"+target).find("td:nth-child(6)").text());
+            	$("#editModal").modal("show");
+            	
+            	if( $("#editSubmit").click(function() {
+            		$.post("editMovie.jsp",
+           					{
+            					"originID": originID,
+           						"movieID": $("#editModal #movieID").val(),
+           						"movieTitle":$("#editModal #movieTitle").val(),
+           						"director":$("#editModal #director").val(),
+           						"cast":$("#editModal #cast").val(),
+           						"grade":$("#editModal #grade").val(),
+           						"information":$("#editModal #information").val()
+           					},
+           					function(data,status) {
+           						$("#editModal .modal-footer").hide();
+           						$("#editModal .modal-body").html(data);
+           						setTimeout(function(){
+           						},5000);
+           						window.location.reload();
+           					}	
+           			);
+            	}));
+            }
+            
+            function dynamicDeleteModal(target) {
+            	$("#target-name").html(target);
+            	$("#deleteModal").modal("show");
+           		$("#yes").click(function() {
+           			$.post("deleteMovie.jsp",
+           					{
+           						"movieName":target
+           					},
+           					function(data,status) {
+           						$("#deleteModal .modal-footer").hide();
+           						$("#deleteModal .modal-body").html(data);
+           						setTimeout(function(){
+           						},5000);
+           						window.location.reload();
+           					}	
+           			);
+           		});
+            }
         </script>
 	</body>
 </html>
->

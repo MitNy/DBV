@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <% request.setCharacterEncoding("UTF-8"); %>
     <%@ page import="Service.adminService" %>
+    <%@ page import="Service.theaterService" %>
     <%@ page import="org.json.simple.JSONArray" %>
     <%@ page import="org.json.simple.JSONObject" %>
     <% if(session.getAttribute("admin-session") == null ) {
@@ -8,6 +9,7 @@
 		<%
 	}
     adminService as = new adminService();
+    theaterService ts = new theaterService();
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -182,7 +184,7 @@
                                 </thead>
                                 <tbody>
                                 <%
-                                	JSONArray theaterList = as.getTheater();
+                                	JSONArray theaterList = ts.getTheater();
                                 	for(int i=0; i< theaterList.size(); i++ ) {
                                 		JSONObject theater = (JSONObject) theaterList.get(i);
                                 		out.print("<tr>");
@@ -190,8 +192,8 @@
                                 		out.print("<td>"+theater.get("theaterName-"+i)+"</td>");
                                 		out.print("<td>"+theater.get("address-"+i)+"</td>");
                                 		out.print("<td>"+theater.get("number-"+i)+"</td>");
-                                		out.print("<td>"+theater.get("sangyounggwan-"+i)+"</td>");
-                                		out.print("<td>"+theater.get("seats-"+i)+"</td>");
+                                		out.print("<td></td>");
+                                		out.print("<td></td>");
                                 		out.print("<td><a href=''>수정</a></td>");
                                 		out.print("<td><a href=''>삭제</a></td>");
                                 		out.print("</tr>");
@@ -273,12 +275,6 @@
 							</div>
                         <div class="form-group">
 								<input class="input" type="tel" name="theaterTel" placeholder="전화번호">
-							</div>
-                        <div class="form-group">
-								<input class="input" type="text" id="sangyounggwan" name="sangyounggwan" placeholder="상영관">
-							</div>
-                        <div class="form-group">
-								<input class="input" type="text" id="seats" name="seats" placeholder="좌석 수">
 							</div>
 							</div>
       <div class="modal-footer">

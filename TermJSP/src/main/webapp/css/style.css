@@ -2346,6 +2346,13 @@ textarea.input {
     border:0px;
 }
 
+.setting-btn {
+    background-color: black;
+    color: white;
+    padding:5px;
+    border:0px;
+}
+
 #movie-detail {
     margin-top:10px;
 }
@@ -2459,4 +2466,16 @@ textarea.input {
 #seats-script input[type=checkbox]:checked:before {
     background-color:Green;
     font-size: 15px;
+}
+
+#deleteModal {
+	margin-top:20%;
+}
+
+#deleteModal .modal-body {
+	text-align:center;
+}
+
+#editBtn, #deleteBtn{
+	cursor:pointer;
 }

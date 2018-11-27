@@ -1,12 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <% request.setCharacterEncoding("UTF-8"); %>
-<%@ page import="Service.adminService" %>
+<%@ page import="Service.theaterService" %>
 <%@ page import="org.json.simple.JSONArray" %>
 <%@ page import="org.json.simple.JSONObject" %>
 <%
-	adminService as = new adminService();
+	theaterService ts= new theaterService();
 	String targetTheater = request.getParameter("theater");
-	JSONObject theaterInfo = as.getSpecificTheater(targetTheater);
+	JSONObject theaterInfo = ts.getSpecificTheater(targetTheater);
 	
 %>
 <!DOCTYPE html>

@@ -8,47 +8,9 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import Dao.Database;
+import Dao.nameGetter;
 
-public class reservationService {
-	public JSONArray getMovieList() throws Exception {
-		JSONArray movieList = new JSONArray();
-		Database dbCon = new Database();
-		Connection conn = dbCon.GetConnection();
-		try {
-			String getQuery="select title from movie";
-			PreparedStatement ps = conn.prepareStatement(getQuery);
-			ResultSet rs = ps.executeQuery();
-			while(rs.next()) {
-				movieList.add(rs.getString("title"));
-			}
-			return movieList;
-		}
-		catch(Exception e ) {
-			
-		}
-		return null;
-	}
-	
-	public JSONArray getTheaterList() throws Exception {
-		JSONArray theaterList = new JSONArray();
-		Database dbCon = new Database();
-		Connection conn = dbCon.GetConnection();
-		try {
-			String getQuery="select theaterName from theater";
-			PreparedStatement ps = conn.prepareStatement(getQuery);
-			ResultSet rs = ps.executeQuery();
-			while(rs.next()) {
-				theaterList.add(rs.getString("theaterName"));
-			}
-			return theaterList;
-		}
-		catch(Exception e ) {
-			
-		}
-		return null;
-	}
-	
-	// 랜덤한 reserv_number 생성
+public class reservationService {// 랜덤한 reserv_number 생성
 	public String genReservNumber() {
 		SecureRandom random = new SecureRandom ();
 		int numLength = 11;
@@ -59,42 +21,8 @@ public class reservationService {
 		}
 		return randomStr;
 	}
+
 	
-	public String getMovieID(String movieName) throws Exception {
-		Database dbCon = new Database();
-		Connection conn = dbCon.GetConnection();
-		try {
-			String getQuery="select movieID from movie where title=?";
-			PreparedStatement ps = conn.prepareStatement(getQuery);
-			ps.setString(1, movieName);
-			ResultSet rs = ps.executeQuery();
-			rs.next();
-			String movieID = rs.getString("movieID");
-			return movieID;
-		}
-		catch(Exception e ) {
-			
-		}
-		return null;
-	}
-	
-	public String getTheaterID(String theaterName) throws Exception {
-		Database dbCon = new Database();
-		Connection conn = dbCon.GetConnection();
-		try {
-			String getQuery="select theaterID from theater where theaterName=?";
-			PreparedStatement ps = conn.prepareStatement(getQuery);
-			ps.setString(1, theaterName);
-			ResultSet rs = ps.executeQuery();
-			rs.next();
-			String theaterID = rs.getString("theaterID");
-			return theaterID;
-		}
-		catch(Exception e ) {
-			
-		}
-		return null;
-	}
 	public int getUserPoint(String userID) throws Exception {
 		Database dbCon = new Database();
 		Connection conn = dbCon.GetConnection();
@@ -159,7 +87,7 @@ public class reservationService {
 		Connection conn = dbCon.GetConnection();
 		int point = getUserPoint(userID);
 		try {
-			String addQuery = "insert into pay (pay_number,customer,date,howmany,point,usePoint,totalPrice) values (?,?,?,?,?,?,?)";
+			String addQuery = "insert into pay (payID,userID,date,howmany,point,usePoint,totalPrice) values (?,?,?,?,?,?,?)";
 			PreparedStatement ps = conn.prepareStatement(addQuery);
 			ps.setString(1, payID);
 			ps.setString(2, userID);
@@ -188,18 +116,16 @@ public class reservationService {
 			int int_point = Integer.parseInt(usedPoint);
 			int int_price = Integer.parseInt(totalPrice);
 			String reserv_number = genReservNumber();  // reserv_number 생성
-			String movieID = getMovieID(movieName);
-			String theaterID = getTheaterID(theaterName);
 			String payID = "PAY-"+reserv_number;
 			String ticketID = "TK-"+reserv_number;
 			
-			String addQuery = "insert into reservation (reserv_number,customerID,movieID,howmany,theaterID,seat,date,time,TF,pay_number,ticketID) values(?,?,?,?,?,?,?,?,?,?,?)";
+			String addQuery = "insert into reservation (reserv_number,userID,title,howmany,theaterName,seat,date,time,TF,payID,ticketID) values(?,?,?,?,?,?,?,?,?,?,?)";
 			PreparedStatement ps = conn.prepareStatement(addQuery);
 			ps.setString(1, reserv_number);
 			ps.setString(2, userID);
-			ps.setString(3, movieID);
+			ps.setString(3, movieName);
 			ps.setInt(4, int_seats);
-			ps.setString(5, theaterID);
+			ps.setString(5, theaterName);
 			ps.setString(6, seats);
 			ps.setString(7, date);
 			ps.setString(8, time);
@@ -222,5 +148,68 @@ public class reservationService {
 		}
 		return false;
 		
+	}
+	
+	public JSONArray getReservation(String userID) throws Exception {
+		nameGetter ng = new nameGetter();
+		JSONArray theaterList = new JSONArray();
+		JSONObject theater = new JSONObject();
+		Database dbCon = new Database();
+		Connection conn = dbCon.GetConnection();
+		try {
+			String getQuery="select reserv_number,title,howmany,theaterName,seat,date,time,TF from reservation where userID=?";
+			PreparedStatement ps = conn.prepareStatement(getQuery);
+			ps.setString(1, userID);
+			ResultSet rs = ps.executeQuery();
+			int i=0;
+			while(rs.next()) {
+				theater.put("reservNumber-"+i,rs.getString("reserv_number"));
+				theater.put("movie-"+i,rs.getString("title"));
+				theater.put("howmany-"+i,rs.getInt("howmany"));
+				theater.put("theater-"+i,rs.getString("theaterName"));
+				theater.put("seat-"+i, rs.getString("seat"));
+				theater.put("date-"+i,rs.getString("date"));
+				theater.put("time-"+i,rs.getString("time"));
+				theater.put("TF-"+i, rs.getString("TF"));
+				theaterList.add(theater);
+				i++;
+			}
+			return theaterList;
+		}
+		catch(Exception e ) {
+			
+		}
+		return null;
+	}
+	
+	public JSONArray getAllReservation() throws Exception {
+		JSONArray theaterList = new JSONArray();
+		JSONObject theater = new JSONObject();
+		Database dbCon = new Database();
+		Connection conn = dbCon.GetConnection();
+		try {
+			String getQuery="select * from reservation";
+			PreparedStatement ps = conn.prepareStatement(getQuery);
+			ResultSet rs = ps.executeQuery();
+			int i=0;
+			while(rs.next()) {
+				theater.put("reservNumber-"+i,rs.getString("reserv_number"));
+				theater.put("user-"+i,rs.getString("userID"));
+				theater.put("movie-"+i,rs.getString("title"));
+				theater.put("howmany-"+i,rs.getInt("howmany"));
+				theater.put("theater-"+i,rs.getString("theaterName"));
+				theater.put("seat-"+i, rs.getString("seat"));
+				theater.put("date-"+i,rs.getString("date"));
+				theater.put("time-"+i,rs.getString("time"));
+				theater.put("TF-"+i, rs.getString("TF"));
+				theaterList.add(theater);
+				i++;
+			}
+			return theaterList;
+		}
+		catch(Exception e ) {
+			
+		}
+		return null;
 	}
 }

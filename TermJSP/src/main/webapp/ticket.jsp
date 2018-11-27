@@ -1,5 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <% request.setCharacterEncoding("UTF-8"); %>
+<%@ page import="Service.adminService" %>
+<%@ page import="Service.reservationService" %>
+<%@ page import="org.json.simple.JSONArray" %>
+<%@ page import="org.json.simple.JSONObject" %>
+<%
+	adminService as = new adminService();
+	reservationService rvs = new reservationService();
+%>
 <!DOCTYPE html>
 <html lang="kr">
 	<head>
@@ -183,18 +191,25 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>DDD1234</td>
-                                        <td>mmjlee314</td>
-                                        <td>MMM31a</td>
-                                        <td>ABS1000</td>
-                                        <td>2018. 11. 23.</td>
-                                        <td>09:40</td>
-                                        <td>H1,H2</td>
-                                        <td>F</td>
-                                        <td><a href="">결제</a></td>
-                                        <td><a href="">발권</a></td>
-                                    </tr>
+                                    <%
+                                	JSONArray reservationList = rvs.getAllReservation();
+                                	for(int i=0; i< reservationList.size(); i++ ) {
+                                		JSONObject theater = (JSONObject) reservationList.get(i);
+                                		out.print("<tr>");
+                                		out.print("<td>"+theater.get("reservNumber-"+i)+"</td>");
+                                		out.print("<td>"+theater.get("user-"+i)+"</td>");
+                                		out.print("<td>"+theater.get("movie-"+i)+"</td>");
+                                		out.print("<td>"+theater.get("theater-"+i)+"</td>");
+                                		out.print("<td>"+theater.get("date-"+i)+"</td>");
+                                		out.print("<td>"+theater.get("time-"+i)+"</td>");
+                                		out.print("<td>"+theater.get("seat-"+i)+"</td>");
+                                		out.print("<td>"+theater.get("TF-"+i)+"</td>");
+                                		out.print("<td>결제</td>");
+                                		out.print("<td>발권</td>");
+                                		out.print("</tr>");
+                                	}
+                                
+                                %>
                                 </tbody>
                     </table>
                 </div>

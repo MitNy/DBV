@@ -10,6 +10,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import Dao.Database;
+import Dao.nameGetter;
 
 public class adminService {
 	public boolean addMovie(String movieID, String movieTitle, String director, String cast, String grade, String information) throws Exception  {
@@ -37,48 +38,18 @@ public class adminService {
 		return false;
 	}
 	
-	public JSONArray getMovie() throws Exception {
-		//List<String> movieList = new ArrayList<String>();
-		JSONArray movieList = new JSONArray();
-		JSONObject movie = new JSONObject();
-		Database dbCon = new Database();
-		Connection conn = dbCon.GetConnection();
-		try {
-			String getQuery="select * from movie";
-			PreparedStatement ps = conn.prepareStatement(getQuery);
-			ResultSet rs = ps.executeQuery();
-			int i=0;
-			while(rs.next()) {
-				movie.put("movieID-"+i,rs.getString("movieID"));
-				movie.put("director-"+i,rs.getString("director"));
-				movie.put("movieTitle-"+i,rs.getString("title"));
-				movie.put("cast-"+i,rs.getString("cast"));
-				movie.put("grade-"+i,rs.getInt("grade"));
-				movie.put("information-"+i,rs.getString("information"));
-				movieList.add(movie);
-				i++;
-			}
-			return movieList;
-		}
-		catch(Exception e ) {
-			
-		}
-		return null;
-	}
 	
-	public boolean addTheater(String theaterID, String theaterName, String address, String number,String sangyounggwan,String seats) throws Exception  {
+	
+	public boolean addTheater(String theaterID, String theaterName, String address, String number) throws Exception  {
 		Database dbCon = new Database();
 		Connection conn = dbCon.GetConnection();
 		try {
-			int int_seats = Integer.parseInt(seats);
-			String addQuery = "insert into theater (theaterID,theaterName,address,number,sangyounggwan,seats) values(?,?,?,?,?,?)";
+			String addQuery = "insert into theater (theaterID,theaterName,address,number) values(?,?,?,?)";
 			PreparedStatement ps = conn.prepareStatement(addQuery);
 			ps.setString(1, theaterID);
 			ps.setString(2, theaterName);
 			ps.setString(3, address);
 			ps.setString(4, number);
-			ps.setString(5, sangyounggwan);
-			ps.setInt(6, int_seats);
 			ps.executeUpdate();
 			
 			ps.close();
@@ -91,57 +62,7 @@ public class adminService {
 		return false;
 	}
 	
-	public JSONArray getTheater() throws Exception {
-		//List<String> movieList = new ArrayList<String>();
-		JSONArray theaterList = new JSONArray();
-		JSONObject theater = new JSONObject();
-		Database dbCon = new Database();
-		Connection conn = dbCon.GetConnection();
-		try {
-			String getQuery="select * from theater";
-			PreparedStatement ps = conn.prepareStatement(getQuery);
-			ResultSet rs = ps.executeQuery();
-			int i=0;
-			while(rs.next()) {
-				theater.put("theaterID-"+i,rs.getString("theaterID"));
-				theater.put("theaterName-"+i,rs.getString("theaterName"));
-				theater.put("address-"+i,rs.getString("address"));
-				theater.put("number-"+i,rs.getString("number"));
-				theater.put("sangyounggwan-"+i,rs.getString("sangyounggwan"));
-				theater.put("seats-"+i,rs.getInt("seats"));
-				theaterList.add(theater);
-				i++;
-			}
-			return theaterList;
-		}
-		catch(Exception e ) {
-			
-		}
-		return null;
-	}
 	
-	public JSONObject getSpecificTheater(String theaterID) throws Exception {
-		JSONObject theater = new JSONObject();
-		Database dbCon = new Database();
-		Connection conn = dbCon.GetConnection();
-		try {
-			String getQuery="select * from theater where theaterID=?";
-			PreparedStatement ps = conn.prepareStatement(getQuery);
-			ps.setString(1, theaterID);
-			ResultSet rs = ps.executeQuery();
-			while(rs.next()) {
-				theater.put("theaterID",rs.getString("theaterID"));
-				theater.put("theaterName",rs.getString("theaterName"));
-				theater.put("address",rs.getString("address"));
-				theater.put("number",rs.getString("number"));
-				theater.put("sangyounggwan",rs.getString("sangyounggwan"));
-				theater.put("seats",rs.getInt("seats"));
-			}
-			return theater;
-		}
-		catch(Exception e ) {
-			
-		}
-		return null;
-	}
+	
+	
 }

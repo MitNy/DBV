@@ -11,9 +11,7 @@
 	String theaterName = request.getParameter("theaterName");
 	String theaterAddress = request.getParameter("theaterAddress");
 	String theaterTel = request.getParameter("theaterTel");
-	String sangyounggwan = request.getParameter("sangyounggwan");
-	String seats = request.getParameter("seats");
-	boolean addResult = as.addTheater(theaterID, theaterName, theaterAddress, theaterTel, sangyounggwan, seats);
+	boolean addResult = as.addTheater(theaterID, theaterName, theaterAddress, theaterTel);
 	
 	if( addResult == true) {
 		%>

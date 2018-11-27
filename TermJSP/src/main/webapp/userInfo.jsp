@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <% request.setCharacterEncoding("UTF-8"); %>
 <%@ page import="Service.infoService" %>
-
+<%@ page import="Service.reservationService" %>
+<%@ page import="org.json.simple.JSONArray" %>
+<%@ page import="org.json.simple.JSONObject" %>
 <%
 	String sessionID="";
 	if( session.getAttribute("user-session") == null && session.getAttribute("admin-session")== null) {
@@ -19,6 +21,7 @@
 		
 	}
 	infoService is = new infoService();
+	reservationService rvs = new reservationService();
 	is.getUserInfo(sessionID);
 %>
 <!DOCTYPE html>
@@ -82,7 +85,7 @@
         	%>
           <li><a href="userInfo.jsp"><i class="fas fa-user-circle"></i>&nbsp;&nbsp;개인정보</a></li>
           <%
-          	if( session.getAttribute("user-session") != null || session.getAttribute("admin-session") != null) {        	  %>
+          	if( session.getAttribute("user-session") != null || session.getAttribute("admin-session") != null) { %>
 				<li><a href="logout.jsp"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;로그아웃</a></li>
           <% } else { %>
           <li><a href="login.jsp"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;로그인</a></li>
@@ -253,23 +256,35 @@
 							<table id="reservation-list">
                             <thead>
                                 <tr>
+                                	<th>예매 번호</th>
                                     <th>영화</th>
                                     <th>영화관</th>
                                     <th>날짜</th>
                                     <th>시간</th>
                                     <th>좌석</th>
                                     <th>결제 여부</th>
+                                    <th colspan=2>관리</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>보헤미안랩소디</td>
-                                        <td>대전유성</td>
-                                        <td>2018. 11. 22.</td>
-                                        <td>09:40</td>
-                                        <td>H1,H2</td>
-                                        <td>Y</td>
-                                    </tr>
+                                    <%
+                                	JSONArray reservationList = rvs.getReservation(sessionID);
+                                	for(int i=0; i< reservationList.size(); i++ ) {
+                                		JSONObject theater = (JSONObject) reservationList.get(i);
+                                		out.print("<tr>");
+                                		out.print("<td>"+theater.get("reservNumber-"+i)+"</td>");
+                                		out.print("<td>"+theater.get("movie-"+i)+"</td>");
+                                		out.print("<td>"+theater.get("theater-"+i)+"</td>");
+                                		out.print("<td>"+theater.get("date-"+i)+"</td>");
+                                		out.print("<td>"+theater.get("time-"+i)+"</td>");
+                                		out.print("<td>"+theater.get("seat-"+i)+"</td>");
+                                		out.print("<td>"+theater.get("TF-"+i)+"</td>");
+                                		out.print("<td>티켓 조회</td>");
+                                		out.print("<td>예매 취소</td>");
+                                		out.print("</tr>");
+                                	}
+                                
+                                %>
                                 </tbody>
                     </table>
                 </div>

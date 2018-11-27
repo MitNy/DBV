@@ -4,7 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 import Dao.Database;
+import Dao.nameGetter;
 
 public class infoService {
 	private String userName;
@@ -86,4 +90,9 @@ public class infoService {
 		}
 		return false;
 	}
+
+	
+	
+	
+	
 }

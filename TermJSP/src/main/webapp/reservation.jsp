@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <% request.setCharacterEncoding("UTF-8"); %>
- <%@ page import="Service.infoService" %>
  <%@ page import="Service.reservationService" %>
+  <%@ page import="Service.theaterService" %>
+  <%@ page import="Service.infoService" %>
+  <%@ page import="Service.movieService" %>
     <%@ page import="org.json.simple.JSONArray" %>
     <%@ page import="org.json.simple.JSONObject" %>
 
@@ -22,7 +24,10 @@
 		
 	}
 	infoService is = new infoService();
+	theaterService ts = new theaterService();
 	reservationService rvs = new reservationService();
+	movieService ms = new movieService();
+	
 	is.getUserInfo(sessionID);
 	
 %>   
@@ -195,7 +200,7 @@
 							</div>
                             <select class="input-select" id="select-movie" name="select-movie" style="width:100%;">
 								<%
-									JSONArray movieList = rvs.getMovieList();
+									JSONArray movieList = ms.getMovieList();
 									for( int i=0; i<movieList.size(); i++ ) {
 										out.print("<option value='"+i+"'>"+movieList.get(i)+"</option>");
 									}
@@ -212,7 +217,7 @@
 							</div>
                             <select class="input-select" id="select-theater" name="select-theater" style="width:100%;">
                                 <%
-									JSONArray theaterList = rvs.getTheaterList();
+									JSONArray theaterList = ts.getTheaterList();
 									for( int i=0; i<theaterList.size(); i++ ) {
 										out.print("<option value='"+i+"'>"+theaterList.get(i)+"</option>");
 									}
@@ -577,6 +582,8 @@
 		<script src="js/main.js"></script>
 		<!-- checkbox -->
 		<script>
+			$("input[name=use-point]").val("F");
+			$("input[name=used-point]").val(0);
 			$("#terms").click(function() {
 				var chkbox = document.getElementById("terms");
 				var point = parseInt($("#user-point").html());
