@@ -62,14 +62,19 @@ public class theaterService {
 
 	public JSONArray getTheaterList() throws Exception {
 		JSONArray theaterList = new JSONArray();
+		JSONObject theater = new JSONObject();
 		Database dbCon = new Database();
 		Connection conn = dbCon.GetConnection();
 		try {
-			String getQuery="select theaterName from theater";
+			String getQuery="select theaterID,theaterName from theater";
 			PreparedStatement ps = conn.prepareStatement(getQuery);
 			ResultSet rs = ps.executeQuery();
+			int i=0;
 			while(rs.next()) {
-				theaterList.add(rs.getString("theaterName"));
+				theater.put("theaterID-"+i, rs.getString("theaterID"));
+				theater.put("theaterName-"+i, rs.getString("theaterName"));
+				theaterList.add(theater);
+				i++;
 			}
 			return theaterList;
 		}

@@ -179,8 +179,14 @@
 							<div class="checkbox-filter">
                                 <div>
 								    <ul class="theater-selector" id="theater-selector">
-                                        <li id="daejeonYuseong">대전유성</li>
-                                        <li id="daejeonNoeun">대전노은</li>
+								    <%
+                                	JSONArray theaterList = ts.getTheaterList();
+                                	for(int i=0; i<theaterList.size(); i++ ) {
+                                		JSONObject theater = (JSONObject) theaterList.get(i);
+                                		out.print("<li id='"+theater.get("theaterID-"+i)+"'>"+theater.get("theaterName-"+i)+"</li>");
+                                	}
+                                
+                                %>
                                     </ul> 
 							</div>
 							</div>
