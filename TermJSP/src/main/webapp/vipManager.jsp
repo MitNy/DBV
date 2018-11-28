@@ -2,13 +2,9 @@
 <% request.setCharacterEncoding("UTF-8"); %>
 <%@ page import="Service.infoService" %>
 <%@ page import="Service.adminService" %>
-<% if(session.getAttribute("admin-session") == null ) {
-		%><script>alert("권한이 없습니다."); history.go(-1);</script>
-		<%
-	}
-%>
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="kr">
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -37,6 +33,11 @@
 		<link type="text/css" rel="stylesheet" href="css/style.css"/>
     </head>
 	<body>
+	<% if(session.getAttribute("admin-session") == null ) {
+		%><script>alert("권한이 없습니다."); history.go(-1);</script>
+		<%
+	}
+%>
 		<!-- HEADER -->
 		<header>
 			<!-- TOP HEADER -->

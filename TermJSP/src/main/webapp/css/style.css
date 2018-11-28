@@ -2485,6 +2485,11 @@ textarea.input {
 	text-align:center;
 }
 
+
+#deleteSModal .modal-body {
+	text-align:center;
+}
+
 #outModal {
 	margin-top:20%;
 }

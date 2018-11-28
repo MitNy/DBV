@@ -5,14 +5,6 @@
     <%@ page import="Service.movieService" %>
     <%@ page import="org.json.simple.JSONArray" %>
     <%@ page import="org.json.simple.JSONObject" %>
-    <% if(session.getAttribute("admin-session") == null ) {
-		%><script>alert("권한이 없습니다."); history.go(-1);</script>
-		<%
-	}
-    adminService as = new adminService();
-    theaterService ts = new theaterService();
-    movieService ms = new movieService();
-%>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -43,6 +35,14 @@
 		<link type="text/css" rel="stylesheet" href="css/style.css"/>
     </head>
 	<body>
+	<% if(session.getAttribute("admin-session") == null ) {
+		%><script>alert("권한이 없습니다."); history.go(-1);</script>
+		<%
+	}
+    adminService as = new adminService();
+    theaterService ts = new theaterService();
+    movieService ms = new movieService();
+%>
 		<!-- HEADER -->
 		<header>
 			<!-- TOP HEADER -->
@@ -345,16 +345,69 @@
 						</table>
                         
 							</div>
-      <div class="modal-footer">
-        <input type="submit" class="btn btn-default"  value="추가">
-      </div>
     </div>
   </div>
 </div>
         
         <!--  /sangyounggwan modal -->
+        <!--edit modal-->
+        <div id="editModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">영화관 수정</h4>
+      </div>
+      <div class="modal-body">
+      			
+                        <div class="form-group">
+                        		<p class="form-title">영화관 아이디</p>
+								<input class="input" type="text" id="theaterID" name="theaterID" placeholder="영화관 아이디">
+							</div>
+                        <div class="form-group">
+                        		<p class="form-title">영화관 이름</p>
+								<input class="input" type="text" id="theaterName" name="theaterName" placeholder="영화관 이름">
+							</div>
+                        <div class="form-group">
+                        		<p class="form-title">주소</p>
+								<input class="input" type="text" id="address" name="address" placeholder="주소">
+							</div>
+                        <div class="form-group">
+                        		<p class="form-title">전화번호</p>
+								<input class="input" type="text" id="number" name="number" placeholder="전화번호">
+							</div>
+							
+      </div>
+      	<div class="modal-footer">
+      	<input type="button" class="btn btn-default" id="editSubmit" value="수정">
+        <!--  data-dismiss="modal"  -->
+      </div>
+    </div>
+
+  </div>
+</div>
+        <!-- /edit modal -->
+        
+        
          <!--delete modal-->
 	   <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+      	<p><strong id="target-name"></strong> 삭제 하시겠습니까?</p>
+      </div>
+      <div class="modal-footer">
+      <button type="button" class="btn btn-primary" id="yes">예</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">아니오</button>
+      </div>
+    </div>
+  </div>
+</div>
+        <!-- /delete modal -->
+        <!--delete modal-->
+	   <div class="modal fade" id="deleteSModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">
       <div class="modal-body">
@@ -403,7 +456,7 @@
             		},
             		dataType:"json",
             		success:function(data) {
-            			var $target = theaterID;
+            			var target = theaterID;
             			var json = jQuery.parseJSON(JSON.stringify(data));
             			var totalLength = Object.keys(json).length;
             			var divValue = "";
@@ -413,7 +466,7 @@
             				var jsonLength = Object.keys(json[i]).length;
             				divValue = "<div class='d-inline-block'>";
             				divValue += "<strong id='sID'>"+json[i].sID+"</strong>&nbsp;"+json[i].movieName;
-            				divValue += "<button type='button' class='close' >&times;</button>&nbsp;";
+            				divValue += "<button type='button' class='close' onclick=dynamicDeleteS('"+target+"','"+json[i].sID+"')>&times;</button>&nbsp;";
             				divValue += "<select class='input-select' style='width:auto;'>";
             				for( var j=0; j<jsonLength-2; j++ ) {
             					var jsonKey = "time-"+j;
@@ -443,16 +496,48 @@
        			},
        			function(data,status) {
        				$("#sAdd #message").html(data);
+       				window.location.reload();
        			}	
        			
        			// ajax로  getSangyounggwanInfo 에 요청 -> json object받아옴 
        			);
             });
             
-            function dynamicDeleteModal(target) {
+            function dynamicEditModal(target) {
             	$("#target-name").html(target);
+            	var originID = $("#"+target).find("td:nth-child(1)").text();
+            	$("#editModal #theaterID").val($("#"+target).find("td:nth-child(1)").text());
+            	$("#editModal #theaterName").val($("#"+target).find("td:nth-child(2)").text());
+            	$("#editModal #address").val($("#"+target).find("td:nth-child(3)").text());
+            	$("#editModal #number").val($("#"+target).find("td:nth-child(4)").text());
+            	$("#editModal").modal("show");
+            	
+            	if( $("#editSubmit").click(function() {
+            		$.post("editTheater.jsp",
+           					{
+            					"originID": originID,
+           						"theaterID": $("#editModal #theaterID").val(),
+           						"theaterName":$("#editModal #theaterName").val(),
+           						"address":$("#editModal #address").val(),
+           						"number":$("#editModal #number").val(),
+           					},
+           					function(data,status) {
+           						$("#editModal .modal-footer").hide();
+           						$("#editModal .modal-body").html(data);
+           						setTimeout(function(){
+           						},5000);
+           						window.location.reload();
+           					}	
+           			);
+            	}));
+            }
+            
+            
+            
+            function dynamicDeleteModal(target) {
+            	$("#deleteModal #target-name").html(target);
             	$("#deleteModal").modal("show");
-           		$("#yes").click(function() {
+           		$("#deleteModal #yes").click(function() {
            			$.post("deleteTheater.jsp",
            					{
            						"theaterID":target
@@ -460,6 +545,26 @@
            					function(data,status) {
            						$("#deleteModal .modal-footer").hide();
            						$("#deleteModal .modal-body").html(data);
+           						setTimeout(function(){
+           						},5000);
+           						window.location.reload();
+           					}	
+           			);
+           		});
+            }
+            
+            function dynamicDeleteS(theaterID, sID) {
+            	$("#deleteSModal #target-name").html(theaterID+"-"+sID);
+            	$("#deleteSModal").modal("show");
+           		$("#deleteSModal #yes").click(function() {
+           			$.post("deleteSangyounggwan.jsp",
+           					{
+           						"theaterID":theaterID,
+           						"sID":sID
+           					},
+           					function(data,status) {
+           						$("#deleteSModal .modal-footer").hide();
+           						$("#deleteSModal .modal-body").html(data);
            						setTimeout(function(){
            						},5000);
            						window.location.reload();

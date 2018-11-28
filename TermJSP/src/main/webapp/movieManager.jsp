@@ -4,14 +4,7 @@
 <%@ page import="Service.movieService" %>
 <%@ page import="org.json.simple.JSONArray" %>
 <%@ page import="org.json.simple.JSONObject" %>
-    
-    <% if(session.getAttribute("admin-session") == null ) {
-		%><script>alert("권한이 없습니다."); history.go(-1);</script>
-		<%
-	}
-    adminService as = new adminService();
-    movieService ms = new movieService();
-%>
+
 <!DOCTYPE html>
 <html lang="kr">
 	<head>
@@ -42,6 +35,14 @@
 		<link type="text/css" rel="stylesheet" href="css/style.css"/>
     </head>
 	<body>
+	    
+    <% if(session.getAttribute("admin-session") == null ) {
+		%><script>alert("권한이 없습니다."); history.go(-1);</script>
+		<%
+	}
+    adminService as = new adminService();
+    movieService ms = new movieService();
+%>
 		<!-- HEADER -->
 		<header>
 			<!-- TOP HEADER -->
@@ -304,7 +305,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">영화 추가</h4>
+        <h4 class="modal-title">영화 수정</h4>
       </div>
       <div class="modal-body">
       			

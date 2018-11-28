@@ -277,6 +277,25 @@ public class theaterService {
 			PreparedStatement ps = conn.prepareStatement(deleteQuery);
 			ps.setString(1, theaterID);
 			ps.executeUpdate();
+			deleteTheaterWithSangyounggwan(theaterID);
+			ps.close();
+			conn.close();
+			return true;
+		}
+		catch(Exception e) {
+			System.out.print(e.getMessage());
+		}
+		return false;
+	}
+	
+	public boolean deleteTheaterWithSangyounggwan(String theaterID) throws Exception {
+		Database dbCon = new Database();
+		Connection conn = dbCon.GetConnection();
+		try {
+			String deleteQuery = "delete from sangyounggwan where theaterID=?";
+			PreparedStatement ps = conn.prepareStatement(deleteQuery);
+			ps.setString(1, theaterID);
+			ps.executeUpdate();
 			
 			return true;
 		}
@@ -284,5 +303,67 @@ public class theaterService {
 			System.out.print(e.getMessage());
 		}
 		return false;
+	}
+	
+	
+	public boolean deleteSangyounggwan(String theaterID,String sID) throws Exception {
+		Database dbCon = new Database();
+		Connection conn = dbCon.GetConnection();
+		try {
+			String deleteQuery = "delete from sangyounggwan where theaterID=? and sID=?";
+			PreparedStatement ps = conn.prepareStatement(deleteQuery);
+			ps.setString(1, theaterID);
+			ps.setString(2, sID);
+			ps.executeUpdate();
+			
+			return true;
+		}
+		catch(Exception e) {
+			System.out.print(e.getMessage());
+		}
+		return false;
+	}
+	
+	
+	public boolean editTheater(String originID, String theaterID,String theaterName, String address,String number) throws Exception {
+		Database dbCon = new Database();
+		Connection conn = dbCon.GetConnection();
+		try {
+			String editQuery = "update theater set theaterID=?,theaterName=?,address=?,number=? where theaterID=?";
+			PreparedStatement ps = conn.prepareStatement(editQuery);
+			
+			ps.setString(1, theaterID);
+			ps.setString(2, theaterName);
+			ps.setString(3, address);
+			ps.setString(4, number);
+			ps.setString(5, originID);
+			ps.executeUpdate();
+			editOtherID(originID,theaterID);
+			ps.close();
+			conn.close();
+			return true;
+		}
+		catch(Exception e ) {
+			System.out.println(e.getMessage());
+		}
+		return false;
+	}
+	
+	public void editOtherID(String originID, String theaterID) throws Exception {
+		Database dbCon = new Database();
+		Connection conn = dbCon.GetConnection();
+		try {
+			String editQuery = "update sangyounggwan set theaterID=? where theaterID=?";
+			PreparedStatement ps = conn.prepareStatement(editQuery);
+			ps.setString(1,theaterID);
+			ps.setString(2,originID);
+			ps.executeQuery();
+			ps.close();
+			conn.close();
+		}
+		catch(Exception e ) {
+			System.out.println(e.getMessage());
+		}
+		
 	}
 }
