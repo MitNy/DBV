@@ -3,13 +3,42 @@ package Service;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import Dao.Database;
 
 public class theaterService {
+	private String theaterID;
+	private String theaterName;
+	private String sID;
+	private String movieName;
+	
+	public String getTheaterID() {
+		return theaterID;
+	}
+	public void setTheaterID(String theaterID) {
+		this.theaterID = theaterID;
+	}
+	public String getTheaterName() {
+		return theaterID;
+	}
+	public void setTheaterName(String theaterName) {
+		this.theaterName = theaterName;
+	}
+	public String getSID() {
+		return sID;
+	}
+	public void setSID(String sID) {
+		this.sID = sID;
+	}
+	public String getMovieName() {
+		return movieName;
+	}
+	public void setMovieName(String movieName) {
+		this.movieName = movieName;
+	}
+	
 	public JSONArray getTheater() throws Exception {
 		//List<String> movieList = new ArrayList<String>();
 		JSONArray theaterList = new JSONArray();
@@ -134,7 +163,7 @@ public class theaterService {
 			ps.executeUpdate();
 			ps.close();
 			conn.close();
-			//addTime(sID, theaterID, movieTime);
+			addTime(sID, theaterID, movieTime);
 			return true;
 		}
 		catch(Exception e ) {
@@ -147,15 +176,21 @@ public class theaterService {
 		Database dbCon = new Database();
 		Connection conn = dbCon.GetConnection();
 		String[] split_time = time.split("/");
+		String[] split_hour = split_time[0].split(":");
+		int hour = Integer.parseInt(split_hour[0]);
+		int forValue = Integer.parseInt(split_time[1]);
 		try {
-			
 			String addQuery = "insert into time (theaterID,sID,seats,time) values (?,?,?,?)";
 			PreparedStatement ps = conn.prepareStatement(addQuery);
-			ps.setString(1, theaterID);
-			ps.setString(2, sID);
-			ps.setInt(3, 120);
-			ps.setString(4, time);
-			ps.executeUpdate();
+			while(hour < 24 ) {
+				ps.setString(1, theaterID);
+				ps.setString(2, sID);
+				ps.setInt(3, 120);
+				hour += forValue;
+				String input = String.valueOf(hour)+":"+split_hour[1];
+				ps.setString(4,input );
+				ps.executeUpdate();
+			}
 			ps.close();
 			conn.close();
 			return true;
@@ -167,46 +202,55 @@ public class theaterService {
 	}
 	
 	public JSONArray getSangyounggwanInfo(String theaterID) throws Exception {
-		JSONArray sList = new JSONArray();
-		JSONObject sangyounggwan = new JSONObject();
 		Database dbCon = new Database();
 		Connection conn = dbCon.GetConnection();
 		try {
-			String getQuery="select sID,movieName from theater";
+			JSONObject total = new JSONObject();
+			JSONArray totalList = new JSONArray();
+			String sID = null;
+			String movieName = null;
+			String getQuery="select sID,movieName from sangyounggwan where theaterID=?";
 			PreparedStatement ps = conn.prepareStatement(getQuery);
+			ps.setString(1,theaterID);
 			ResultSet rs = ps.executeQuery();
-			int i=0;
+			setTheaterID(theaterID);
 			while(rs.next()) {
-				sangyounggwan.put("sID-"+i, rs.getString("sID"));
-				sangyounggwan.put("movieName-"+i, rs.getString("movieName"));
-				sList.add(sangyounggwan);
-				i++;
+				sID = rs.getString("sID");
+				movieName = rs.getString("movieName");
+				JSONObject timeList = getSTime(theaterID,sID,movieName);
+				totalList.add(timeList);
 			}
-			return sList;
+			
+			return totalList;
 		}
 		catch(Exception e ) {
-			
+			System.out.print(e.getMessage());
 		}
 		return null;
 	}
 	
-	public JSONObject getSTime(String theaterID,String sID) throws Exception {
+	public JSONObject getSTime(String theaterID, String sID,String movieName) throws Exception {
 		JSONObject time = new JSONObject();
 		Database dbCon = new Database();
 		Connection conn = dbCon.GetConnection();
 		try {
-			String getQuery="select time from time from theaterID=? and sID=?";
+			String getQuery="select time from time where theaterID=? and sID=?";
 			PreparedStatement ps = conn.prepareStatement(getQuery);
+			ps.setString(1, theaterID);
+			ps.setString(2, sID);
 			ResultSet rs = ps.executeQuery();
 			int i=0;
+			time.put("sID",sID);
+			time.put("movieName",movieName);
 			while(rs.next()) {
 				time.put("time-"+i, rs.getString("time"));
+				System.out.print(rs.getString("time"));
 				i++;
 			}
 			return time;
 		}
 		catch(Exception e ) {
-			
+			System.out.print(e.getMessage());
 		}
 		return null;
 	}

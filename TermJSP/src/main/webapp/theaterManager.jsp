@@ -338,16 +338,7 @@
 								</td>
 								<td id="sList">
 								<div class="d-inline-block">
-								<strong>4관</strong>&nbsp;보헤미안랩소디<button type="button" class="close">&times;</button>&nbsp;
-								<select class="input-select" style="width:auto;">
-									<option value="">09:40</option>
-									<option value="">11:40</option>
-									<option value="">13:40</option>
-									
-								</select>
-								</div>
-								<div class="d-inline-block">
-								<strong>4관</strong>&nbsp;보헤미안랩소디<button type="button" class="close">&times;</button>&nbsp;
+								<strong id="sID">4관</strong>&nbsp;보헤미안랩소디<button type="button" class="close">&times;</button>&nbsp;
 								<select class="input-select" style="width:auto;">
 									<option value="">09:40</option>
 									<option value="">11:40</option>
@@ -391,6 +382,27 @@
             	$("#sModal").modal("show");
             	$("#sModal #theaterID").html(target);
             	$("#sModal #theaterName").html($("#"+target).find("td:nth-child(2)").text());
+            	getSangyounggwanInfo($("#sModal #theaterID").html());
+            	
+            }
+            
+            function getSangyounggwanInfo(theaterID) {
+            	$.ajax({
+            		url:"getSangyounggwan.jsp",
+            		type:"post",
+            		data:{
+            			"theaterID":theaterID
+            		},
+            		dataType:"json",
+            		success:function(data) {
+            			var $target = theaterID;
+            			var json = jQuery.parseJSON(JSON.stringify(data));
+            			console.log(json);
+            			console.log(json[0].movieName);
+            			console.log(Object.keys(json[0]).length);
+            		}
+            		
+            	});
             }
             
             $("#sAddBtn").click(function() {
@@ -408,6 +420,8 @@
        			function(data,status) {
        				$("#sAdd #message").html(data);
        			}	
+       			
+       			// ajax로  getSangyounggwanInfo 에 요청 -> json object받아옴 
        			);
             });
         </script>

@@ -584,7 +584,7 @@
 		<script src="js/jquery.zoom.min.js"></script>
 		<script src="js/main.js"></script>
 		<!-- checkbox -->
-		<script>
+		<script>​
 			$("input[name=use-point]").val("F");
 			$("input[name=used-point]").val(0);
 			$("#terms").click(function() {
