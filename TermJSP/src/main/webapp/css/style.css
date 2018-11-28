@@ -459,7 +459,8 @@ textarea.input {
   display: block;
 }
 
-.logo > h1 {
+.logo {
+	font-size:30px;
     color: white;
 }
 
@@ -2484,6 +2485,14 @@ textarea.input {
 	text-align:center;
 }
 
+#outModal {
+	margin-top:20%;
+}
+
+#outModal .modal-body {
+	text-align:center;
+}
+
 #editBtn, #deleteBtn, #sManager{
 	cursor:pointer;
 }
@@ -2520,4 +2529,12 @@ textarea.input {
 
 #sModal #message {
 	color:red;
+}
+
+
+#outCustomer {
+	background-color:#D10024;
+	color:white;
+	width:100%;
+	border:0;
 }

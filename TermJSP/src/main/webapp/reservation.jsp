@@ -5,32 +5,7 @@
   <%@ page import="Service.infoService" %>
   <%@ page import="Service.movieService" %>
     <%@ page import="org.json.simple.JSONArray" %>
-    <%@ page import="org.json.simple.JSONObject" %>
-
-<%
-	String sessionID="";
-	if( session.getAttribute("user-session") == null && session.getAttribute("admin-session")== null) {
-		%>
-			<script>alert("로그인이 필요합니다."); history.go(-1);</script>
-		<%
-	}
-	else {
-		if( session.getAttribute("user-session") != null && session.getAttribute("admin-session")== null) {
-			sessionID = session.getAttribute("user-session").toString();
-		}
-		else {
-			sessionID = session.getAttribute("admin-session").toString();
-		}
-		
-	}
-	infoService is = new infoService();
-	theaterService ts = new theaterService();
-	reservationService rvs = new reservationService();
-	movieService ms = new movieService();
-	
-	is.getUserInfo(sessionID);
-	
-%>   
+    <%@ page import="org.json.simple.JSONObject" %>   
 <!DOCTYPE html>
 <html lang="kr">
 	<head>
@@ -60,6 +35,30 @@
 		<link type="text/css" rel="stylesheet" href="css/style.css"/>
     </head>
 	<body>
+	<%
+	String sessionID="";
+	if( session.getAttribute("user-session") == null && session.getAttribute("admin-session")== null) {
+		%>
+			<script>alert("로그인이 필요합니다."); history.go(-1);</script>
+		<%
+	}
+	else {
+		if( session.getAttribute("user-session") != null && session.getAttribute("admin-session")== null) {
+			sessionID = session.getAttribute("user-session").toString();
+		}
+		else {
+			sessionID = session.getAttribute("admin-session").toString();
+		}
+		
+	}
+	infoService is = new infoService();
+	theaterService ts = new theaterService();
+	reservationService rvs = new reservationService();
+	movieService ms = new movieService();
+	
+	is.getUserInfo(sessionID);
+	
+%>
 		<!-- HEADER -->
 		<header>
 			<!-- TOP HEADER -->
@@ -113,7 +112,7 @@
 						<div class="col-md-3">
 							<div class="header-logo">
 								<a href="index.jsp" class="logo">
-                                    <h1>DBV</h1>
+                                    DBV
 								</a>
 							</div>
 						</div>
@@ -272,7 +271,7 @@
 										      <div class="smallBox emptyBox">Empty Seat</div><br/>
 										    </td>
 										    
-										    <br>
+										   
 										  </tr>
 										  
 										  <tr>
@@ -584,7 +583,7 @@
 		<script src="js/jquery.zoom.min.js"></script>
 		<script src="js/main.js"></script>
 		<!-- checkbox -->
-		<script>​
+		<script>
 			$("input[name=use-point]").val("F");
 			$("input[name=used-point]").val(0);
 			$("#terms").click(function() {

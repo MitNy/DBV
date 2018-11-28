@@ -82,7 +82,7 @@
 						<div class="col-md-3">
 							<div class="header-logo">
 								<a href="index.jsp" class="logo">
-                                    <h1>DBV</h1>
+                                    DBV
 								</a>
 							</div>
 						</div>

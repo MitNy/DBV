@@ -4,26 +4,6 @@
 <%@ page import="Service.reservationService" %>
 <%@ page import="org.json.simple.JSONArray" %>
 <%@ page import="org.json.simple.JSONObject" %>
-<%
-	String sessionID="";
-	if( session.getAttribute("user-session") == null && session.getAttribute("admin-session")== null) {
-		%>
-			<script>alert("로그인이 필요합니다."); history.go(-1);</script>
-		<%
-	}
-	else {
-		if( session.getAttribute("user-session") != null && session.getAttribute("admin-session")== null) {
-			sessionID = session.getAttribute("user-session").toString();
-		}
-		else {
-			sessionID = session.getAttribute("admin-session").toString();
-		}
-		
-	}
-	infoService is = new infoService();
-	reservationService rvs = new reservationService();
-	is.getUserInfo(sessionID);
-%>
 <!DOCTYPE html>
 <html lang="kr">
 	<head>
@@ -54,6 +34,26 @@
 		<link type="text/css" rel="stylesheet" href="css/style.css"/>
     </head>
 	<body>
+	<%
+	String sessionID="";
+	if( session.getAttribute("user-session") == null && session.getAttribute("admin-session")== null) {
+		%>
+			<script>alert("로그인이 필요합니다."); history.go(-1);</script>
+		<%
+	}
+	else {
+		if( session.getAttribute("user-session") != null && session.getAttribute("admin-session")== null) {
+			sessionID = session.getAttribute("user-session").toString();
+		}
+		else {
+			sessionID = session.getAttribute("admin-session").toString();
+		}
+		
+	}
+	infoService is = new infoService();
+	reservationService rvs = new reservationService();
+	is.getUserInfo(sessionID);
+%>
 		<!-- HEADER -->
 		<header>
 			<!-- TOP HEADER -->
@@ -107,7 +107,7 @@
 						<div class="col-md-3">
 							<div class="header-logo">
 								<a href="index.jsp" class="logo">
-                                    <h1>DBV</h1>
+                                    DBV
 								</a>
 							</div>
 						</div>
@@ -191,11 +191,11 @@
 							</div>
 							<div class="form-group">
 								<p class="form-title">비밀번호</p>
-								<input class="input" type="password" id="password" name="password" placeholder="비밀번호">
+								<input class="input" type="password" id="password" name="password" placeholder="비밀번호" required>
 							</div>
 							<div class="form-group">
 								<p class="form-title">비밀번호 확인</p>
-								<input class="input" type="password" id="password-check" name="password-check" placeholder="비밀번호 확인">
+								<input class="input" type="password" id="password-check" name="password-check" placeholder="비밀번호 확인" required>
 							</div>
 							<div class="form-group">
 							<p class="form-title">이름</p>
@@ -245,6 +245,9 @@
 								
 							</div>
 						</div>
+					</div>
+					<div class="col-sm-3">
+						<button id="outCustomer">회원 탈퇴</button>
 					</div>
 				</div>
                  <br><br>
@@ -317,6 +320,23 @@
 		</footer>
 		<!-- /FOOTER -->
 
+<!--delete modal-->
+	   <div class="modal fade" id="outModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+      	<p><strong id="target-name"></strong> 탈퇴 하시겠습니까?</p>
+      </div>
+      <div class="modal-footer">
+      <button type="button" class="btn btn-primary" id="yes">예</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">아니오</button>
+      </div>
+    </div>
+  </div>
+</div>
+        <!-- /delete modal -->
+
+
 		<!-- jQuery Plugins -->
 		<script src="js/jquery.min.js"></script>
 		<script src="js/bootstrap.min.js"></script>
@@ -335,6 +355,25 @@
 					return false;
 				}
 			}
+			
+			$("#outCustomer").click(function() {
+				var target = "<%=sessionID %>";
+				$("#outModal").modal("show");
+				$("#yes").click(function() {
+					$.post("outCustomer.jsp",
+						{
+							"userID":target
+						},
+						function(data,status) {
+							$("#outModal .modal-footer").hide();
+       						$("#outModal .modal-body").html(data);
+       						window.location.replace("index.jsp");
+       						
+						}
+					);
+				});
+			});
+			
 		</script>
 	</body>
 </html>

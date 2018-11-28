@@ -90,6 +90,23 @@ public class infoService {
 		}
 		return false;
 	}
+	
+	public boolean userDelete(String id) throws Exception {
+		Database dbCon = new Database();
+		Connection conn = dbCon.GetConnection();
+		try {
+			String deleteQuery = "delete from customer where id=?";
+			PreparedStatement ps = conn.prepareStatement(deleteQuery);
+			ps.setString(1, id);
+			ps.executeUpdate();
+			
+			return true;
+		}
+		catch(Exception e) {
+			System.out.print(e.getMessage());
+		}
+		return false;
+	}
 
 	
 	
