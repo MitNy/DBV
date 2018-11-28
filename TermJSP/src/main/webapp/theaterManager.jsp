@@ -337,15 +337,7 @@
 								<p id="message"></p><button class="black-btn" id="sAddBtn">추가</button>
 								</td>
 								<td id="sList">
-								<div class="d-inline-block">
-								<strong id="sID">4관</strong>&nbsp;보헤미안랩소디<button type="button" class="close">&times;</button>&nbsp;
-								<select class="input-select" style="width:auto;">
-									<option value="">09:40</option>
-									<option value="">11:40</option>
-									<option value="">13:40</option>
-									
-								</select>
-								</div>
+								
 								</td>
 								</tr>
 						</table>
@@ -397,11 +389,25 @@
             		success:function(data) {
             			var $target = theaterID;
             			var json = jQuery.parseJSON(JSON.stringify(data));
-            			console.log(json);
-            			console.log(json[0].movieName);
-            			console.log(Object.keys(json[0]).length);
-            		}
-            		
+            			var totalLength = Object.keys(json).length;
+            			var divValue = "";
+            			
+            			for( var i=0; i<totalLength; i++ ) {
+            				var jsonLength = Object.keys(json[i]).length;
+            				divValue = "<div class='d-inline-block'>";
+            				divValue += "<strong id='sID'>"+json[i].sID+"</strong>&nbsp;"+json[i].movieName;
+            				divValue += "<button type='button' class='close'>&times;</button>&nbsp;";
+            				divValue += "<select class='input-select' style='width:auto;'>";
+            				for( var j=0; j<jsonLength-2; j++ ) {
+            					var jsonKey = "time-"+j;
+            					divValue += "<option value=''>"+json[i][jsonKey]+"</option>";
+            				}
+            				divValue+= "</select></div>";
+            				$("#sList").append(divValue);
+            			}
+            			
+            				
+            			}
             	});
             }
             
