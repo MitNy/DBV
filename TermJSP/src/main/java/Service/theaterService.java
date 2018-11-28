@@ -3,41 +3,15 @@ package Service;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import Dao.Database;
 
 public class theaterService {
-	private String theaterID;
-	private String theaterName;
-	private String sID;
-	private String movieName;
-	
-	public String getTheaterID() {
-		return theaterID;
-	}
-	public void setTheaterID(String theaterID) {
-		this.theaterID = theaterID;
-	}
-	public String getTheaterName() {
-		return theaterID;
-	}
-	public void setTheaterName(String theaterName) {
-		this.theaterName = theaterName;
-	}
-	public String getSID() {
-		return sID;
-	}
-	public void setSID(String sID) {
-		this.sID = sID;
-	}
-	public String getMovieName() {
-		return movieName;
-	}
-	public void setMovieName(String movieName) {
-		this.movieName = movieName;
-	}
 	
 	public JSONArray getTheater() throws Exception {
 		//List<String> movieList = new ArrayList<String>();
@@ -149,7 +123,6 @@ public class theaterService {
 		}
 		return null;
 	}
-	
 	public boolean addSangyounggwan(String sID, String theaterID, String movieName,String movieTime) throws Exception {
 		Database dbCon = new Database();
 		Connection conn = dbCon.GetConnection();
@@ -186,8 +159,9 @@ public class theaterService {
 				ps.setString(1, theaterID);
 				ps.setString(2, sID);
 				ps.setInt(3, 120);
-				hour += forValue;
+				
 				String input = String.valueOf(hour)+":"+split_hour[1];
+				hour += forValue;
 				ps.setString(4,input );
 				ps.executeUpdate();
 			}
@@ -213,7 +187,6 @@ public class theaterService {
 			PreparedStatement ps = conn.prepareStatement(getQuery);
 			ps.setString(1,theaterID);
 			ResultSet rs = ps.executeQuery();
-			setTheaterID(theaterID);
 			while(rs.next()) {
 				sID = rs.getString("sID");
 				movieName = rs.getString("movieName");
@@ -244,7 +217,6 @@ public class theaterService {
 			time.put("movieName",movieName);
 			while(rs.next()) {
 				time.put("time-"+i, rs.getString("time"));
-				System.out.print(rs.getString("time"));
 				i++;
 			}
 			return time;
@@ -253,5 +225,64 @@ public class theaterService {
 			System.out.print(e.getMessage());
 		}
 		return null;
+	}
+	
+	public String getSList(String theaterID) throws Exception {
+		JSONArray sArray = new JSONArray();
+		Database dbCon = new Database();
+		Connection conn = dbCon.GetConnection();
+		try {
+			String getQuery="select sID from sangyounggwan where theaterID=?";
+			PreparedStatement ps = conn.prepareStatement(getQuery);
+			ps.setString(1, theaterID);
+			ResultSet rs = ps.executeQuery();
+			String result = "";
+			while(rs.next()) {
+				result += rs.getString("sID")+" ";
+			}
+			return result;
+		}
+		catch(Exception e ) {
+			System.out.print(e.getMessage());
+		}
+		return null;
+	}
+	
+	public int getSeatsNumber(String theaterID) throws Exception {
+		JSONArray sArray = new JSONArray();
+		Database dbCon = new Database();
+		Connection conn = dbCon.GetConnection();
+		try {
+			String getQuery="select count(*) as totalSeats from sangyounggwan where theaterID=?";
+			PreparedStatement ps = conn.prepareStatement(getQuery);
+			ps.setString(1, theaterID);
+			ResultSet rs = ps.executeQuery();
+			int totalSeats = 0;
+			while(rs.next()) {
+				totalSeats = rs.getInt("totalSeats");
+			}
+			return totalSeats;
+		}
+		catch(Exception e ) {
+			System.out.print(e.getMessage());
+		}
+		return 0;
+	}
+	
+	public boolean deleteTheater(String theaterID) throws Exception {
+		Database dbCon = new Database();
+		Connection conn = dbCon.GetConnection();
+		try {
+			String deleteQuery = "delete from theater where theaterID=?";
+			PreparedStatement ps = conn.prepareStatement(deleteQuery);
+			ps.setString(1, theaterID);
+			ps.executeUpdate();
+			
+			return true;
+		}
+		catch(Exception e) {
+			System.out.print(e.getMessage());
+		}
+		return false;
 	}
 }

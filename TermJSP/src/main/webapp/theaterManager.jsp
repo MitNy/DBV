@@ -180,7 +180,7 @@
                                     <th>주소</th>
                                     <th>전화번호</th>
                                     <th>상영관</th>
-                                    <th>좌석 수</th>
+                                    <th>총 좌석 수</th>
                                     <th colspan="3">관리</th>
                                 </tr>
                                 </thead>
@@ -190,16 +190,18 @@
                                 	for(int i=0; i< theaterList.size(); i++ ) {
                                 		JSONObject theater = (JSONObject) theaterList.get(i);
                                 		String target = theater.get("theaterID-"+i).toString();
+                                		String list = ts.getSList(target);
+                                		int totalSeats = ts.getSeatsNumber(target);
                                 		out.print("<tr id='"+target+"'>");
                                 		out.print("<td>"+theater.get("theaterID-"+i)+"</td>");
                                 		out.print("<td>"+theater.get("theaterName-"+i)+"</td>");
                                 		out.print("<td>"+theater.get("address-"+i)+"</td>");
                                 		out.print("<td>"+theater.get("number-"+i)+"</td>");
-                                		out.print("<td></td>");
-                                		out.print("<td></td>");
+                                		out.print("<td>"+list+"</td>");
+                                		out.print("<td>"+(120*totalSeats)+"</td>");
                                 		out.print("<td><a id='sManager' onclick=dynamicManagerModal('"+target+"')>상영관 관리</a></td>");
-                                		out.print("<td><a href=''>수정</a></td>");
-                                		out.print("<td><a href=''>삭제</a></td>");
+                                		out.print("<td><a id='editBtn' onclick=dynamicEditModal('"+target+"')>수정</a></td>");
+                                		out.print("<td><a id='deleteBtn' onclick=dynamicDeleteModal('"+target+"')>삭제</a></td>");
                                 		out.print("</tr>");
                                 	}
                                 
@@ -351,7 +353,21 @@
 </div>
         
         <!--  /sangyounggwan modal -->
-        
+         <!--delete modal-->
+	   <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+      	<p><strong id="target-name"></strong> 삭제 하시겠습니까?</p>
+      </div>
+      <div class="modal-footer">
+      <button type="button" class="btn btn-primary" id="yes">예</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">아니오</button>
+      </div>
+    </div>
+  </div>
+</div>
+        <!-- /delete modal -->
 
 		<!-- jQuery Plugins -->
 		<script src="js/jquery.min.js"></script>
@@ -374,7 +390,7 @@
             	$("#sModal").modal("show");
             	$("#sModal #theaterID").html(target);
             	$("#sModal #theaterName").html($("#"+target).find("td:nth-child(2)").text());
-            	getSangyounggwanInfo($("#sModal #theaterID").html());
+            	getSangyounggwanInfo(target);
             	
             }
             
@@ -391,21 +407,23 @@
             			var json = jQuery.parseJSON(JSON.stringify(data));
             			var totalLength = Object.keys(json).length;
             			var divValue = "";
+            			var result = "";
             			
             			for( var i=0; i<totalLength; i++ ) {
             				var jsonLength = Object.keys(json[i]).length;
             				divValue = "<div class='d-inline-block'>";
             				divValue += "<strong id='sID'>"+json[i].sID+"</strong>&nbsp;"+json[i].movieName;
-            				divValue += "<button type='button' class='close'>&times;</button>&nbsp;";
+            				divValue += "<button type='button' class='close' >&times;</button>&nbsp;";
             				divValue += "<select class='input-select' style='width:auto;'>";
             				for( var j=0; j<jsonLength-2; j++ ) {
             					var jsonKey = "time-"+j;
             					divValue += "<option value=''>"+json[i][jsonKey]+"</option>";
             				}
             				divValue+= "</select></div>";
-            				$("#sList").append(divValue);
+            				result += divValue;
+            				
             			}
-            			
+            			$("#sList").html(result);
             				
             			}
             	});
@@ -430,6 +448,26 @@
        			// ajax로  getSangyounggwanInfo 에 요청 -> json object받아옴 
        			);
             });
+            
+            function dynamicDeleteModal(target) {
+            	$("#target-name").html(target);
+            	$("#deleteModal").modal("show");
+           		$("#yes").click(function() {
+           			$.post("deleteTheater.jsp",
+           					{
+           						"theaterID":target
+           					},
+           					function(data,status) {
+           						$("#deleteModal .modal-footer").hide();
+           						$("#deleteModal .modal-body").html(data);
+           						setTimeout(function(){
+           						},5000);
+           						window.location.reload();
+           					}	
+           			);
+           		});
+            }
+            
         </script>
 	</body>
 </html>
