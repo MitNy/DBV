@@ -274,6 +274,7 @@
                                 	JSONArray reservationList = rvs.getReservation(sessionID);
                                 	for(int i=0; i< reservationList.size(); i++ ) {
                                 		JSONObject theater = (JSONObject) reservationList.get(i);
+                                		String target = theater.get("reservNumber-"+i).toString();
                                 		out.print("<tr>");
                                 		out.print("<td>"+theater.get("reservNumber-"+i)+"</td>");
                                 		out.print("<td>"+theater.get("movie-"+i)+"</td>");
@@ -282,8 +283,8 @@
                                 		out.print("<td>"+theater.get("time-"+i)+"</td>");
                                 		out.print("<td>"+theater.get("seat-"+i)+"</td>");
                                 		out.print("<td>"+theater.get("TF-"+i)+"</td>");
-                                		out.print("<td>티켓 조회</td>");
-                                		out.print("<td>예매 취소</td>");
+                                		out.print("<td class='tableBtn' onclick=dynamicTicketModal('"+target+"')>티켓 조회</td>");
+                                		out.print("<td class='tableBtn' onclick=dynamicCancelModal('"+target+"')>예매 취소</td>");
                                 		out.print("</tr>");
                                 	}
                                 

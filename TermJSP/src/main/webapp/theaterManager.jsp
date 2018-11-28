@@ -199,9 +199,9 @@
                                 		out.print("<td>"+theater.get("number-"+i)+"</td>");
                                 		out.print("<td>"+list+"</td>");
                                 		out.print("<td>"+(120*totalSeats)+"</td>");
-                                		out.print("<td><a id='sManager' onclick=dynamicManagerModal('"+target+"')>상영관 관리</a></td>");
-                                		out.print("<td><a id='editBtn' onclick=dynamicEditModal('"+target+"')>수정</a></td>");
-                                		out.print("<td><a id='deleteBtn' onclick=dynamicDeleteModal('"+target+"')>삭제</a></td>");
+                                		out.print("<td><a class='tableBtn' onclick=dynamicManagerModal('"+target+"')>상영관 관리</a></td>");
+                                		out.print("<td><a class='tableBtn' onclick=dynamicEditModal('"+target+"')>수정</a></td>");
+                                		out.print("<td><a class='tableBtn' onclick=dynamicDeleteModal('"+target+"')>삭제</a></td>");
                                 		out.print("</tr>");
                                 	}
                                 

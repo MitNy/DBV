@@ -197,8 +197,8 @@
                                 		out.print("<td>"+movie.get("cast-"+i)+"</td>");
                                 		out.print("<td>"+movie.get("grade-"+i)+"</td>");
                                 		out.print("<td>"+movie.get("information-"+i)+"</td>");
-                                		out.print("<td><a id='editBtn' onclick=dynamicEditModal('"+target+"')>수정</a></td>");
-                                		out.print("<td><a id='deleteBtn' onclick=dynamicDeleteModal('"+target+"')>삭제</a></td>");
+                                		out.print("<td><a class='tableBtn' onclick=dynamicEditModal('"+target+"')>수정</a></td>");
+                                		out.print("<td><a class='tableBtn' onclick=dynamicDeleteModal('"+target+"')>삭제</a></td>");
                                 		out.print("</tr>");
                                 	}
                                 

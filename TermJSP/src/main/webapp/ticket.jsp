@@ -195,7 +195,8 @@
                                 	JSONArray reservationList = rvs.getAllReservation();
                                 	for(int i=0; i< reservationList.size(); i++ ) {
                                 		JSONObject theater = (JSONObject) reservationList.get(i);
-                                		out.print("<tr>");
+                                		String target = theater.get("reservNumber-"+i).toString();
+                                		out.print("<tr id='"+target+"'>");
                                 		out.print("<td>"+theater.get("reservNumber-"+i)+"</td>");
                                 		out.print("<td>"+theater.get("user-"+i)+"</td>");
                                 		out.print("<td>"+theater.get("movie-"+i)+"</td>");
@@ -204,8 +205,8 @@
                                 		out.print("<td>"+theater.get("time-"+i)+"</td>");
                                 		out.print("<td>"+theater.get("seat-"+i)+"</td>");
                                 		out.print("<td>"+theater.get("TF-"+i)+"</td>");
-                                		out.print("<td>결제</td>");
-                                		out.print("<td>발권</td>");
+                                		out.print("<td class='tableBtn' onclick=dynamicPayModal('"+target+"')>결제</td>");
+                                		out.print("<td class='tableBtn'>발권</td>");
                                 		out.print("</tr>");
                                 	}
                                 
@@ -338,7 +339,23 @@
             </div>
         </div>
         <!-- /modal -->
-        
+        <!--pay modal-->
+	   <div class="modal fade" id="payModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+      </div>
+      <div class="modal-footer">
+      <button type="button" class="btn btn-primary" id="yes">예</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">아니오</button>
+      </div>
+    </div>
+  </div>
+</div>
+        <!-- /pay modal -->
 
 		<!-- jQuery Plugins -->
 		<script src="js/jquery.min.js"></script>
@@ -355,7 +372,21 @@
                 else {
                     $(this).addClass("active");
                 }
-            })
+            });
+            
+            function dynamicPayModal(target) {
+            	var userID = $("#"+target).find("td:nth-child(2)").text();
+            	var TF = $("#"+target).find("td:nth-child(8)").text();
+            	if( TF == "T" ) {
+            		$("#payModal .modal-body").html("이미 결제되었습니다.");
+            		$("#payModal .modal-footer").hide();
+            		$("#payModal").modal("show");
+            	}
+            	else {
+            		$("#payModal .modal-body").html("돈 내라");
+            	}
+            	
+            }
         </script>
 	</body>
 </html>

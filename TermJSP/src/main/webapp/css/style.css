@@ -2498,6 +2498,9 @@ textarea.input {
 	text-align:center;
 }
 
+.tableBtn {
+	cursor:pointer;
+}
 #editBtn, #deleteBtn, #sManager{
 	cursor:pointer;
 }
@@ -2542,4 +2545,19 @@ textarea.input {
 	color:white;
 	width:100%;
 	border:0;
+}
+
+#payBtn, #ticketBtn {
+	cursor:pointer;
+}
+
+#payModal {
+	margin-top:20%;
+}
+#payModal .modal-body {
+	text-align:center;
+}
+
+#payModal .modal-header {
+	height:10px;
 }
