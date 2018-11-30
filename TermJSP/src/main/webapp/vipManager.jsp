@@ -190,21 +190,38 @@
                                 </thead>
                                 <tbody>
                                     <%
-                                    	String searchValue = request.getParameter("search-value");
                                     	adminService as = new adminService();
-                                		JSONArray userList = as.getVipUser();
-                                	for(int i=0; i<userList.size(); i++ ) {
-                                		JSONObject user = (JSONObject) userList.get(i);
-                                		String target = user.get("userID-"+i).toString();
-										out.print("<tr id='"+target+"'>");
-										out.print("<td>"+(i+1)+"</td>");
-										out.print("<td>"+user.get("userID-"+i)+"</td>");
-										out.print("<td>"+user.get("result-"+i)+"</td>");
-										out.print("<td>"+user.get("userPoint-"+i)+"</td>");
-										out.print("<td>"+user.get("userGrade-"+i)+"</td>");
-										//out.print("<td><a class='tableBtn' onclick=dynamicGradeModal('"+target+"')>등급 변경</a></td>");
-                                		out.print("</tr>");
-                                	}
+                                    	String searchValue = request.getParameter("search-value");
+                                    	if( searchValue == null ) {
+	                                		JSONArray userList = as.getVipUser();
+		                                	for(int i=0; i<userList.size(); i++ ) {
+		                                		JSONObject user = (JSONObject) userList.get(i);
+		                                		String target = user.get("userID-"+i).toString();
+												out.print("<tr id='"+target+"'>");
+												out.print("<td>"+(i+1)+"</td>");
+												out.print("<td>"+user.get("userID-"+i)+"</td>");
+												out.print("<td>"+user.get("result-"+i)+"</td>");
+												out.print("<td>"+user.get("userPoint-"+i)+"</td>");
+												out.print("<td>"+user.get("userGrade-"+i)+"</td>");
+												//out.print("<td><a class='tableBtn' onclick=dynamicGradeModal('"+target+"')>등급 변경</a></td>");
+		                                		out.print("</tr>");
+		                                	}
+                                		}
+                                    	else {
+                                			JSONArray searchList = as.getVipUser(searchValue);
+                                			for(int i=0; i<searchList.size(); i++ ) {
+		                                		JSONObject user = (JSONObject) searchList.get(i);
+		                                		String target = user.get("userID-"+i).toString();
+												out.print("<tr id='"+target+"'>");
+												out.print("<td>"+(i+1)+"</td>");
+												out.print("<td>"+user.get("userID-"+i)+"</td>");
+												out.print("<td>"+user.get("result-"+i)+"</td>");
+												out.print("<td>"+user.get("userPoint-"+i)+"</td>");
+												out.print("<td>"+user.get("userGrade-"+i)+"</td>");
+												//out.print("<td><a class='tableBtn' onclick=dynamicGradeModal('"+target+"')>등급 변경</a></td>");
+		                                		out.print("</tr>");
+		                                	}
+                                		}
                                 
                                 %>
                                 </tbody>

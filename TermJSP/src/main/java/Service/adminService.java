@@ -93,6 +93,31 @@ public class adminService {
 		}
 		return null;
 	}
+	public JSONArray getVipUser(String search) throws Exception {
+		JSONArray userList = new JSONArray();
+		JSONObject user = new JSONObject();
+		Database dbCon = new Database();
+		Connection conn = dbCon.GetConnection();
+		try {
+			String getQuery="select id,point,(select count(*) from reservation where userID=customer.id) as result,grade from customer where id like '"+search+"%' order by result desc limit 10";
+			PreparedStatement ps = conn.prepareStatement(getQuery);
+			ResultSet rs = ps.executeQuery();
+			int i=0;
+			while(rs.next()) {
+				user.put("userID-"+i, rs.getString("id"));
+				user.put("userPoint-"+i,rs.getInt("point"));
+				user.put("result-"+i, rs.getInt("result"));
+				user.put("userGrade-"+i, rs.getString("grade"));
+				userList.add(user);
+				i++;
+			}
+			return userList;
+		}
+		catch(Exception e ) {
+			
+		}
+		return null;
+	}
 	
 	public boolean updateUserGrade(String userID, String grade) throws Exception {
 		Database dbCon = new Database();
