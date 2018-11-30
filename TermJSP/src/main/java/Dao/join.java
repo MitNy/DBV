@@ -14,7 +14,7 @@ public class join {
 			SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd");
 			java.util.Date date = formater.parse(birthday);
 			java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-			String joinQuery = "insert into customer (id,password,name,birthday,address,phone,point) values (?,?,?,?,?,?,?)";
+			String joinQuery = "insert into customer (id,password,name,birthday,address,phone,point,grade) values (?,?,?,?,?,?,?,?)";
 		
 			PreparedStatement ps = conn.prepareStatement(joinQuery);
 			ps.setString(1, id);
@@ -24,6 +24,7 @@ public class join {
 			ps.setString(5,address);
 			ps.setString(6,tel);
 			ps.setInt(7, 0);
+			ps.setString(8, "일반");
 			ps.executeUpdate();
 			
 			ps.close();

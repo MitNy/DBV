@@ -241,7 +241,7 @@
 								<h4>회원 등급</h4>
                                 <div class="product-rating">
 								</div>
-								<h4 class="product-price">VIP</h4>
+								<h4 class="product-price"><% out.print(is.getUserGrade()); %></h4>
 								
 							</div>
 						</div>

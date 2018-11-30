@@ -2,6 +2,8 @@
 <% request.setCharacterEncoding("UTF-8"); %>
 <%@ page import="Service.infoService" %>
 <%@ page import="Service.adminService" %>
+<%@ page import="org.json.simple.JSONArray" %>
+<%@ page import="org.json.simple.JSONObject" %>
 
 <!DOCTYPE html>
 <html lang="kr">
@@ -169,10 +171,10 @@
                 <div class="billing-details">
                     <!-- SEARCH BAR -->
 				    <div class="vip-search">
-								<form>
-									<input class="input" placeholder="">
-									<button class="search-btn">검색</button>
-								</form>
+						<form action="vipManager.jsp" method="get" name="vipSearch">
+							<input class="input" name="search-value" placeholder="">
+							<input type="submit" class="search-btn" value="검색">
+						</form>
 				    </div>
 						<!-- /SEARCH BAR -->
 				<table id="reservation-list">
@@ -183,16 +185,28 @@
                                     <th>구매 실적</th>
                                     <th>포인트</th>
                                     <th>등급</th>
+                                    <!-- <th>관리</th> -->
                                 </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>mmjlee314</td>
-                                        <td>100</td>
-                                        <td>10000</td>
-                                        <td>VIP</td>
-                                    </tr>
+                                    <%
+                                    	String searchValue = request.getParameter("search-value");
+                                    	adminService as = new adminService();
+                                		JSONArray userList = as.getVipUser();
+                                	for(int i=0; i<userList.size(); i++ ) {
+                                		JSONObject user = (JSONObject) userList.get(i);
+                                		String target = user.get("userID-"+i).toString();
+										out.print("<tr id='"+target+"'>");
+										out.print("<td>"+(i+1)+"</td>");
+										out.print("<td>"+user.get("userID-"+i)+"</td>");
+										out.print("<td>"+user.get("result-"+i)+"</td>");
+										out.print("<td>"+user.get("userPoint-"+i)+"</td>");
+										out.print("<td>"+user.get("userGrade-"+i)+"</td>");
+										//out.print("<td><a class='tableBtn' onclick=dynamicGradeModal('"+target+"')>등급 변경</a></td>");
+                                		out.print("</tr>");
+                                	}
+                                
+                                %>
                                 </tbody>
                     </table>
                 </div>
@@ -235,6 +249,30 @@
 			</div>
 			<!-- /bottom footer -->
 		</footer>
+		
+		 <!--grade modal-->
+	   <div class="modal fade" id="gradeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+      	<p><strong id="target-name"></strong> 회원의 등급 변경</p>
+      	<p>현재 등급 : <strong id="target-grade"></strong></p>
+      	<select id="select-grade">
+      		<option value="">-- * --</option>
+      		<option value="general">일반</option>
+      		<option value="vip">VIP</option>
+      	</select>
+      	<p class="alert"></p>
+      </div>
+      <div class="modal-footer">
+      <button type="button" class="btn btn-primary" id="yes">확인</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+      </div>
+    </div>
+  </div>
+</div>
+        <!-- /delete modal -->	
+		
 		<!-- /FOOTER -->
 		<!-- jQuery Plugins -->
 		<script src="js/jquery.min.js"></script>
@@ -251,7 +289,37 @@
                 else {
                     $(this).addClass("active");
                 }
-            })
+            });
+            function dynamicGradeModal(target) {
+            	$("#gradeModal #target-name").html(target);
+            	var currentGrade = $("#"+target).find("td:nth-child(5)").text();
+            	$("#gradeModal #target-grade").html(currentGrade);
+            	$("#gradeModal").modal("show");
+            	
+            	var updateGrade = null;
+            	$("#select-grade").change(function() {
+    				updateGrade = $("#select-grade option:selected").text();
+    			});
+            	$("#yes").click(function() {
+            		if( currentGrade == updateGrade ) {
+            			$(".alert").html("동일한 등급으로 변경할 수 없습니다.");
+            		}
+            		else {
+            			$.post("updateGrade.jsp",
+            					{
+            						"userID":target,
+            						"grade":updateGrade
+            					},
+            					function(data,status) {
+            						$("#gradeModal .modal-footer").hide();
+               						$("#gradeModal .modal-body").html(data);
+               						window.location.reload();
+            				}
+            		);
+            		}
+            	});
+            }
+            
         </script>
 	</body>
 </html>

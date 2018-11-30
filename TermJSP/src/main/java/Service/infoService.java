@@ -16,6 +16,7 @@ public class infoService {
 	private String userAddress;
 	private String userPhone;
 	private int userPoint;
+	private String userGrade;
 	
 	public String getUserName() {
 		return userName;
@@ -47,13 +48,18 @@ public class infoService {
 	public void setUserPoint(int userPoint) {
 		this.userPoint = userPoint;
 	}
-	
+	public String getUserGrade() {
+		return userGrade;
+	}
+	public void setUserGrade(String userGrade) {
+		this.userGrade = userGrade;
+	}
 	
 	public void getUserInfo(String sessionID) throws Exception {
 		Database dbCon = new Database();
 		Connection conn = dbCon.GetConnection();
 		try {
-			String pointQuery="select name,birthday,address,phone,point from customer where id=?";
+			String pointQuery="select name,birthday,address,phone,point,grade from customer where id=?";
 			PreparedStatement pq = conn.prepareStatement(pointQuery);
 			pq.setString(1, sessionID);
 			ResultSet rs = pq.executeQuery();
@@ -63,6 +69,7 @@ public class infoService {
 			setUserAddress(rs.getString("address"));
 			setUserPhone(rs.getString("phone"));
 			setUserPoint(rs.getInt("point"));
+			setUserGrade(rs.getString("grade"));
 		}
 		catch(Exception e ) {
 			System.out.println(e.getMessage());
