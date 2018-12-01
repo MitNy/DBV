@@ -243,12 +243,7 @@
 								<h3 class="title">시간 선택</h3>
 							</div>
                             <select class="input-select" id="select-time" name="select-time" style="width:100%;">
-                            	<option value='' selected>-- 선택 --</option>
-                                <option value="0">09:40 (150석)</option>
-                                <option value="0">12:40 (111석)</option>
-                                <option value="0">15:40 (124석)</option>
-                                <option value="0">18:40 (10석)</option>
-                                <option value="0">20:40 (17석)</option>
+                            	
 				            </select>
 						</div><br>
                         <div class="select-seats">
@@ -657,6 +652,19 @@
 				$("#selected-theater").html($("#select-theater option:selected").text());
 				$("input[name=selected-theater]").val($("#select-theater option:selected").text());
 				
+				if($("input[name=selected-movie]").val() != "" && $("input[name=selected-theater]").val() != "" ) {
+					$.post("getMovieTime.jsp",
+						{
+							"movieName":$("#select-movie option:selected").text(),
+							"theaterName":$("#select-theater option:selected").text()
+						},
+						function(data,status) {
+							$("#select-time").html(data);
+						}
+					);
+					
+				}
+			
 			});
 			$("#select-date").change(function() {
 				$("#selected-date").html($("#select-date").val());

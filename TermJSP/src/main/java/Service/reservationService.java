@@ -63,9 +63,6 @@ public class reservationService {// 랜덤한 reserv_number 생성
 		
 		int point = getUserPoint(userID);
 		int updatedPoint = point-usedPoint;
-		System.out.print("saved point: "+point);
-		System.out.print(usedPoint);
-		System.out.print(updatedPoint);
 		Database dbCon = new Database();
 		Connection conn = dbCon.GetConnection();
 		try {
@@ -105,7 +102,41 @@ public class reservationService {// 랜덤한 reserv_number 생성
 		}
 	}
 	
+	public int getHowmany(String reserv_number) throws Exception {
+		Database dbCon = new Database();
+		Connection conn = dbCon.GetConnection();
+		try {
+			String getQuery="select howmany from reservation where reserv_number=?";
+			PreparedStatement ps = conn.prepareStatement(getQuery);
+			ps.setString(1, reserv_number);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			int howmany = rs.getInt("howmany");
+			return howmany;
+		}
+		catch(Exception e ) {
+			
+		}
+		return 0;
+	}
 	
+	public String getUserID(String reserv_number) throws Exception {
+		Database dbCon = new Database();
+		Connection conn = dbCon.GetConnection();
+		try {
+			String getQuery="select userID from reservation where reserv_number=?";
+			PreparedStatement ps = conn.prepareStatement(getQuery);
+			ps.setString(1, reserv_number);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			String userID = rs.getString("userID");
+			return userID;
+		}
+		catch(Exception e ) {
+			
+		}
+		return null;
+	}
 	
 	public boolean reservation(String userID,String movieName,String theaterName,
 		String date, String time, String seats, String ticketNumber, String usePoint,String usedPoint, String totalPrice) throws Exception {
@@ -211,5 +242,25 @@ public class reservationService {// 랜덤한 reserv_number 생성
 			
 		}
 		return null;
+	}
+	
+	public boolean cancelReservation(String reserv_number) throws Exception {
+		Database dbCon = new Database();
+		Connection conn = dbCon.GetConnection();
+		try {
+			String deleteQuery = "delete from reservation where reserv_number=?";
+			PreparedStatement ps = conn.prepareStatement(deleteQuery);
+			ps.setString(1, reserv_number);
+			int howmany = getHowmany(reserv_number);
+			String userID = getUserID(reserv_number);
+			subPoint(userID, howmany*100);
+			ps.executeUpdate();
+			
+			return true;
+		}
+		catch(Exception e) {
+			System.out.print(e.getMessage());
+		}
+		return false;
 	}
 }

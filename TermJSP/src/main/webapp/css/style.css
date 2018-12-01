@@ -2569,6 +2569,13 @@ textarea.input {
 	text-align:center;
 }
 
+#cancelModal {
+	margin-top:20%;
+}
+#cancelModal .modal-body {
+	text-align:center;
+}
+
 .alert {
 	color:#D10024;
 }

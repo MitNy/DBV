@@ -275,7 +275,7 @@
                                 	for(int i=0; i< reservationList.size(); i++ ) {
                                 		JSONObject theater = (JSONObject) reservationList.get(i);
                                 		String target = theater.get("reservNumber-"+i).toString();
-                                		out.print("<tr>");
+                                		out.print("<tr id='"+target+"'>");
                                 		out.print("<td>"+theater.get("reservNumber-"+i)+"</td>");
                                 		out.print("<td>"+theater.get("movie-"+i)+"</td>");
                                 		out.print("<td>"+theater.get("theater-"+i)+"</td>");
@@ -336,6 +336,22 @@
   </div>
 </div>
         <!-- /delete modal -->
+        
+         <!--cancle modal-->
+	   <div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+      	<p><strong id="target-name"></strong> 예매를 취소하시겠습까?</p>
+      </div>
+      <div class="modal-footer">
+      <button type="button" class="btn btn-primary" id="yes">예</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">아니오</button>
+      </div>
+    </div>
+  </div>
+</div>
+        <!-- /cancle modal -->
 
 
 		<!-- jQuery Plugins -->
@@ -360,7 +376,7 @@
 			$("#outCustomer").click(function() {
 				var target = "<%=sessionID %>";
 				$("#outModal").modal("show");
-				$("#yes").click(function() {
+				$("#outCustomer #yes").click(function() {
 					$.post("outCustomer.jsp",
 						{
 							"userID":target
@@ -374,6 +390,42 @@
 					);
 				});
 			});
+			
+			function dynamicCancelModal(target) {
+				var reserv_date = $("#"+target).find("td:nth-child(4)").text();
+				var movie_time = $("#"+target).find("td:nth-child(5)").text();
+				var date = new Date();
+				var yyyy = date.getFullYear();
+				var mm = ("0"+(date.getMonth()+1)).slice(-2);
+				var dd = ("0"+(date.getDate())).slice(-2);
+				var hh = ("0"+(date.getHours())).slice(-2);
+				var ms = ("0"+(date.getMinutes())).slice(-2);
+				var today = yyyy+"-"+mm+"-"+dd;
+				var time = hh+":"+ms;
+				if( (reserv_date < today) || (reserv_date == today && movie_time < time )) {
+					$("#cancelModal .modal-footer").hide();
+					$("#cancelModal .modal-body").html("지난 날짜의 예매는 취소할 수 없습니다.");
+					$("#cancelModal").modal("show");
+				}
+				else {
+				$("#cancelModal").modal("show");
+				$("#cancelModal #target-name").html(target);
+				}
+				
+				$("#cancelModal #yes").click(function() {
+					$.post("cancelReservation.jsp",
+						{
+							"reserv_number":target
+						},
+						function(data,status) {
+							$("#cancelModal .modal-footer").hide();
+       						$("#cancelModal .modal-body").html(data);
+       						window.location.reload();
+       						
+						}
+					);
+				});
+			}
 			
 		</script>
 	</body>

@@ -366,4 +366,28 @@ public class theaterService {
 		}
 		
 	}
+	public String getTimeList(String theaterID,String movieName) throws Exception {
+		Database dbCon = new Database();
+		Connection conn = dbCon.GetConnection();
+		System.out.print(theaterID);
+		System.out.print(movieName);
+		try {
+			String selectValue = "<option value='' selected>-- 선택 --</option>";
+			String getQuery="select sID,time from time where theaterID=? and sID = any(select sID from sangyounggwan where movieName=?)";
+			PreparedStatement ps = conn.prepareStatement(getQuery);
+			ps.setString(1,theaterID);
+			ps.setString(2,movieName);
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				selectValue += "<option value=''>"+rs.getString("time")+" ("+rs.getString("sID")+") </option>";
+			}
+			
+			return selectValue;
+		}
+		catch(Exception e ) {
+			System.out.print(e.getMessage());
+		}
+		return null;
+	}
 }
