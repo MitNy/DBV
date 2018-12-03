@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<% request.setCharacterEncoding("UTF-8"); %>
 <%@ page import="java.sql.Connection" %>
 <%@ page import="Dao.Database" %>
 <%@ page import="Dao.loginCheck" %>
@@ -20,7 +20,7 @@
 		response.sendRedirect("movieManager.jsp");
 	}
 	else {
-		%> <script>alert('¾ÆÀÌµğ ¶Ç´Â ºñ¹Ğ¹øÈ£°¡ ÀÏÄ¡ÇÏÁö ¾Ê½À´Ï´Ù.');window.location.href='login.jsp';</script>
+		%> <script>alert('ì•„ì´ë”” ë˜ëŠ” ë¹„ë°€ë²ˆí˜¸ê°€ ì¼ì¹˜í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.');window.location.href='login.jsp';</script>
 		<%
 	}
 	

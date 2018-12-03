@@ -7,6 +7,28 @@ import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 
 public class join {
+	public boolean idCheck(String id) throws Exception {
+		Database dbCon = new Database();
+		Connection conn = dbCon.GetConnection();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			String getQuery="select id from customer where id=?";
+			ps = conn.prepareStatement(getQuery);
+			ps.setString(1, id);
+			rs = ps.executeQuery();
+			return rs.isBeforeFirst();
+		}
+		catch(Exception e ) {
+			System.out.print(e.getMessage());
+		}
+		finally {
+			ps.close();
+			rs.close();
+			conn.close();
+		}
+		return false;
+	}
 	public boolean joinCheck(String id,String pwd,String name,String birthday, String address,String tel ) throws Exception {
 		Database dbCon = new Database();
 		Connection conn = dbCon.GetConnection();

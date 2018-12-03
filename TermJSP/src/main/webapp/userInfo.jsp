@@ -435,7 +435,7 @@
 			$("#outCustomer").click(function() {
 				var target = "<%=sessionID %>";
 				$("#outModal").modal("show");
-				$("#outCustomer #yes").click(function() {
+				$("#yes").click(function() {
 					$.post("outCustomer.jsp",
 						{
 							"userID":target

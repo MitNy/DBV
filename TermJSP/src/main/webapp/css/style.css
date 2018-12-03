@@ -2578,3 +2578,11 @@ textarea.input {
 	width:100%;
 }
 
+.check-btn {
+	margin:10px;
+    background-color: black;
+    color: white;
+    padding:5px;
+    border:0px;
+}
+

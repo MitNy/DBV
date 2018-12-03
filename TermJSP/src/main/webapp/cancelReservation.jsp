@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<% request.setCharacterEncoding("UTF-8"); %>
 <%@ page import="java.sql.Connection" %>
 <%@ page import="Dao.Database" %>
 <%@ page import="Service.reservationService" %>
@@ -10,11 +10,11 @@
 	boolean deleteResult = rvs.cancelReservation(reserv_number);
 	if( deleteResult) {
 		response.setContentType("text/html");
-		response.getWriter().write("¿¹¸Å¸¦ Ãë¼ÒÇß½À´Ï´Ù.");
+		response.getWriter().write("ì˜ˆë§¤ë¥¼ ì·¨ì†Œí–ˆìŠµë‹ˆë‹¤.");
 	}
 	else {
 		response.setContentType("text/html");
-		response.getWriter().write("¿¹¸Å¸¦ Ãë¼ÒÇÒ ¼ö ¾ø½À´Ï´Ù.");
+		response.getWriter().write("ì˜ˆë§¤ë¥¼ ì·¨ì†Œí•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
 	}
 	
 	

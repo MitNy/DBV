@@ -9,8 +9,10 @@ import org.json.simple.JSONObject;
 
 import Dao.Database;
 import Dao.nameGetter;
+import Service.reservationService;
 
 public class infoService {
+	reservationService rs = new reservationService();
 	private String userName;
 	private String userBirthday;
 	private String userAddress;
@@ -109,6 +111,7 @@ public class infoService {
 			PreparedStatement ps = conn.prepareStatement(deleteQuery);
 			ps.setString(1, id);
 			ps.executeUpdate();
+			rs.deleteReservationWithUserID(id);
 			ps.close();
 			conn.close();
 			return true;

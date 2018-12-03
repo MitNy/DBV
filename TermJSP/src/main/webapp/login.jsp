@@ -1,10 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<% request.setCharacterEncoding("UTF-8"); %>
 <% if(session.getAttribute("user-session") != null ) { %>
-	<script> alert("�̹� �α��� �Ǿ� �ֽ��ϴ�."); history.go(-1);</script>
+	<script> alert("이미 로그인 되어 있습니다."); history.go(-1);</script>
 <% } %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="kr">
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -44,12 +44,12 @@
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
         <i class="fa fa-user"></i>User</a>
         <ul class="dropdown-menu user-dropdown">
-          <li><a href="userInfo.jsp"><i class="fas fa-user-circle"></i>&nbsp;&nbsp;��������</a></li>
+          <li><a href="userInfo.jsp"><i class="fas fa-user-circle"></i>&nbsp;&nbsp;개인정보</a></li>
           <%
           	if( session.getAttribute("user-session") != null || session.getAttribute("admin-session") != null) {        	  %>
-				<li><a href="logout.jsp"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;�α׾ƿ�</a></li>
+				<li><a href="logout.jsp"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;로그아웃</a></li>
           <% } else { %>
-          <li><a href="login.jsp"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;�α���</a></li>
+          <li><a href="login.jsp"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;로그인</a></li>
           <% } %>
         </ul>
       </li>
@@ -79,12 +79,12 @@
 							<div class="header-search">
 								<form>
 									<select class="input-select">
-										<option value="0">��ü</option>
-										<option value="1">��ȭ</option>
+										<option value="0">전체</option>
+										<option value="1">영화</option>
 										<option value="1"></option>
 									</select>
 									<input class="input" placeholder="">
-									<button class="search-btn">�˻�</button>
+									<button class="search-btn">검색</button>
 								</form>
 							</div>
 						</div>
@@ -110,9 +110,9 @@
 				<div id="responsive-nav">
 					<!-- NAV -->
 					<ul class="main-nav nav navbar-nav">
-						<li><a href="index.jsp">Ȩ</a></li>
-						<li><a href="theater.jsp">��ȭ��</a></li>
-						<li><a href="reservation.jsp">����</a></li>
+						<li><a href="index.jsp">홈</a></li>
+						<li><a href="theater.jsp">영화관</a></li>
+						<li><a href="reservation.jsp">예매</a></li>
 					</ul>
 					<!-- /NAV -->
 				</div>
@@ -128,7 +128,7 @@
 				<!-- row -->
 				<div class="row">
 					<div class="col-md-12">
-						<h3 class="breadcrumb-header">�α���</h3>
+						<h3 class="breadcrumb-header">로그인</h3>
 					</div>
 				</div>
 				<!-- /row -->
@@ -146,18 +146,18 @@
                     <div class="login-box">
                     <form action="loginPro.jsp" method="post" name="login">
                     <div class="form-group">
-								<input class="input" type="text" id="user-id" name="user-id" placeholder="���̵�">
+								<input class="input" type="text" id="user-id" name="user-id" placeholder="아이디">
 							</div>
                         <div class="form-group">
-								<input class="input" type="password" id="password" name="password" placeholder="��й�ȣ">
+								<input class="input" type="password" id="password" name="password" placeholder="비밀번호">
 							</div>
                         
-                            <input type="submit" id="login" value="�α���">
+                            <input type="submit" id="login" value="로그인">
                     </form>
 							
                         
                         <br><br><br>
-                        <a href="join.jsp">ȸ������</a>
+                        <a href="join.jsp">회원가입</a>
 					<!-- /product -->
 				</div>
                     

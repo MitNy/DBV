@@ -1,7 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<% request.setCharacterEncoding("UTF-8"); %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="kr">
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -40,7 +40,7 @@
                         <li class="dropdown" id="user-toggle">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
         <i class="fa fa-user"></i><% 
-        	// ÀÏ¹İ »ç¿ëÀÚ ·Î±×ÀÎ
+        	// ì¼ë°˜ ì‚¬ìš©ì ë¡œê·¸ì¸
         	if( session.getAttribute("user-session") != null && session.getAttribute("admin-session") == null ){
         	Object user = session.getAttribute("user-session");
         	out.print(user);
@@ -55,12 +55,12 @@
         %>
         	</a>
         <ul class="dropdown-menu user-dropdown">
-          <li><a href="userInfo.jsp"><i class="fas fa-user-circle"></i>&nbsp;&nbsp;°³ÀÎÁ¤º¸</a></li>
+          <li><a href="userInfo.jsp"><i class="fas fa-user-circle"></i>&nbsp;&nbsp;ê°œì¸ì •ë³´</a></li>
           <%
           	if( session.getAttribute("user-session") != null || session.getAttribute("admin-session") != null) {        	  %>
-				<li><a href="logout.jsp"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;·Î±×¾Æ¿ô</a></li>
+				<li><a href="logout.jsp"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;ë¡œê·¸ì•„ì›ƒ</a></li>
           <% } else { %>
-          <li><a href="login.jsp"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;·Î±×ÀÎ</a></li>
+          <li><a href="login.jsp"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;ë¡œê·¸ì¸</a></li>
           <% } %>
         </ul>
       </li>
@@ -90,12 +90,12 @@
 							<div class="header-search">
 								<form>
 									<select class="input-select">
-										<option value="0">ÀüÃ¼</option>
-										<option value="1">¿µÈ­</option>
+										<option value="0">ì „ì²´</option>
+										<option value="1">ì˜í™”</option>
 										<option value="1"></option>
 									</select>
 									<input class="input" placeholder="">
-									<button class="search-btn">°Ë»ö</button>
+									<button class="search-btn">ê²€ìƒ‰</button>
 								</form>
 							</div>
 						</div>
@@ -121,9 +121,9 @@
 				<div id="responsive-nav">
 					<!-- NAV -->
 					<ul class="main-nav nav navbar-nav">
-						<li><a href="index.jsp">È¨</a></li>
-						<li><a href="theater.jsp">¿µÈ­°ü</a></li>
-						<li><a href="reservation.jsp">¿¹¸Å</a></li>
+						<li><a href="index.jsp">í™ˆ</a></li>
+						<li><a href="theater.jsp">ì˜í™”ê´€</a></li>
+						<li><a href="reservation.jsp">ì˜ˆë§¤</a></li>
 					</ul>
 					<!-- /NAV -->
 				</div>
@@ -139,7 +139,7 @@
 				<!-- row -->
 				<div class="row">
 					<div class="col-md-12">
-						<h3 class="breadcrumb-header">È¸¿ø°¡ÀÔ</h3>
+						<h3 class="breadcrumb-header">íšŒì›ê°€ì…</h3>
 					</div>
 				</div>
 				<!-- /row -->
@@ -156,36 +156,38 @@
 				<div class="row">
                     <div class="join-box">
                     <form action="joinPro.jsp" method="post" name="join" onsubmit="return checkValue()">
-							<div class="form-group">
-								<p class="form-title">¾ÆÀÌµğ</p>
+							<div class="form-group" style="display: inline; white-space: nowrap;">
+								<p class="form-title">ì•„ì´ë””</p>
 								<input class="input" type="text" id="user-id" name="user-id">
+								<input type="button" class="check-btn" id="duplicateCheck" value="ì¤‘ë³µí™•ì¸">
+								<p id="duplicateError" style="color:red;"></p>
 							</div>
                         <div class="form-group">
-                        	<p class="form-title">ºñ¹Ğ¹øÈ£</p>
+                        	<p class="form-title">ë¹„ë°€ë²ˆí˜¸</p>
 								<input class="input" type="password" id="password" name="password">
 							</div>
                             <div class="form-group">
-                            	<p class="form-title">ºñ¹Ğ¹øÈ£ È®ÀÎ</p>
+                            	<p class="form-title">ë¹„ë°€ë²ˆí˜¸ í™•ì¸</p>
 								<input class="input" type="password" id="password-check" name="password-check">
 							</div>
                             <div class="form-group">
-                            	<p class="form-title">ÀÌ¸§</p>
+                            	<p class="form-title">ì´ë¦„</p>
 								<input class="input" type="text" id="user-name" name="user-name">
 							</div>
 							<div class="form-group">
-								<p class="form-title">»ı³â¿ùÀÏ</p>
+								<p class="form-title">ìƒë…„ì›”ì¼</p>
 								<input class="input" type="date" id="birthday" name="birthday">
 							</div>
                         <div class="form-group">
-                        		<p class="form-title">ÁÖ¼Ò</p>
+                        		<p class="form-title">ì£¼ì†Œ</p>
 								<input class="input" type="text" id="address" name="address">
 							</div>
                             <div class="form-group">
-                            	<p class="form-title">¿¬¶ôÃ³</p>
+                            	<p class="form-title">ì—°ë½ì²˜</p>
 								<input class="input" type="tel" name="tel">
 							</div>
                         
-                            <input type="submit" id="join-btn" value="È¸¿ø°¡ÀÔ">
+                            <input type="submit" id="join-btn" value="íšŒì›ê°€ì…">
                             </form>
 					<!-- /product -->
 				</div>
@@ -237,17 +239,28 @@
 		<script src="js/jquery.zoom.min.js"></script>
 		<script src="js/main.js"></script>
 		<script type="text/javascript">
+			$("#duplicateCheck").click(function() {
+				$.post("checkDuplicate.jsp",
+						{
+							"userID":document.getElementById("user-id").value
+						},
+						function(data,status){
+							$("#duplicateError").html(data);
+						}
+					);
+			});
+		
 			function checkValue() {
 				if(!document.getElementById("user-id").value) {
-					alert("¾ÆÀÌµğ¸¦ ÀÔ·ÂÇÏ¼¼¿ä");
+					alert("ì•„ì´ë””ë¥¼ ì…ë ¥í•˜ì„¸ìš”");
 					return false;
 				}
 				if(!document.getElementById("password").value) {
-					alert("ºñ¹Ğ¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä");
+					alert("ë¹„ë°€ë²ˆí˜¸ë¥¼ ì…ë ¥í•˜ì„¸ìš”");
 					return false;
 				}
 				if( document.getElementById("password").value != document.getElementById("password-check").value ) {
-					alert("ºñ¹Ğ¹øÈ£°¡ ÀÏÄ¡ÇÏÁö ¾Ê½À´Ï´Ù.");
+					alert("ë¹„ë°€ë²ˆí˜¸ê°€ ì¼ì¹˜í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
 					return false;
 				}
 			}

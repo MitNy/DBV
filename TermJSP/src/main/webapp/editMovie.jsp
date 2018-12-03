@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<% request.setCharacterEncoding("UTF-8"); %>
 <%@ page import="java.sql.Connection" %>
 <%@ page import="Dao.Database" %>
 <%@ page import="Service.movieService" %>
@@ -16,11 +16,11 @@
 	boolean editResult = ms.editMovie(originID,movieID, movieTitle, director, cast, grade, information);
 	if( editResult) {
 		response.setContentType("text/html");
-		response.getWriter().write("¿µÈ­ Á¤º¸°¡ ¼öÁ¤µÇ¾ú½À´Ï´Ù.");
+		response.getWriter().write("ì˜í™” ì •ë³´ê°€ ìˆ˜ì •ë˜ì—ˆìŠµë‹ˆë‹¤.");
 	}
 	else {
 		response.setContentType("text/html");
-		response.getWriter().write("¿µÈ­ Á¤º¸¸¦ ¼öÁ¤ÇÒ ¼ö ¾ø½À´Ï´Ù.");
+		response.getWriter().write("ì˜í™” ì •ë³´ë¥¼ ìˆ˜ì •í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
 	}
 	
 	

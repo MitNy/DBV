@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<% request.setCharacterEncoding("UTF-8"); %>
 <%@ page import="java.sql.Connection" %>
 <%@ page import="Dao.Database" %>
 <%@ page import="Service.theaterService" %>
@@ -11,11 +11,11 @@
 	boolean deleteResult = ts.deleteSangyounggwan(theaterID, sID);
 	if( deleteResult) {
 		response.setContentType("text/html");
-		response.getWriter().write("»ó¿µ°üÀ» »èÁ¦Çß½À´Ï´Ù.");
+		response.getWriter().write("ìƒì˜ê´€ì„ ì‚­ì œí–ˆìŠµë‹ˆë‹¤.");
 	}
 	else {
 		response.setContentType("text/html");
-		response.getWriter().write("»ó¿µ°üÀ» »èÁ¦ÇÒ ¼ö ¾ø½À´Ï´Ù.");
+		response.getWriter().write("ìƒì˜ê´€ì„ ì‚­ì œí•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
 	}
 	
 	

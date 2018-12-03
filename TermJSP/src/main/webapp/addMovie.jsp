@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <% request.setCharacterEncoding("UTF-8"); %>
 <%@ page import="java.sql.Connection" %>
 <%@ page import="java.sql.Date" %>
@@ -18,12 +17,12 @@
 	
 	if( addResult == true) {
 		%>
-	  	<script>alert("¿µÈ­°¡ Ãß°¡µÇ¾ú½À´Ï´Ù."); window.location.href="movieManager.jsp";</script>
+	  	<script>alert("ì˜í™”ê°€ ì¶”ê°€ë˜ì—ˆìŠµë‹ˆë‹¤."); window.location.href="movieManager.jsp";</script>
 		<%
 	}
 	else {
 		%>
-		<script>alert("¿µÈ­¸¦ Ãß°¡ÇÒ ¼ö ¾ø½À´Ï´Ù."); history.go(-1);</script>
+		<script>alert("ì˜í™”ë¥¼ ì¶”ê°€í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤."); history.go(-1);</script>
 		<%
 	}
 	

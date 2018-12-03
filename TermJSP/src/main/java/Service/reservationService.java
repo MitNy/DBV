@@ -395,4 +395,19 @@ public class reservationService {// 랜덤한 reserv_number 생성
 		}
 	}
 	
+	public void deleteReservationWithUserID(String id) throws Exception {
+		Database dbCon = new Database();
+		Connection conn = dbCon.GetConnection();
+		try {
+			String deleteQuery = "delete from reservation where userID=?";
+			PreparedStatement ps = conn.prepareStatement(deleteQuery);
+			ps.setString(1, id);
+			ps.executeUpdate();
+			ps.close();
+		}
+		catch(Exception e) {
+			System.out.print(e.getMessage());
+		}
+	}
+	
 }

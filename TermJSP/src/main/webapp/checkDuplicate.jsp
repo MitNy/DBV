@@ -2,20 +2,21 @@
 <% request.setCharacterEncoding("UTF-8"); %>
 <%@ page import="java.sql.Connection" %>
 <%@ page import="Dao.Database" %>
-<%@ page import="Service.adminService" %>
+<%@ page import="Dao.join" %>
+<%@ page import="org.json.simple.JSONArray" %>
+<%@ page import="org.json.simple.JSONObject" %>
 <% 
-	adminService as = new adminService();
+	join j = new join();
 	String userID = request.getParameter("userID");
-	String grade = request.getParameter("grade");
-	boolean updateResult = as.updateUserGrade(userID, grade);
-	if( updateResult) {
+
+	boolean getResult = j.idCheck(userID);
+	if(getResult) {
 		response.setContentType("text/html");
-		response.getWriter().write("회원 등급이 변경되었습니다.");
+		response.getWriter().write("아이디가 이미 존재합니다.");
 	}
 	else {
 		response.setContentType("text/html");
-		response.getWriter().write("회원 등급을 변경할 수 없습니다.");
+		response.getWriter().write("");
 	}
-	
 	
 %>
