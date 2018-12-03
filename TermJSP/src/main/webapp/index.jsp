@@ -1,6 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<% request.setCharacterEncoding("UTF-8"); %>
 <%@page import="Dao.Database" %>
+<%@page import="Service.movieService" %>
+<%@ page import="org.json.simple.JSONArray" %>
+<%@ page import="org.json.simple.JSONObject" %>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -41,7 +44,7 @@
                         <li class="dropdown" id="user-toggle">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
         <i class="fa fa-user"></i><% 
-        	// ¿œπ› ªÁøÎ¿⁄ ∑Œ±◊¿Œ
+        	// ÏùºÎ∞ò ÏÇ¨Ïö©Ïûê Î°úÍ∑∏Ïù∏
         	if( session.getAttribute("user-session") != null && session.getAttribute("admin-session") == null ){
         	Object user = session.getAttribute("user-session");
         	out.print(user);
@@ -56,16 +59,16 @@
         %></a>
         <ul class="dropdown-menu user-dropdown">
         <% if( session.getAttribute("admin-session") != null ) { %>
-        		<li><a href="movieManager.jsp"><i class="fas fa-wrench"></i>&nbsp;&nbsp;∞¸∏Æ¿⁄ ∆‰¿Ã¡ˆ</a></li>
+        		<li><a href="movieManager.jsp"><i class="fas fa-wrench"></i>&nbsp;&nbsp;Í¥ÄÎ¶¨Ïûê ÌéòÏù¥ÏßÄ</a></li>
         	<%
         	}
         	%>
-          <li><a href="userInfo.jsp"><i class="fas fa-user-circle"></i>&nbsp;&nbsp;∞≥¿Œ¡§∫∏</a></li>
+          <li><a href="userInfo.jsp"><i class="fas fa-user-circle"></i>&nbsp;&nbsp;Í∞úÏù∏Ï†ïÎ≥¥</a></li>
           <%
           	if( session.getAttribute("user-session") != null || session.getAttribute("admin-session") != null) {        	  %>
-				<li><a href="logout.jsp"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;∑Œ±◊æ∆øÙ</a></li>
+				<li><a href="logout.jsp"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;Î°úÍ∑∏ÏïÑÏõÉ</a></li>
           <% } else { %>
-          <li><a href="login.jsp"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;∑Œ±◊¿Œ</a></li>
+          <li><a href="login.jsp"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;Î°úÍ∑∏Ïù∏</a></li>
           <% } %>
         </ul>
       </li>
@@ -95,12 +98,12 @@
 							<div class="header-search">
 								<form>
 									<select class="input-select">
-										<option value="0">¿¸√º</option>
-										<option value="1">øµ»≠</option>
+										<option value="0">Ï†ÑÏ≤¥</option>
+										<option value="1">ÏòÅÌôî</option>
 										<option value="1"></option>
 									</select>
 									<input class="input" placeholder="">
-									<button class="search-btn">∞Àªˆ</button>
+									<button class="search-btn">Í≤ÄÏÉâ</button>
 								</form>
 							</div>
 						</div>
@@ -126,9 +129,9 @@
 				<div id="responsive-nav">
 					<!-- NAV -->
 					<ul class="main-nav nav navbar-nav">
-						<li class="active"><a href="index.jsp">»®</a></li>
-						<li><a href="theater.jsp">øµ»≠∞¸</a></li>
-						<li><a href="reservation.jsp">øπ∏≈</a></li>
+						<li class="active"><a href="index.jsp">Ìôà</a></li>
+						<li><a href="theater.jsp">ÏòÅÌôîÍ¥Ä</a></li>
+						<li><a href="reservation.jsp">ÏòàÎß§</a></li>
 					</ul>
 					<!-- /NAV -->
 				</div>
@@ -159,7 +162,7 @@
 					<!-- section title -->
 					<div class="col-md-12">
 						<div class="section-title">
-							<h3 class="title">π´∫Ò ¬˜∆Æ</h3>
+							<h3 class="title">Î¨¥ÎπÑ Ï∞®Ìä∏</h3>
 						</div>
 					</div>
 					<!-- /section title -->
@@ -170,144 +173,30 @@
 							<div class="products-tabs">
 								<!-- tab -->
 								<div id="tab1" class="tab-pane active">
-									<div class="products-slick" data-nav="#slick-nav-1">
-										<!-- product -->
-										<div class="product">
-											<div class="product-img">
-												<img src="./img/81127_1000.png" alt="">
-												<div class="product-label">
-													<span class="new">TOP 1</span>
-												</div>
-											</div>
-											<div class="product-body">
-												<h3 class="product-name"><a href="#">∫∏«ÏπÃæ» ∑¶º“µ</a></h3>
-                                                <p class="product-category">øπ∏≈¿≤ 50.0% </p>
-												<p class="product-category">2018. 10. 31. ∞≥∫¿ </p>
-                                                
-												<div class="product-rating">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-												</div>
-                                                    <button class="detail-view" data-toggle="collapse" data-target="#movie1-detail">¿⁄ºº»˜ ∫∏±‚</button>
-                                                <br><br>
-                                                    <div id="movie1-detail" class="collapse">
-                                                        <p class="product-category">∞®µ∂ »£ø®</p>
-												        <p class="product-category">√‚ø¨ ¥©±∏,¥©±∏,¥©±∏</p>
-                                                        <p class="product-category">15ºº ¿ÃªÛ ∞¸∂˜∞°</p>
-												        <p class="product-category">¡÷¿˙∏Æ¡÷¿˙∏Æ ¡Ÿ∞≈∏Æ</p>
-                                                    </div>
-
-											</div>
-											<div class="add-to-cart">
-												<button class="add-to-cart-btn" onclick="location.href='reservation.jsp'">øπ∏≈ «œ±‚</button>
-											</div>
-										</div>
-										<!-- /product -->
-
-										<!-- product -->
-										<div class="product">
-											<div class="product-img">
-												<img src="./img/81075_1000.png" alt="">
-												<div class="product-label">
-													<span class="new">TOP 2</span>
-												</div>
-											</div>
-											<div class="product-body">
-												<h3 class="product-name"><a href="#">Ω≈∫Ò«— µøπ∞µÈ∞˙ ±◊∏∞µ®ø–µÂ¿« π¸¡À</a></h3>
-                                                <p class="product-category">øπ∏≈¿≤ 21.0% </p>
-												<p class="product-category">2018. 11. 14. ∞≥∫¿ </p>
-												<div class="product-rating">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-												</div>
-												<button class="detail-view" data-toggle="collapse" data-target="#movie2-detail">¿⁄ºº»˜ ∫∏±‚</button>
-                                                <br><br>
-                                                    <div id="movie2-detail" class="collapse">
-                                                        <p class="product-category">∞®µ∂ »£ø®</p>
-												        <p class="product-category">√‚ø¨ ¥©±∏,¥©±∏,¥©±∏</p>
-                                                        <p class="product-category">15ºº ¿ÃªÛ ∞¸∂˜∞°</p>
-												        <p class="product-category">¡÷¿˙∏Æ¡÷¿˙∏Æ ¡Ÿ∞≈∏Æ</p>
-                                                    </div>
-											</div>
-											<div class="add-to-cart">
-                                                <button class="add-to-cart-btn" onclick="location.href='reservation.jsp'">øπ∏≈ «œ±‚</button>
-											</div>
-										</div>
-										<!-- /product -->
-
-										<!-- product -->
-										<div class="product">
-											<div class="product-img">
-												<img src="./img/81332_1000.png" alt="">
-                                                <div class="product-label">
-													<span class="new">TOP 3</span>
-												</div>
-											</div>
-											<div class="product-body">
-												<h3 class="product-name"><a href="#">º∫≥≠»≤º“</a></h3>
-                                                <p class="product-category">øπ∏≈¿≤ 11.6% </p>
-												<p class="product-category">2018. 11. 22. ∞≥∫¿ </p>
-												<div class="product-rating">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-												</div>
-												<button class="detail-view" data-toggle="collapse" data-target="#movie3-detail">¿⁄ºº»˜ ∫∏±‚</button><br><br>
-                                                    <div id="movie3-detail" class="collapse">
-                                                        <p class="product-category">∞®µ∂ »£ø®</p>
-												        <p class="product-category">√‚ø¨ ¥©±∏,¥©±∏,¥©±∏</p>
-                                                        <p class="product-category">15ºº ¿ÃªÛ ∞¸∂˜∞°</p>
-												        <p class="product-category">¡÷¿˙∏Æ¡÷¿˙∏Æ ¡Ÿ∞≈∏Æ</p>
-                                                    </div>
-											</div>
-											<div class="add-to-cart">
-												<button class="add-to-cart-btn" onclick="location.href='reservation.jsp'">øπ∏≈ «œ±‚</button>
-											</div>
-										</div>
-										<!-- /product -->
-
-										<!-- product -->
-										<div class="product">
-											<div class="product-img">
-												<img src="./img/81181_1000.png" alt="">
-                                                <div class="product-label">
-													<span class="new">TOP 4</span>
-												</div>
-											</div>
-											<div class="product-body">
-												<h3 class="product-name"><a href="#">øœ∫Æ«— ≈∏¿Œ</a></h3>
-                                                <p class="product-category">øπ∏≈¿≤ 5.7%</p>
-												<p class="product-category">2018. 10. 31. ∞≥∫¿ </p>
-												<div class="product-rating">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-												</div>
-												<button class="detail-view" data-toggle="collapse" data-target="#movie4-detail">¿⁄ºº»˜ ∫∏±‚</button><br><br>
-                                                    <div id="movie4-detail" class="collapse">
-                                                        <p class="product-category">∞®µ∂ »£ø®</p>
-												        <p class="product-category">√‚ø¨ ¥©±∏,¥©±∏,¥©±∏</p>
-                                                        <p class="product-category">15ºº ¿ÃªÛ ∞¸∂˜∞°</p>
-												        <p class="product-category">¡÷¿˙∏Æ¡÷¿˙∏Æ ¡Ÿ∞≈∏Æ</p>
-                                                    </div>
-											</div>
-											<div class="add-to-cart">
-												<button class="add-to-cart-btn" onclick="location.href='reservation.jsp'">øπ∏≈ «œ±‚</button>
-											</div>
-										</div>
-										<!-- /product -->
+									<div class="products-slick" data-nav="#slick-nav-1" id="slick-nav-1">
+										<%
+											movieService ms = new movieService();
+	                                		JSONArray movieList = ms.getMovie();
+	                                		for(int i=0; i<4; i++ ) {
+		                                		JSONObject movie = (JSONObject) movieList.get(i);
+		                                		out.print("<div class='product'>");
+		                                		out.print("<div class='product-img'>");
+		                                		out.print("<img src='./img/"+movie.get("movieID-"+i)+".png' alt=''><div class='product-label'><span class='new'>TOP "+(i+1)+"</span></div></div>");
+		                                		out.print("<div class='product-body'>");
+		                                		out.print("<h3 class='product-name'><a href='#'>"+movie.get("movieTitle-"+i)+"</a></h3>");
+		                                		out.print("<button class='detail-view' data-toggle='collapse' data-target='#movie"+i+"-detail'>ÏûêÏÑ∏Ìûà Î≥¥Í∏∞</button><br><br>");
+		                                		out.print("<div id='movie"+i+"-detail' class='collapse'>");
+		                                		out.print("<p class='product-category'>Í∞êÎèÖ "+movie.get("director-"+i)+"</p>");
+		                                		out.print("<p class='product-category'>Ï∂úÏó∞ "+movie.get("cast-"+i)+"</p>");
+		                                		out.print("<p class='product-category'>"+movie.get("grade-"+i)+"ÏÑ∏ Ïù¥ÏÉÅ Í¥ÄÎûåÍ∞Ä</p>");
+		                                		out.print("<p class='product-category'>"+movie.get("information-"+i)+"</p>");
+		                                		out.print("</div></div><div class='add-to-cart'>");
+		                                		out.print("<button class='add-to-cart-btn' onclick=location.href='reservation.jsp?movieID="+movie.get("movieID-"+i)+"'>ÏòàÎß§ ÌïòÍ∏∞</button>");
+		                                		out.print("</div></div>");
+	                                	}
+	                                
+	                                %>
 									</div>
-									<div id="slick-nav-1" class="products-slick-nav"></div>
 								</div>
 								<!-- /tab -->
 							</div>
@@ -334,133 +223,29 @@
 							<div class="products-tabs">
 								<!-- tab -->
 								<div id="tab1" class="tab-pane active">
-									<div class="products-slick" data-nav="#slick-nav-1">
-										<!-- product -->
-										<div class="product">
-											<div class="product-img">
-												<img src="./img/81330_1000.png" alt="">
-												<div class="product-label">
-												</div>
-											</div>
-											<div class="product-body">
-												<h3 class="product-name"><a href="#">≈¯∏Æ</a></h3>
-                                                <p class="product-category">øπ∏≈¿≤ 1.7% </p>
-												<p class="product-category">2018. 11. 22. ∞≥∫¿ </p>
-												<div class="product-rating">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-												</div>
-												<button class="detail-view" data-toggle="collapse" data-target="#movie5-detail">¿⁄ºº»˜ ∫∏±‚</button><br><br>
-                                                    <div id="movie5-detail" class="collapse">
-                                                        <p class="product-category">∞®µ∂ »£ø®</p>
-												        <p class="product-category">√‚ø¨ ¥©±∏,¥©±∏,¥©±∏</p>
-                                                        <p class="product-category">15ºº ¿ÃªÛ ∞¸∂˜∞°</p>
-												        <p class="product-category">¡÷¿˙∏Æ¡÷¿˙∏Æ ¡Ÿ∞≈∏Æ</p>
-                                                    </div>
-											</div>
-											<div class="add-to-cart">
-												<button class="add-to-cart-btn" onclick="location.href='reservation.jsp'">øπ∏≈ «œ±‚</button>
-                                            </div>
-										</div>
-										<!-- /product -->
-
-
-										<!-- product -->
-										<div class="product">
-											<div class="product-img">
-												<img src="./img/81368_1000.png" alt="">
-												<div class="product-label">
-												</div>
-											</div>
-											<div class="product-body">
-												<h3 class="product-name"><a href="#">øµ¡÷</a></h3>
-                                                <p class="product-category">øπ∏≈¿≤ 1.2%</p>
-												<p class="product-category">2018.11.22 ∞≥∫¿ </p>
-												<div class="product-rating">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-												</div>
-												<button class="detail-view" data-toggle="collapse" data-target="#movie6-detail">¿⁄ºº»˜ ∫∏±‚</button><br><br>
-                                                    <div id="movie6-detail" class="collapse">
-                                                        <p class="product-category">∞®µ∂ »£ø®</p>
-												        <p class="product-category">√‚ø¨ ¥©±∏,¥©±∏,¥©±∏</p>
-                                                        <p class="product-category">15ºº ¿ÃªÛ ∞¸∂˜∞°</p>
-												        <p class="product-category">¡÷¿˙∏Æ¡÷¿˙∏Æ ¡Ÿ∞≈∏Æ</p>
-                                                    </div>
-											</div>
-											<div class="add-to-cart">
-												<button class="add-to-cart-btn" onclick="location.href='reservation.jsp'">øπ∏≈ «œ±‚</button>
-											</div>
-										</div>
-										<!-- /product -->
-
-										<!-- product -->
-										<div class="product">
-											<div class="product-img">
-												<img src="./img/79273_1000.png" alt="">
-											</div>
-											<div class="product-body">
-												<h3 class="product-name"><a href="#">∂Û∂Û∑£µÂ</a></h3>
-                                                <p class="product-category">øπ∏≈¿≤ 0.2% </p>
-												<p class="product-category">2016.12.07 ∞≥∫¿ </p>
-												<div class="product-rating">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-												</div>
-												<button class="detail-view" data-toggle="collapse" data-target="#movie7-detail">¿⁄ºº»˜ ∫∏±‚</button><br><br>
-                                                    <div id="movie7-detail" class="collapse">
-                                                        <p class="product-category">∞®µ∂ »£ø®</p>
-												        <p class="product-category">√‚ø¨ ¥©±∏,¥©±∏,¥©±∏</p>
-                                                        <p class="product-category">15ºº ¿ÃªÛ ∞¸∂˜∞°</p>
-												        <p class="product-category">¡÷¿˙∏Æ¡÷¿˙∏Æ ¡Ÿ∞≈∏Æ</p>
-                                                    </div>
-											</div>
-											<div class="add-to-cart">
-												<button class="add-to-cart-btn" onclick="location.href='reservation.jsp'">øπ∏≈ «œ±‚</button>
-											</div>
-										</div>
-										<!-- /product -->
-
-										<!-- product -->
-										<div class="product">
-											<div class="product-img">
-												<img src="./img/79861_1000.png" alt="">
-											</div>
-											<div class="product-body">
-												<h3 class="product-name"><a href="#">ø√µÂ∫∏¿Ã</a></h3>
-                                                <p class="product-category">øπ∏≈¿≤ 0.1%</p>
-												<p class="product-category">2017.07.27 ¿Á∞≥∫¿ </p>
-												<div class="product-rating">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-												</div>
-												<button class="detail-view" data-toggle="collapse" data-target="#movie8-detail">¿⁄ºº»˜ ∫∏±‚</button><br><br>
-                                                    <div id="movie8-detail" class="collapse">
-                                                        <p class="product-category">∞®µ∂ »£ø®</p>
-												        <p class="product-category">√‚ø¨ ¥©±∏,¥©±∏,¥©±∏</p>
-                                                        <p class="product-category">15ºº ¿ÃªÛ ∞¸∂˜∞°</p>
-												        <p class="product-category">¡÷¿˙∏Æ¡÷¿˙∏Æ ¡Ÿ∞≈∏Æ</p>
-                                                    </div>
-											</div>
-											<div class="add-to-cart">
-												<button class="add-to-cart-btn" onclick="location.href='reservation.jsp'">øπ∏≈ «œ±‚</button>
-											</div>
-										</div>
-										<!-- /product -->
+									<div class="products-slick" data-nav="#slick-nav-1" id='slick-nav-2'>
+										<%
+											movieService ms2 = new movieService();
+	                                		JSONArray movieList2 = ms2.getMovie();
+	                                		for(int i=4; i<8; i++ ) {
+		                                		JSONObject movie2 = (JSONObject) movieList2.get(i);
+		                                		out.print("<div class='product'>");
+		                                		out.print("<div class='product-img'>");
+		                                		out.print("<img src='./img/"+movie2.get("movieID-"+i)+".png' alt=''></div><div class='product-body'>");
+		                                		out.print("<h3 class='product-name'><a href='#'>"+movie2.get("movieTitle-"+i)+"</a></h3>");
+		                                		out.print("<button class='detail-view' data-toggle='collapse' data-target='#movie"+i+"-detail'>ÏûêÏÑ∏Ìûà Î≥¥Í∏∞</button><br><br>");
+		                                		out.print("<div id='movie"+i+"-detail' class='collapse'>");
+		                                		out.print("<p class='product-category'>Í∞êÎèÖ "+movie2.get("director-"+i)+"</p>");
+		                                		out.print("<p class='product-category'>Ï∂úÏó∞ "+movie2.get("cast-"+i)+"</p>");
+		                                		out.print("<p class='product-category'>"+movie2.get("grade-"+i)+"ÏÑ∏ Ïù¥ÏÉÅ Í¥ÄÎûåÍ∞Ä</p>");
+		                                		out.print("<p class='product-category'>"+movie2.get("information-"+i)+"</p>");
+		                                		out.print("</div></div><div class='add-to-cart'>");
+		                                		out.print("<button class='add-to-cart-btn' onclick=location.href='reservation.jsp?movieID="+movie2.get("movieID-"+i)+"'>ÏòàÎß§ ÌïòÍ∏∞</button>");
+		                                		out.print("</div></div>");
+	                                	}
+	                                
+	                                %>
 									</div>
-									<div id="slick-nav-1" class="products-slick-nav"></div>
 								</div>
 								<!-- /tab -->
 							</div>

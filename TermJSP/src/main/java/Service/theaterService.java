@@ -82,6 +82,29 @@ public class theaterService {
 		return null;
 	}
 	
+	public String getTheaterNameWithMovie(String movieName) throws Exception {
+		Database dbCon = new Database();
+		Connection conn = dbCon.GetConnection();
+		try {
+			String selectValue = "<option value='' selected>-- 선택 --</option>";
+			String getQuery="select theaterName from theater where theaterID = any(select theaterID from sangyounggwan where movieName=?)";
+			PreparedStatement ps = conn.prepareStatement(getQuery);
+			ps.setString(1,movieName);
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				selectValue += "<option value=''>"+rs.getString("theaterName")+"</option>";
+			}
+			
+			return selectValue;
+		}
+		catch(Exception e ) {
+			System.out.print(e.getMessage());
+		}
+		return null;
+	}
+	
+	
 	public JSONArray getTheaterListWithID() throws Exception {
 		JSONArray theaterList = new JSONArray();
 		JSONObject theater = new JSONObject();

@@ -17,7 +17,7 @@ public class movieService {
 		Database dbCon = new Database();
 		Connection conn = dbCon.GetConnection();
 		try {
-			String getQuery="select * from movie";
+			String getQuery="select * from movie order by (select count(*) from reservation where title=movie.title) desc";
 			PreparedStatement ps = conn.prepareStatement(getQuery);
 			ResultSet rs = ps.executeQuery();
 			int i=0;
@@ -70,6 +70,24 @@ public class movieService {
 			rs.next();
 			String movieID = rs.getString("movieID");
 			return movieID;
+		}
+		catch(Exception e ) {
+			
+		}
+		return null;
+	}
+	
+	public String getMovieName(String movieID) throws Exception {
+		Database dbCon = new Database();
+		Connection conn = dbCon.GetConnection();
+		try {
+			String getQuery="select title from movie where movieID=?";
+			PreparedStatement ps = conn.prepareStatement(getQuery);
+			ps.setString(1, movieID);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			String movieName = rs.getString("title");
+			return movieName;
 		}
 		catch(Exception e ) {
 			

@@ -5,7 +5,7 @@
   <%@ page import="Service.infoService" %>
   <%@ page import="Service.movieService" %>
     <%@ page import="org.json.simple.JSONArray" %>
-    <%@ page import="org.json.simple.JSONObject" %>   
+    <%@ page import="org.json.simple.JSONObject" %> 
 <!DOCTYPE html>
 <html lang="kr">
 	<head>
@@ -57,6 +57,9 @@
 	movieService ms = new movieService();
 	
 	is.getUserInfo(sessionID);
+	
+	String targetMovie = request.getParameter("movieID");
+	String movieName = ms.getMovieName(targetMovie);
 	
 %>
 		<!-- HEADER -->
@@ -198,11 +201,11 @@
 								<h3 class="title">영화 선택</h3>
 							</div>
                             <select class="input-select" id="select-movie" name="select-movie" style="width:100%;">
-                            	<option value='' selected>-- 선택 --</option>
+                            	<option value='0' selected>-- 선택 --</option>
 								<%
 									JSONArray movieList = ms.getMovieList();
 									for( int i=0; i<movieList.size(); i++ ) {
-										out.print("<option value='"+i+"'>"+movieList.get(i)+"</option>");
+										out.print("<option value='"+movieList.get(i)+"'>"+movieList.get(i)+"</option>");
 									}
 								%>
 				            </select>
@@ -216,14 +219,7 @@
 								<h3 class="title">영화관 선택</h3>
 							</div>
                             <select class="input-select" id="select-theater" name="select-theater" style="width:100%;">
-                            <option value='' selected>-- 선택 --</option>
-                                <%
-									JSONArray theaterList = ts.getTheaterList();
-									for( int i=0; i<theaterList.size(); i++ ) {
-										out.print("<option value='"+i+"'>"+theaterList.get(i)+"</option>");
-									}
-								%>
-
+                            
 				            </select>
                             
                             
@@ -579,6 +575,25 @@
 		<script src="js/main.js"></script>
 		<!-- checkbox -->
 		<script>
+			var target_movie = "<%=movieName%>";
+			console.log(target_movie);
+			if( target_movie != null ) {
+				$("#select-movie").val(target_movie).prop("selected",true);
+				$("#selected-movie").html($("#select-movie option:selected").text());
+				$("input[name=selected-movie]").val($("#select-movie option:selected").text());
+				if($("input[name=selected-movie]").val() != "") {
+					$.post("getTheaterList.jsp",
+						{
+							"movieName":$("#select-movie option:selected").text()
+						},
+						function(data,status) {
+							$("#select-theater").html(data);
+						}
+					);
+					
+				}
+			}
+		
 			$("input[name=use-point]").val("F");
 			$("input[name=used-point]").val(0);
 			$("#terms").click(function() {
@@ -646,7 +661,17 @@
 			$("#select-movie").change(function() {
 				$("#selected-movie").html($("#select-movie option:selected").text());
 				$("input[name=selected-movie]").val($("#select-movie option:selected").text());
-				
+				if($("input[name=selected-movie]").val() != "") {
+					$.post("getTheaterList.jsp",
+						{
+							"movieName":$("#select-movie option:selected").text()
+						},
+						function(data,status) {
+							$("#select-theater").html(data);
+						}
+					);
+					
+				}
 			});
 			$("#select-theater").change(function() {
 				$("#selected-theater").html($("#select-theater option:selected").text());
