@@ -12,11 +12,15 @@
 	String reserv_number = request.getParameter("reserv_number");
 
 	boolean isTicket = rs.isTicket(reserv_number);
-	System.out.print(isTicket);
 	if(isTicket) {
 		JSONObject getResult = rs.getSpecificTicket(reserv_number);
 		response.setContentType("text/html");
 		response.getWriter().print(getResult);
+	}
+	else {
+		JSONObject error = es.error("none");
+		response.setContentType("text/html");
+		response.getWriter().print(error);
 	}
 	
 	

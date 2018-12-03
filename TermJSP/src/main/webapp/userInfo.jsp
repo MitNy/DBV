@@ -385,7 +385,17 @@
   </div>
 </div>
         <!-- /ticket modal -->
-        
+        <!-- noneModal -->
+        <div class="modal fade centerModal" id="noneModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+      	<p>발급된 티켓이 없습니다.</p>
+      </div>
+    </div>
+  </div>
+</div>
+        <!-- /noneModal -->
          <!--cancle modal-->
 	   <div class="modal fade centerModal" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-sm" role="document">
@@ -450,16 +460,21 @@
             		cache: false,
             		dataType:"json",
             		success:function(data) {
-            			$("#ticketModal .modal-header").show();
-            			$("#ticketModal #reserv_number").html(target);
-            			$("#ticketModal #payID").html(data.payID);
-            			$("#ticketModal #ticketID").html(data.ticketID);
-            			$("#ticketModal #movieName").html(data.movieName);
-            			$("#ticketModal #theaterName").html(data.theaterName);
-            			$("#ticketModal #date").html(data.date);
-            			$("#ticketModal #time").html(data.time);
-            			$("#ticketModal #seats").html(data.seats);
-            			$("#ticketModal").modal("show");
+            			if(data.error != null ) {
+            				$("#noneModal").modal("show");
+            			}
+            			else {
+	            			$("#ticketModal .modal-header").show();
+	            			$("#ticketModal #reserv_number").html(target);
+	            			$("#ticketModal #payID").html(data.payID);
+	            			$("#ticketModal #ticketID").html(data.ticketID);
+	            			$("#ticketModal #movieName").html(data.movieName);
+	            			$("#ticketModal #theaterName").html(data.theaterName);
+	            			$("#ticketModal #date").html(data.date);
+	            			$("#ticketModal #time").html(data.time);
+	            			$("#ticketModal #seats").html(data.seats);
+	            			$("#ticketModal").modal("show");
+            			}
             		}
             	});
 			}
