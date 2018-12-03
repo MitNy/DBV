@@ -31,6 +31,8 @@ public class movieService {
 				movieList.add(movie);
 				i++;
 			}
+			ps.close();
+			rs.close();
 			return movieList;
 		}
 		catch(Exception e ) {
@@ -51,6 +53,8 @@ public class movieService {
 			while(rs.next()) {
 				movieList.add(rs.getString("title"));
 			}
+			ps.close();
+			rs.close();
 			return movieList;
 		}
 		catch(Exception e ) {
@@ -69,6 +73,8 @@ public class movieService {
 			ResultSet rs = ps.executeQuery();
 			rs.next();
 			String movieID = rs.getString("movieID");
+			ps.close();
+			rs.close();
 			return movieID;
 		}
 		catch(Exception e ) {
@@ -87,6 +93,9 @@ public class movieService {
 			ResultSet rs = ps.executeQuery();
 			rs.next();
 			String movieName = rs.getString("title");
+			ps.close();
+			rs.close();
+			conn.close();
 			return movieName;
 		}
 		catch(Exception e ) {
@@ -103,7 +112,8 @@ public class movieService {
 			PreparedStatement ps = conn.prepareStatement(deleteQuery);
 			ps.setString(1, movieName);
 			ps.executeUpdate();
-			
+			ps.close();
+			conn.close();
 			return true;
 		}
 		catch(Exception e) {

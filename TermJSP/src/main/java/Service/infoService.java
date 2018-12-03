@@ -70,6 +70,9 @@ public class infoService {
 			setUserPhone(rs.getString("phone"));
 			setUserPoint(rs.getInt("point"));
 			setUserGrade(rs.getString("grade"));
+			pq.close();
+			rs.close();
+			conn.close();
 		}
 		catch(Exception e ) {
 			System.out.println(e.getMessage());
@@ -106,7 +109,8 @@ public class infoService {
 			PreparedStatement ps = conn.prepareStatement(deleteQuery);
 			ps.setString(1, id);
 			ps.executeUpdate();
-			
+			ps.close();
+			conn.close();
 			return true;
 		}
 		catch(Exception e) {
@@ -125,6 +129,9 @@ public class infoService {
 			ResultSet rs = pq.executeQuery();
 			rs.next();
 			int point = rs.getInt("point");
+			pq.close();
+			rs.close();
+			conn.close();
 			return point;
 		}
 		catch(Exception e ) {

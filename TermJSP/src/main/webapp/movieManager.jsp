@@ -192,13 +192,13 @@
                                 		String target = movie.get("movieTitle-"+i).toString();
                                 		out.print("<tr id='"+target+"'>");
                                 		out.print("<td id='movieID'>"+movie.get("movieID-"+i)+"</td>");
-                                		out.print("<td>"+movie.get("movieTitle-"+i)+"</td>");
-                                		out.print("<td>"+movie.get("director-"+i)+"</td>");
-                                		out.print("<td>"+movie.get("cast-"+i)+"</td>");
-                                		out.print("<td>"+movie.get("grade-"+i)+"</td>");
+                                		out.print("<td style='width:20%;'>"+movie.get("movieTitle-"+i)+"</td>");
+                                		out.print("<td style='width:10%;'>"+movie.get("director-"+i)+"</td>");
+                                		out.print("<td style='width:20%;'>"+movie.get("cast-"+i)+"</td>");
+                                		out.print("<td style='width:3%;'>"+movie.get("grade-"+i)+"</td>");
                                 		out.print("<td>"+movie.get("information-"+i)+"</td>");
-                                		out.print("<td><a class='tableBtn' onclick=dynamicEditModal('"+target+"')>수정</a></td>");
-                                		out.print("<td><a class='tableBtn' onclick=dynamicDeleteModal('"+target+"')>삭제</a></td>");
+                                		out.print("<td style='width:4%;'><a class='tableBtn' onclick=dynamicEditModal('"+target+"')>수정</a></td>");
+                                		out.print("<td style='width:4%;'><a class='tableBtn' onclick=dynamicDeleteModal('"+target+"')>삭제</a></td>");
                                 		out.print("</tr>");
                                 	}
                                 

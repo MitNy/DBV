@@ -86,6 +86,9 @@ public class adminService {
 			truncateVip();
 			updateVip(vipList);
 			updateAllGrade();
+			ps.close();
+			rs.close();
+			conn.close();
 			return userList;
 		}
 		catch(Exception e ) {
@@ -111,6 +114,9 @@ public class adminService {
 				userList.add(user);
 				i++;
 			}
+			ps.close();
+			rs.close();
+			conn.close();
 			return userList;
 		}
 		catch(Exception e ) {

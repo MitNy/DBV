@@ -2276,6 +2276,11 @@ textarea.input {
     text-align: center;
     border: 1px solid #E4E7ED;
 }
+
+#reservation-list > td:nth-child(6) {
+    text-align: left;
+    border: 1px solid #E4E7ED;
+}
 .user-dropdown > li > a {
     color:black;
     font-size: 15px;

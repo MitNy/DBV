@@ -32,6 +32,8 @@ public class theaterService {
 				theaterList.add(theater);
 				i++;
 			}
+			ps.close();
+			rs.close();
 			return theaterList;
 		}
 		catch(Exception e ) {
@@ -55,6 +57,8 @@ public class theaterService {
 				theater.put("address",rs.getString("address"));
 				theater.put("number",rs.getString("number"));
 			}
+			ps.close();
+			rs.close();
 			return theater;
 		}
 		catch(Exception e ) {
@@ -74,6 +78,8 @@ public class theaterService {
 			while(rs.next()) {
 				theaterList.add(rs.getString("theaterName"));
 			}
+			ps.close();
+			rs.close();
 			return theaterList;
 		}
 		catch(Exception e ) {
@@ -95,7 +101,8 @@ public class theaterService {
 			while(rs.next()) {
 				selectValue += "<option value=''>"+rs.getString("theaterName")+"</option>";
 			}
-			
+			ps.close();
+			rs.close();
 			return selectValue;
 		}
 		catch(Exception e ) {
@@ -121,6 +128,8 @@ public class theaterService {
 				theaterList.add(theater);
 				i++;
 			}
+			ps.close();
+			rs.close();
 			return theaterList;
 		}
 		catch(Exception e ) {
@@ -139,6 +148,8 @@ public class theaterService {
 			ResultSet rs = ps.executeQuery();
 			rs.next();
 			String theaterID = rs.getString("theaterID");
+			ps.close();
+			rs.close();
 			return theaterID;
 		}
 		catch(Exception e ) {
@@ -216,7 +227,8 @@ public class theaterService {
 				JSONObject timeList = getSTime(theaterID,sID,movieName);
 				totalList.add(timeList);
 			}
-			
+			ps.close();
+			rs.close();
 			return totalList;
 		}
 		catch(Exception e ) {
@@ -242,6 +254,8 @@ public class theaterService {
 				time.put("time-"+i, rs.getString("time"));
 				i++;
 			}
+			ps.close();
+			rs.close();
 			return time;
 		}
 		catch(Exception e ) {
@@ -263,6 +277,8 @@ public class theaterService {
 			while(rs.next()) {
 				result += rs.getString("sID")+" ";
 			}
+			ps.close();
+			rs.close();
 			return result;
 		}
 		catch(Exception e ) {
@@ -284,6 +300,8 @@ public class theaterService {
 			while(rs.next()) {
 				totalSeats = rs.getInt("totalSeats");
 			}
+			ps.close();
+			rs.close();
 			return totalSeats;
 		}
 		catch(Exception e ) {
@@ -319,7 +337,7 @@ public class theaterService {
 			PreparedStatement ps = conn.prepareStatement(deleteQuery);
 			ps.setString(1, theaterID);
 			ps.executeUpdate();
-			
+			ps.close();
 			return true;
 		}
 		catch(Exception e) {
@@ -338,7 +356,7 @@ public class theaterService {
 			ps.setString(1, theaterID);
 			ps.setString(2, sID);
 			ps.executeUpdate();
-			
+			ps.close();
 			return true;
 		}
 		catch(Exception e) {
@@ -405,7 +423,8 @@ public class theaterService {
 			while(rs.next()) {
 				selectValue += "<option value=''>"+rs.getString("time")+" ("+rs.getString("sID")+") </option>";
 			}
-			
+			ps.close();
+			rs.close();
 			return selectValue;
 		}
 		catch(Exception e ) {

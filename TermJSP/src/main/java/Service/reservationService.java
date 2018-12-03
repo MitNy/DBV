@@ -34,7 +34,10 @@ public class reservationService {// 랜덤한 reserv_number 생성
 			ResultSet rs = ps.executeQuery();
 			rs.next();
 			int point = rs.getInt("point");
+			ps.close();
+			rs.close();
 			return point;
+			
 		}
 		catch(Exception e ) {
 			
@@ -113,6 +116,8 @@ public class reservationService {// 랜덤한 reserv_number 생성
 			ResultSet rs = ps.executeQuery();
 			rs.next();
 			int howmany = rs.getInt("howmany");
+			ps.close();
+			rs.close();
 			return howmany;
 		}
 		catch(Exception e ) {
@@ -131,6 +136,8 @@ public class reservationService {// 랜덤한 reserv_number 생성
 			ResultSet rs = ps.executeQuery();
 			rs.next();
 			String userID = rs.getString("userID");
+			ps.close();
+			rs.close();
 			return userID;
 		}
 		catch(Exception e ) {
@@ -206,6 +213,8 @@ public class reservationService {// 랜덤한 reserv_number 생성
 				theaterList.add(theater);
 				i++;
 			}
+			ps.close();
+			rs.close();
 			return theaterList;
 		}
 		catch(Exception e ) {
@@ -238,6 +247,8 @@ public class reservationService {// 랜덤한 reserv_number 생성
 				ticketID = rs.getString("ticketID");
 			}
 			setTicket(reserv_number, ticketID);
+			ps.close();
+			rs.close();
 			return theater;
 		}
 		catch(Exception e ) {
@@ -269,6 +280,8 @@ public class reservationService {// 랜덤한 reserv_number 생성
 				theaterList.add(theater);
 				i++;
 			}
+			ps.close();
+			rs.close();
 			return theaterList;
 		}
 		catch(Exception e ) {
@@ -287,8 +300,9 @@ public class reservationService {// 랜덤한 reserv_number 생성
 			int howmany = getHowmany(reserv_number);
 			String userID = getUserID(reserv_number);
 			subPoint(userID, howmany*100);
+			deleteTicket(reserv_number);
 			ps.executeUpdate();
-			
+			ps.close();
 			return true;
 		}
 		catch(Exception e) {
@@ -324,6 +338,8 @@ public class reservationService {// 랜덤한 reserv_number 생성
 			PreparedStatement ps = conn.prepareStatement(getQuery);
 			ps.setString(1, reserv_number);
 			ResultSet rs = ps.executeQuery();
+			ps.close();
+			rs.close();
 			return rs.isBeforeFirst();
 		}
 		catch(Exception e ) {
@@ -354,12 +370,29 @@ public class reservationService {// 랜덤한 reserv_number 생성
 				theater.put("ticketID", rs.getString("ticketID"));
 				ticketID = rs.getString("ticketID");
 			}
+			ps.close();
+			rs.close();
 			return theater;
 		}
 		catch(Exception e ) {
 			System.out.println(e.getMessage());
 		}
 		return null;
+	}
+	
+	public void deleteTicket(String reserv_number) throws Exception {
+		Database dbCon = new Database();
+		Connection conn = dbCon.GetConnection();
+		try {
+			String deleteQuery = "delete from ticket where reserv_number=?";
+			PreparedStatement ps = conn.prepareStatement(deleteQuery);
+			ps.setString(1, reserv_number);
+			ps.executeUpdate();
+			ps.close();
+		}
+		catch(Exception e) {
+			System.out.print(e.getMessage());
+		}
 	}
 	
 }

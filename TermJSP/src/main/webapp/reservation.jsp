@@ -575,8 +575,16 @@
 		<script src="js/main.js"></script>
 		<!-- checkbox -->
 		<script>
+			var date = new Date();
+			var yyyy = date.getFullYear();
+			var mm = ("0"+(date.getMonth()+1)).slice(-2);
+			var dd = ("0"+(date.getDate())).slice(-2);
+			var fd = ("0"+(date.getDate()+7)).slice(-2);
+			var today = yyyy+"-"+mm+"-"+dd;
+			var future = yyyy+"-"+mm+"-"+fd;
 			var target_movie = "<%=movieName%>";
-			console.log(target_movie);
+			$("#select-date").attr("min",today);
+			$("#select-date").attr("max",future);
 			if( target_movie != null ) {
 				$("#select-movie").val(target_movie).prop("selected",true);
 				$("#selected-movie").html($("#select-movie option:selected").text());
