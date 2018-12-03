@@ -16,7 +16,7 @@
 	}
 	else {
 		response.setContentType("text/html");
-		response.getWriter().write("");
+		response.getWriter().write("사용 가능한 아이디입니다.");
 	}
 	
 %>

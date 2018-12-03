@@ -642,11 +642,13 @@
 			
 			$("#confirm").click(function() {
 				if ($("input:checked").length == ($("#seat-number").val())) {
-			      $(".seatStructure *").prop("disabled", true);
+			      //$(".seatStructure *").prop("disabled", true);
 			      
 			     var allSeatsVals = [];
+			     
 			     $('#seatsBlock :checked').each(function() {
 			       allSeatsVals.push($(this).val()+" ");
+			       $(this).attr("background","red");
 			     });
 			     $('#selected-seats').html(allSeatsVals);
 			     $("input[name=selected-seats]").val(allSeatsVals);
@@ -662,9 +664,30 @@
 			
 			$("#select-button").click(function() {
 				if( $("#seat-number").html() != null ){
+					$.ajax({
+	            		url:"getSelectedSeats.jsp",
+	            		type:"post",
+	            		data:{
+	            			"movieName":$("#select-movie option:selected").text(),
+							"theaterName":$("#select-theater option:selected").text(),
+							"date":$("#select-date").val(),
+							"time":$("#select-time option:selected").text()
+	            		},
+	            		dataType:"json",
+						success:function(data,status) {
+							var json = jQuery.parseJSON(JSON.stringify(data));
+							var totalLength = Object.keys(json).length;
+							for( var i=0; i<totalLength; i++ ) {
+								$("input[type=checkbox][value="+json[i]+"]").attr("disabled",true);
+							}
+							
+						}
+					});
+				
+					
 					$("#seats-script").show();
 				}
-			})
+			});
 			
 			$("#select-movie").change(function() {
 				$("#selected-movie").html($("#select-movie option:selected").text());

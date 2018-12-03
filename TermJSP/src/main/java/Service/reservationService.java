@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
+import java.util.StringTokenizer;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -408,6 +409,36 @@ public class reservationService {// 랜덤한 reserv_number 생성
 		catch(Exception e) {
 			System.out.print(e.getMessage());
 		}
+	}
+	
+	public JSONArray getSelectedSeats(String movieName, String theaterName,String date, String time) throws Exception {
+		Database dbCon = new Database();
+		Connection conn = dbCon.GetConnection();
+		try {
+			String getQuery="select seat from reservation where title=? and theaterName=? and date=? and time=?";
+			JSONArray seatList = new JSONArray();
+			String seatValue = "";
+			PreparedStatement ps = conn.prepareStatement(getQuery);
+			ps.setString(1, movieName);
+			ps.setString(2, theaterName);
+			ps.setString(3, date);
+			ps.setString(4, time);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				seatValue += rs.getString("seat").toString()+",";
+			}
+			String[] splitList = seatValue.split(" ,");
+			for( int i=0; i<splitList.length; i++ ) {
+				seatList.add(splitList[i]);
+			}
+			ps.close();
+			rs.close();
+			return seatList;
+		}
+		catch(Exception e ) {
+			
+		}
+		return null;
 	}
 	
 }

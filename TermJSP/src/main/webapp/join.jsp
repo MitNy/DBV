@@ -176,7 +176,7 @@
 							</div>
 							<div class="form-group">
 								<p class="form-title">생년월일</p>
-								<input class="input" type="date" id="birthday" name="birthday">
+								<input class="input" type="date" id="birthday" name="birthday" max="2005-12-31">
 							</div>
                         <div class="form-group">
                         		<p class="form-title">주소</p>
