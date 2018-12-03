@@ -114,6 +114,24 @@ public class infoService {
 		}
 		return false;
 	}
+	
+	public int getUserPoint(String userID) throws Exception {
+		Database dbCon = new Database();
+		Connection conn = dbCon.GetConnection();
+		try {
+			String pointQuery="select point from customer where id=?";
+			PreparedStatement pq = conn.prepareStatement(pointQuery);
+			pq.setString(1, userID);
+			ResultSet rs = pq.executeQuery();
+			rs.next();
+			int point = rs.getInt("point");
+			return point;
+		}
+		catch(Exception e ) {
+			System.out.println(e.getMessage());
+		}
+		return 0;
+	}
 
 	
 	

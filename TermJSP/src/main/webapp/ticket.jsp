@@ -1,12 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <% request.setCharacterEncoding("UTF-8"); %>
 <%@ page import="Service.adminService" %>
-<%@ page import="Service.reservationService" %>
+ <%@ page import="Service.reservationService" %>
+  <%@ page import="Service.theaterService" %>
+  <%@ page import="Service.infoService" %>
+  <%@ page import="Service.movieService" %>
 <%@ page import="org.json.simple.JSONArray" %>
 <%@ page import="org.json.simple.JSONObject" %>
 <%
 	adminService as = new adminService();
+	infoService is = new infoService();
+	theaterService ts = new theaterService();
 	reservationService rvs = new reservationService();
+	movieService ms = new movieService();
 %>
 <!DOCTYPE html>
 <html lang="kr">
@@ -47,7 +53,11 @@
 				<li class="menu-toggle"><a href="#"><i class="fa fa-bars"></i><span>Menu</span></a></li>
                         <li class="dropdown" id="user-toggle">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-        <i class="fa fa-user"></i><% 
+        <i class="fa fa-user"></i><%
+        		if(session.getAttribute("admin-session") == null ) {
+        			%><script>alert("권한이 없습니다."); history.go(-1);</script>
+        			<%
+        		}
         	// 일반 사용자 로그인
         	if( session.getAttribute("user-session") != null && session.getAttribute("admin-session") == null ){
         	Object user = session.getAttribute("user-session");
@@ -175,7 +185,7 @@
 				<div class="row">
 					<!-- /Product main img -->
                 <div class="billing-details">
-                    <button id="addButton" data-toggle="modal" data-target="#addModal">현장 예매</button>
+                    <button id="addButton" onclick="location.href='sceneReservation.jsp'">현장 예매</button>
 				<table id="reservation-list">
                             <thead>
                                 <tr>
@@ -206,7 +216,7 @@
                                 		out.print("<td>"+theater.get("seat-"+i)+"</td>");
                                 		out.print("<td>"+theater.get("TF-"+i)+"</td>");
                                 		out.print("<td class='tableBtn' onclick=dynamicPayModal('"+target+"')>결제</td>");
-                                		out.print("<td class='tableBtn'>발권</td>");
+                                		out.print("<td class='tableBtn' onclick=dynamicTicketModal('"+target+"')>발권</td>");
                                 		out.print("</tr>");
                                 	}
                                 
@@ -262,83 +272,7 @@
 			<!-- /bottom footer -->
 		</footer>
 		<!-- /FOOTER -->
-        <!--modal-->
-        <div id="addModal" class="modal fade" role="dialog">
-<div class="modal-dialog">
 
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">현장 예매</h4>
-      </div>
-      <div class="modal-body">
-          <h5>고객 아이디</h5>
-          <div class="user-input">
-                <input class="input" type="text" name="userID">
-                <button class="search-btn">입력</button>
-				    </div>
-          <br>
-            <h5>영화 선택</h5>
-                            <select class="input-select" style="width:100%;">
-								<option value="0">보헤미안랩소디</option>
-                                <option value="0">신비한동물들과그린델왈드의범죄</option>
-                                <option value="0">성난황소</option>
-                                <option value="0">완벽한타인</option>
-                                <option value="0">툴리</option>
-                                <option value="0">영주</option>
-                                <option value="0">라라랜드</option>
-                                <option value="0">올드보이</option>
-				            </select>
-                        <br><br>
-          <h5>영화관 선택</h5>
-                            <select class="input-select" style="width:100%;">
-                                <option value="0">대전유성</option>
-                                <option value="0">대전노은</option>
-                                <option value="0">대전둔산</option>
-                                <option value="0">대전탄방</option>
-                                <option value="0">대전갤러리아</option>
-				            </select>
-                            <br><br>
-          <h5>날짜 선택</h5>
-          <input class="input" type="date" name="date">
-          <br><br>
-          <h5>시간 선택</h5>
-                            <select class="input-select" style="width:100%;">
-                                <option value="0">09:40 (150석)</option>
-                                <option value="0">12:40 (111석)</option>
-                                <option value="0">15:40 (124석)</option>
-                                <option value="0">18:40 (10석)</option>
-                                <option value="0">20:40 (17석)</option>
-				            </select>
-          <br><br>
-          <h5>좌석</h5>
-          <input class="input" type="text" name="seat">
-          <br><br>
-          <ul>
-                                        <li>보유 포인트가 1,000점 이상일 경우만 사용 가능합니다.</li>
-                                        <li>티켓 매수당 100포인트가 적립됩니다.</li>
-                                    </ul>
-                                    <br>
-                                    <strong>보유 포인트</strong> : 900
-                        <br><br>
-						<div class="input-checkbox">
-							<input type="checkbox" id="terms">
-							<label for="terms">
-								<span></span>
-								포인트 사용
-							</label>
-						</div>
-          
-      </div>
-      <div class="modal-footer">
-          <p style="float:left; font-size: 20px; margin:0;"><strong>Total</strong>&nbsp;&nbsp;&nbsp;12,000
-        &nbsp;&nbsp;</p><button type="button" class="btn btn-default" data-dismiss="modal">결제</button>
-      </div>
-    </div>
-            </div>
-        </div>
-        <!-- /modal -->
         <!--pay modal-->
 	   <div class="modal fade" id="payModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-sm" role="document">
@@ -356,6 +290,55 @@
   </div>
 </div>
         <!-- /pay modal -->
+        
+        <!--ticket modal-->
+	   <div class="modal fade centerModal" id="ticketModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+			<table>
+				<tr>
+					<th>예매 번호</th>
+					<td id="reserv_number"></td>				
+				</tr>
+				<tr>
+					<th>결제 번호</th>
+					<td id="payID"></td>				
+				</tr>
+				<tr>
+					<th>티켓 번호</th>
+					<td id="ticketID"></td>				
+				</tr>
+				<tr>
+					<th>영화 제목</th>
+					<td id="movieName"></td>				
+				</tr>
+				<tr>
+					<th>영화관</th>
+					<td id="theaterName"></td>				
+				</tr>
+				<tr>
+					<th>날짜</th>
+					<td id="date"></td>				
+				</tr>
+				<tr>
+					<th>시간</th>
+					<td id="time"></td>				
+				</tr>
+				<tr>
+					<th>좌석</th>
+					<td id="seats"></td>				
+				</tr>
+				
+			</table>
+      </div>
+    </div>
+  </div>
+</div>
+        <!-- /ticket modal -->
 
 		<!-- jQuery Plugins -->
 		<script src="js/jquery.min.js"></script>
@@ -387,6 +370,28 @@
             	}
             	
             }
+            function dynamicTicketModal(target) {
+            	$("#ticketModal").modal("show");
+            	$.ajax({
+            		url:"getUserTicket.jsp",
+            		type:"post",
+            		data:{
+            			"reserv_number":target
+            		},
+            		dataType:"json",
+            		success:function(data) {
+            			$("#ticketModal #reserv_number").html(target);
+            			$("#ticketModal #payID").html(data.payID);
+            			$("#ticketModal #ticketID").html(data.ticketID);
+            			$("#ticketModal #movieName").html(data.movieName);
+            			$("#ticketModal #theaterName").html(data.theaterName);
+            			$("#ticketModal #date").html(data.date);
+            			$("#ticketModal #time").html(data.time);
+            			$("#ticketModal #seats").html(data.seats);
+            		}
+            	});
+            }
+            
         </script>
 	</body>
 </html>

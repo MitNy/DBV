@@ -2490,14 +2490,6 @@ textarea.input {
 	text-align:center;
 }
 
-#outModal {
-	margin-top:20%;
-}
-
-#outModal .modal-body {
-	text-align:center;
-}
-
 .tableBtn {
 	cursor:pointer;
 }
@@ -2562,20 +2554,22 @@ textarea.input {
 	height:10px;
 }
 
-#gradeModal {
+.centerModal {
 	margin-top:20%;
 }
-#gradeModal .modal-body {
+
+.centerModal .modal-body {
 	text-align:center;
 }
-
-#cancelModal {
-	margin-top:20%;
-}
-#cancelModal .modal-body {
-	text-align:center;
-}
-
 .alert {
 	color:#D10024;
 }
+
+
+#ticketModal {
+	margin-top:15%;
+}
+#ticketModal table {
+	width:100%;
+}
+

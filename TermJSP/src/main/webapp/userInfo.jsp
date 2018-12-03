@@ -322,7 +322,7 @@
 		<!-- /FOOTER -->
 
 <!--delete modal-->
-	   <div class="modal fade" id="outModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	   <div class="modal fade centerModal" id="outModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">
       <div class="modal-body">
@@ -337,8 +337,57 @@
 </div>
         <!-- /delete modal -->
         
+        <!--ticket modal-->
+	   <div class="modal fade centerModal" id="ticketModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+			<table>
+				<tr>
+					<th>예매 번호</th>
+					<td id="reserv_number"></td>				
+				</tr>
+				<tr>
+					<th>결제 번호</th>
+					<td id="payID"></td>				
+				</tr>
+				<tr>
+					<th>티켓 번호</th>
+					<td id="ticketID"></td>				
+				</tr>
+				<tr>
+					<th>영화 제목</th>
+					<td id="movieName"></td>				
+				</tr>
+				<tr>
+					<th>영화관</th>
+					<td id="theaterName"></td>				
+				</tr>
+				<tr>
+					<th>날짜</th>
+					<td id="date"></td>				
+				</tr>
+				<tr>
+					<th>시간</th>
+					<td id="time"></td>				
+				</tr>
+				<tr>
+					<th>좌석</th>
+					<td id="seats"></td>				
+				</tr>
+				
+			</table>
+      </div>
+    </div>
+  </div>
+</div>
+        <!-- /ticket modal -->
+        
          <!--cancle modal-->
-	   <div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	   <div class="modal fade centerModal" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">
       <div class="modal-body">
@@ -390,6 +439,30 @@
 					);
 				});
 			});
+			
+			function dynamicTicketModal(target) {
+            	$.ajax({
+            		url:"isTicket.jsp",
+            		type:"post",
+            		data:{
+            			"reserv_number":target
+            		},
+            		cache: false,
+            		dataType:"json",
+            		success:function(data) {
+            			$("#ticketModal .modal-header").show();
+            			$("#ticketModal #reserv_number").html(target);
+            			$("#ticketModal #payID").html(data.payID);
+            			$("#ticketModal #ticketID").html(data.ticketID);
+            			$("#ticketModal #movieName").html(data.movieName);
+            			$("#ticketModal #theaterName").html(data.theaterName);
+            			$("#ticketModal #date").html(data.date);
+            			$("#ticketModal #time").html(data.time);
+            			$("#ticketModal #seats").html(data.seats);
+            			$("#ticketModal").modal("show");
+            		}
+            	});
+			}
 			
 			function dynamicCancelModal(target) {
 				var reserv_date = $("#"+target).find("td:nth-child(4)").text();
