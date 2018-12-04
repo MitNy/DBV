@@ -96,14 +96,9 @@
 						<!-- SEARCH BAR -->
 						<div class="col-md-6">
 							<div class="header-search">
-								<form>
-									<select class="input-select">
-										<option value="0">전체</option>
-										<option value="1">영화</option>
-										<option value="1"></option>
-									</select>
-									<input class="input" placeholder="">
-									<button class="search-btn">검색</button>
+								<form action="index.jsp" method="get" name="movieSearch">
+									<input class="input" name="movie" placeholder="">
+									<input type="submit" class="search-btn" value="검색">
 								</form>
 							</div>
 						</div>
@@ -176,24 +171,26 @@
 									<div class="products-slick" data-nav="#slick-nav-1" id="slick-nav-1">
 										<%
 											movieService ms = new movieService();
-	                                		JSONArray movieList = ms.getMovie();
-	                                		for(int i=0; i<4; i++ ) {
-		                                		JSONObject movie = (JSONObject) movieList.get(i);
-		                                		out.print("<div class='product'>");
-		                                		out.print("<div class='product-img'>");
-		                                		out.print("<img src='./img/"+movie.get("movieID-"+i)+".png' alt=''><div class='product-label'><span class='new'>TOP "+(i+1)+"</span></div></div>");
-		                                		out.print("<div class='product-body'>");
-		                                		out.print("<h3 class='product-name'><a href='#'>"+movie.get("movieTitle-"+i)+"</a></h3>");
-		                                		out.print("<button class='detail-view' data-toggle='collapse' data-target='#movie"+i+"-detail'>자세히 보기</button><br><br>");
-		                                		out.print("<div id='movie"+i+"-detail' class='collapse'>");
-		                                		out.print("<p class='product-category'>감독 "+movie.get("director-"+i)+"</p>");
-		                                		out.print("<p class='product-category'>출연 "+movie.get("cast-"+i)+"</p>");
-		                                		out.print("<p class='product-category'>"+movie.get("grade-"+i)+"세 이상 관람가</p>");
-		                                		out.print("<p class='product-category'>"+movie.get("information-"+i)+"</p>");
-		                                		out.print("</div></div><div class='add-to-cart'>");
-		                                		out.print("<button class='add-to-cart-btn' onclick=location.href='reservation.jsp?movieID="+movie.get("movieID-"+i)+"'>예매 하기</button>");
-		                                		out.print("</div></div>");
-	                                	}
+											String searchValue = request.getParameter("movie");
+											if( searchValue == null ) {
+		                                		JSONArray movieList = ms.getMovie();
+		                                		for(int i=0; i<4; i++ ) {
+			                                		JSONObject movie = (JSONObject) movieList.get(i);
+			                                		out.print("<div class='product'>");
+			                                		out.print("<div class='product-img'>");
+			                                		out.print("<img src='./img/"+movie.get("movieID-"+i)+".png' alt=''><div class='product-label'><span class='new'>TOP "+(i+1)+"</span></div></div>");
+			                                		out.print("<div class='product-body'>");
+			                                		out.print("<h3 class='product-name'><a href='#'>"+movie.get("movieTitle-"+i)+"</a></h3>");
+			                                		out.print("<button class='detail-view' data-toggle='collapse' data-target='#movie"+i+"-detail'>자세히 보기</button><br><br>");
+			                                		out.print("<div id='movie"+i+"-detail' class='collapse'>");
+			                                		out.print("<p class='product-category'>감독 "+movie.get("director-"+i)+"</p>");
+			                                		out.print("<p class='product-category'>출연 "+movie.get("cast-"+i)+"</p>");
+			                                		out.print("<p class='product-category'>"+movie.get("grade-"+i)+"세 이상 관람가</p>");
+			                                		out.print("<p class='product-category'>"+movie.get("information-"+i)+"</p>");
+			                                		out.print("</div></div><div class='add-to-cart'>");
+			                                		out.print("<button class='add-to-cart-btn' onclick=location.href='reservation.jsp?movieID="+movie.get("movieID-"+i)+"'>예매 하기</button>");
+			                                		out.print("</div></div>");
+		                                		}
 	                                
 	                                %>
 									</div>
@@ -243,7 +240,27 @@
 		                                		out.print("<button class='add-to-cart-btn' onclick=location.href='reservation.jsp?movieID="+movie2.get("movieID-"+i)+"'>예매 하기</button>");
 		                                		out.print("</div></div>");
 	                                	}
-	                                
+											}
+											else {
+												JSONArray movieList = ms.getSearchMovie(searchValue);
+		                                		for(int i=0; i<movieList.size(); i++ ) {
+			                                		JSONObject movie = (JSONObject) movieList.get(i);
+			                                		out.print("<div class='product'>");
+			                                		out.print("<div class='product-img'>");
+			                                		out.print("<img src='./img/"+movie.get("movieID-"+i)+".png' alt=''></div>");
+			                                		out.print("<div class='product-body'>");
+			                                		out.print("<h3 class='product-name'><a href='#'>"+movie.get("movieTitle-"+i)+"</a></h3>");
+			                                		out.print("<button class='detail-view' data-toggle='collapse' data-target='#movie"+i+"-detail'>자세히 보기</button><br><br>");
+			                                		out.print("<div id='movie"+i+"-detail' class='collapse'>");
+			                                		out.print("<p class='product-category'>감독 "+movie.get("director-"+i)+"</p>");
+			                                		out.print("<p class='product-category'>출연 "+movie.get("cast-"+i)+"</p>");
+			                                		out.print("<p class='product-category'>"+movie.get("grade-"+i)+"세 이상 관람가</p>");
+			                                		out.print("<p class='product-category'>"+movie.get("information-"+i)+"</p>");
+			                                		out.print("</div></div><div class='add-to-cart'>");
+			                                		out.print("<button class='add-to-cart-btn' onclick=location.href='reservation.jsp?movieID="+movie.get("movieID-"+i)+"'>예매 하기</button>");
+			                                		out.print("</div></div>");
+		                                		}
+											}
 	                                %>
 									</div>
 								</div>
@@ -266,14 +283,6 @@
 					<!-- row -->
 					<div class="row">
 						<div class="col-md-12 text-center">
-							<ul class="footer-payments">
-								<li><a href="#"><i class="fa fa-cc-visa"></i></a></li>
-								<li><a href="#"><i class="fa fa-credit-card"></i></a></li>
-								<li><a href="#"><i class="fa fa-cc-paypal"></i></a></li>
-								<li><a href="#"><i class="fa fa-cc-mastercard"></i></a></li>
-								<li><a href="#"><i class="fa fa-cc-discover"></i></a></li>
-								<li><a href="#"><i class="fa fa-cc-amex"></i></a></li>
-							</ul>
 							<span class="copyright">
 								<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 								Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved

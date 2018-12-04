@@ -125,14 +125,9 @@
 						<!-- SEARCH BAR -->
 						<div class="col-md-6">
 							<div class="header-search">
-								<form>
-									<select class="input-select">
-										<option value="0">전체</option>
-										<option value="1">영화</option>
-										<option value="1"></option>
-									</select>
-									<input class="input" placeholder="">
-									<button class="search-btn">검색</button>
+								<form action="index.jsp" method="get" name="movieSearch">
+									<input class="input" name="movie" placeholder="">
+									<input type="submit" class="search-btn" value="검색">
 								</form>
 							</div>
 						</div>

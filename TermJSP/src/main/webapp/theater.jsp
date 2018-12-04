@@ -101,14 +101,9 @@
 						<!-- SEARCH BAR -->
 						<div class="col-md-6">
 							<div class="header-search">
-								<form>
-									<select class="input-select">
-										<option value="0">전체</option>
-										<option value="1">영화</option>
-										<option value="1"></option>
-									</select>
-									<input class="input" placeholder="">
-									<button class="search-btn">검색</button>
+								<form action="index.jsp" method="get" name="movieSearch">
+									<input class="input" name="movie" placeholder="">
+									<input type="submit" class="search-btn" value="검색">
 								</form>
 							</div>
 						</div>
@@ -204,15 +199,6 @@
 						<div class="product-details">
 							<h2 class="product-name"><% out.print(theaterInfo.get("theaterName")); %></h2>
 							<div>
-								<div class="product-rating">
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star-o"></i>
-								</div>
-							</div>
-							<div>
 							</div>
                             
 							<p id="targetAddress"><% out.print(theaterInfo.get("address")); %> </p>
@@ -247,14 +233,6 @@
 					<!-- row -->
 					<div class="row">
 						<div class="col-md-12 text-center">
-							<ul class="footer-payments">
-								<li><a href="#"><i class="fa fa-cc-visa"></i></a></li>
-								<li><a href="#"><i class="fa fa-credit-card"></i></a></li>
-								<li><a href="#"><i class="fa fa-cc-paypal"></i></a></li>
-								<li><a href="#"><i class="fa fa-cc-mastercard"></i></a></li>
-								<li><a href="#"><i class="fa fa-cc-discover"></i></a></li>
-								<li><a href="#"><i class="fa fa-cc-amex"></i></a></li>
-							</ul>
 							<span class="copyright">
 								<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 								Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved

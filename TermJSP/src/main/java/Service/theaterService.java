@@ -34,6 +34,7 @@ public class theaterService {
 			}
 			ps.close();
 			rs.close();
+			conn.close();
 			return theaterList;
 		}
 		catch(Exception e ) {
@@ -59,6 +60,7 @@ public class theaterService {
 			}
 			ps.close();
 			rs.close();
+			conn.close();
 			return theater;
 		}
 		catch(Exception e ) {
@@ -80,6 +82,7 @@ public class theaterService {
 			}
 			ps.close();
 			rs.close();
+			conn.close();
 			return theaterList;
 		}
 		catch(Exception e ) {
@@ -103,6 +106,7 @@ public class theaterService {
 			}
 			ps.close();
 			rs.close();
+			conn.close();
 			return selectValue;
 		}
 		catch(Exception e ) {
@@ -130,6 +134,7 @@ public class theaterService {
 			}
 			ps.close();
 			rs.close();
+			conn.close();
 			return theaterList;
 		}
 		catch(Exception e ) {
@@ -150,6 +155,7 @@ public class theaterService {
 			String theaterID = rs.getString("theaterID");
 			ps.close();
 			rs.close();
+			conn.close();
 			return theaterID;
 		}
 		catch(Exception e ) {
@@ -229,6 +235,7 @@ public class theaterService {
 			}
 			ps.close();
 			rs.close();
+			conn.close();
 			return totalList;
 		}
 		catch(Exception e ) {
@@ -256,6 +263,7 @@ public class theaterService {
 			}
 			ps.close();
 			rs.close();
+			conn.close();
 			return time;
 		}
 		catch(Exception e ) {
@@ -279,6 +287,7 @@ public class theaterService {
 			}
 			ps.close();
 			rs.close();
+			conn.close();
 			return result;
 		}
 		catch(Exception e ) {
@@ -302,6 +311,7 @@ public class theaterService {
 			}
 			ps.close();
 			rs.close();
+			conn.close();
 			return totalSeats;
 		}
 		catch(Exception e ) {
@@ -338,6 +348,7 @@ public class theaterService {
 			ps.setString(1, theaterID);
 			ps.executeUpdate();
 			ps.close();
+			conn.close();
 			return true;
 		}
 		catch(Exception e) {
@@ -357,6 +368,7 @@ public class theaterService {
 			ps.setString(2, sID);
 			ps.executeUpdate();
 			ps.close();
+			conn.close();
 			return true;
 		}
 		catch(Exception e) {
@@ -410,8 +422,6 @@ public class theaterService {
 	public String getTimeList(String theaterID,String movieName) throws Exception {
 		Database dbCon = new Database();
 		Connection conn = dbCon.GetConnection();
-		System.out.print(theaterID);
-		System.out.print(movieName);
 		try {
 			String selectValue = "<option value='' selected>-- 선택 --</option>";
 			String getQuery="select sID,time from time where theaterID=? and sID = any(select sID from sangyounggwan where movieName=?)";
@@ -425,6 +435,7 @@ public class theaterService {
 			}
 			ps.close();
 			rs.close();
+			conn.close();
 			return selectValue;
 		}
 		catch(Exception e ) {

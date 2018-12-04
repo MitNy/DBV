@@ -33,6 +33,7 @@ public class movieService {
 			}
 			ps.close();
 			rs.close();
+			conn.close();
 			return movieList;
 		}
 		catch(Exception e ) {
@@ -41,6 +42,37 @@ public class movieService {
 		return null;
 	}
 	
+	public JSONArray getSearchMovie(String searchValue) throws Exception {
+		//List<String> movieList = new ArrayList<String>();
+		JSONArray movieList = new JSONArray();
+		JSONObject movie = new JSONObject();
+		Database dbCon = new Database();
+		Connection conn = dbCon.GetConnection();
+		try {
+			String getQuery="select * from movie where title like '"+searchValue+"%' order by (select count(*) from reservation where title=movie.title) desc";
+			PreparedStatement ps = conn.prepareStatement(getQuery);
+			ResultSet rs = ps.executeQuery();
+			int i=0;
+			while(rs.next()) {
+				movie.put("movieID-"+i,rs.getString("movieID"));
+				movie.put("director-"+i,rs.getString("director"));
+				movie.put("movieTitle-"+i,rs.getString("title"));
+				movie.put("cast-"+i,rs.getString("cast"));
+				movie.put("grade-"+i,rs.getInt("grade"));
+				movie.put("information-"+i,rs.getString("information"));
+				movieList.add(movie);
+				i++;
+			}
+			ps.close();
+			rs.close();
+			conn.close();
+			return movieList;
+		}
+		catch(Exception e ) {
+			
+		}
+		return null;
+	}
 	
 	public JSONArray getMovieList() throws Exception {
 		JSONArray movieList = new JSONArray();
@@ -55,6 +87,7 @@ public class movieService {
 			}
 			ps.close();
 			rs.close();
+			conn.close();
 			return movieList;
 		}
 		catch(Exception e ) {
@@ -75,6 +108,7 @@ public class movieService {
 			String movieID = rs.getString("movieID");
 			ps.close();
 			rs.close();
+			conn.close();
 			return movieID;
 		}
 		catch(Exception e ) {

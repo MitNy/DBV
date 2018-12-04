@@ -37,6 +37,7 @@ public class reservationService {// 랜덤한 reserv_number 생성
 			int point = rs.getInt("point");
 			ps.close();
 			rs.close();
+			conn.close();
 			return point;
 			
 		}
@@ -119,6 +120,7 @@ public class reservationService {// 랜덤한 reserv_number 생성
 			int howmany = rs.getInt("howmany");
 			ps.close();
 			rs.close();
+			conn.close();
 			return howmany;
 		}
 		catch(Exception e ) {
@@ -139,6 +141,7 @@ public class reservationService {// 랜덤한 reserv_number 생성
 			String userID = rs.getString("userID");
 			ps.close();
 			rs.close();
+			conn.close();
 			return userID;
 		}
 		catch(Exception e ) {
@@ -216,6 +219,7 @@ public class reservationService {// 랜덤한 reserv_number 생성
 			}
 			ps.close();
 			rs.close();
+			conn.close();
 			return theaterList;
 		}
 		catch(Exception e ) {
@@ -250,6 +254,7 @@ public class reservationService {// 랜덤한 reserv_number 생성
 			setTicket(reserv_number, ticketID);
 			ps.close();
 			rs.close();
+			conn.close();
 			return theater;
 		}
 		catch(Exception e ) {
@@ -283,6 +288,7 @@ public class reservationService {// 랜덤한 reserv_number 생성
 			}
 			ps.close();
 			rs.close();
+			conn.close();
 			return theaterList;
 		}
 		catch(Exception e ) {
@@ -304,6 +310,7 @@ public class reservationService {// 랜덤한 reserv_number 생성
 			deleteTicket(reserv_number);
 			ps.executeUpdate();
 			ps.close();
+			conn.close();
 			return true;
 		}
 		catch(Exception e) {
@@ -341,6 +348,7 @@ public class reservationService {// 랜덤한 reserv_number 생성
 			ResultSet rs = ps.executeQuery();
 			ps.close();
 			rs.close();
+			conn.close();
 			return rs.isBeforeFirst();
 		}
 		catch(Exception e ) {
@@ -373,6 +381,7 @@ public class reservationService {// 랜덤한 reserv_number 생성
 			}
 			ps.close();
 			rs.close();
+			conn.close();
 			return theater;
 		}
 		catch(Exception e ) {
@@ -390,6 +399,7 @@ public class reservationService {// 랜덤한 reserv_number 생성
 			ps.setString(1, reserv_number);
 			ps.executeUpdate();
 			ps.close();
+			conn.close();
 		}
 		catch(Exception e) {
 			System.out.print(e.getMessage());
@@ -405,6 +415,7 @@ public class reservationService {// 랜덤한 reserv_number 생성
 			ps.setString(1, id);
 			ps.executeUpdate();
 			ps.close();
+			conn.close();
 		}
 		catch(Exception e) {
 			System.out.print(e.getMessage());
@@ -433,6 +444,7 @@ public class reservationService {// 랜덤한 reserv_number 생성
 			}
 			ps.close();
 			rs.close();
+			conn.close();
 			return seatList;
 		}
 		catch(Exception e ) {

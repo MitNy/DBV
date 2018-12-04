@@ -8,8 +8,7 @@
 <% 
 	theaterService ts = new theaterService();
 	String theaterID = request.getParameter("theaterID");
-	
-	
+
 	JSONArray getResult = ts.getSangyounggwanInfo(theaterID);
 	response.setContentType("text/html");
 	response.getWriter().print(getResult);

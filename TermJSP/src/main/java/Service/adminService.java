@@ -68,7 +68,7 @@ public class adminService {
 		Database dbCon = new Database();
 		Connection conn = dbCon.GetConnection();
 		try {
-			String getQuery="select id,point,(select count(*) from reservation where userID=customer.id) as result,grade from customer order by result desc limit 10;";
+			String getQuery="select id,point,(select sum(howmany) from reservation where userID=customer.id) as result,grade from customer order by result desc limit 10;";
 			PreparedStatement ps = conn.prepareStatement(getQuery);
 			ResultSet rs = ps.executeQuery();
 			String[] vipList = new String[10];
@@ -193,7 +193,6 @@ public class adminService {
 			System.out.print(e.getMessage());
 		}
 	}
-	
 	
 	
 }

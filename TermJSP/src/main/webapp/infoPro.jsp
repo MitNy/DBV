@@ -11,8 +11,8 @@
 	String id = request.getParameter("user-id");
 	String pwd = request.getParameter("password");
 	String name = request.getParameter("user-name");
-	String address = request.getParameter("address");
-	String tel = request.getParameter("tel");
+	String address = request.getParameter("user-address");
+	String tel = request.getParameter("user-tel");
 	
 	boolean editResult = is.editInfo(id, pwd, name, address, tel);
 	if( editResult == true) {
