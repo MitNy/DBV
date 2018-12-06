@@ -1,8 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <% request.setCharacterEncoding("UTF-8"); %>
-<% if(session.getAttribute("user-session") != null ) { %>
-	<script> alert("이미 로그인 되어 있습니다."); history.go(-1);</script>
-<% } %>
 <!DOCTYPE html>
 <html lang="kr">
 	<head>
@@ -33,6 +30,9 @@
 		<link type="text/css" rel="stylesheet" href="css/style.css"/>
     </head>
 	<body>
+		<% if(session.getAttribute("user-session") != null ) { %>
+	<script> alert("이미 로그인 되어 있습니다."); history.go(-1);</script>
+<% } %>
 		<!-- HEADER -->
 		<header>
 			<!-- TOP HEADER -->

@@ -37,7 +37,7 @@
 	<body>
 	    
     <% if(session.getAttribute("admin-session") == null ) {
-		%><script>alert("권한이 없습니다."); history.go(-1);</script>
+		%><script>alert("권한이 없습니다.");history.go(-1);</script>
 		<%
 	}
     adminService as = new adminService();
