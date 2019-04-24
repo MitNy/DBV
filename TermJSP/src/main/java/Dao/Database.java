@@ -10,7 +10,7 @@ import java.sql.SQLException;
 			String connectionURL = "jdbc:mysql://localhost:3306/db_term?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC";
 			Connection connection = null;
 			Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
-			connection = DriverManager.getConnection(connectionURL, "root", "mijin0314");
+			connection = DriverManager.getConnection(connectionURL, "root", "");
 			return connection;
 			}
 		catch (SQLException e) {
